@@ -2,7 +2,6 @@ from django.conf.urls import patterns, url
 from dimaps.views.service_views import *
 
 
-
 urlpatterns = patterns('',
     url(
         regex=r'^service/archive/$',
