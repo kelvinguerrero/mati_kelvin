@@ -1,4 +1,4 @@
-from map.models import Course
+from map.models import Course, Pensum
 from django.shortcuts import render
 from map.common.course_common import list_courses
 from map.forms import CourseForm
@@ -38,18 +38,28 @@ def course_edit(request, course_id=None):
         form = CourseForm(request.POST)
         print form
         if form.is_valid():
-            print 'entro'
+
             if form.cleaned_data.get('id'):
                 # EDIT
+                pensum_obj = Pensum.objects.get(form.cleaned_data['pensum'])
                 course = Course.objects.get(id=form.cleaned_data['id'])
-                course.name = form.cleaned_data['code']
+                course.code = form.cleaned_data['code']
                 course.credits = form.cleaned_data['credits']
                 course.name = form.cleaned_data['name']
                 course.summer = form.cleaned_data['summer']
+                course.pensum = pensum_obj
                 course.save()
             else:
                 # CREATE
-                course = Course.objects.create(name=form.cleaned_data['name'], active=form.cleaned_data['active'])
+                print 'entro',form.cleaned_data['pensum']
+                pensum_obj = Pensum.objects.get(id=form.cleaned_data['pensum'])
+
+                course = Course.objects.create(code=form.cleaned_data['code'],
+                                               credits=form.cleaned_data['credits'],
+                                               name=form.cleaned_data['name'],
+                                               summer=form.cleaned_data['summer'],
+                                               pensum=pensum_obj
+                                               )
             return render(request, 'course/course_detail.html', {'object': course, 'detail': True})
         else:
             # ENVIAR MENSAJE

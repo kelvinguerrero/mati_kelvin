@@ -24,8 +24,11 @@ class CourseForm(forms.Form):
 
     name = forms.CharField(label='Nombre')
     name.widget.attrs = {'class': 'form-control', 'required': True}
+
     summer = forms.BooleanField(label='Vacacional', required=False)
 
+    pensum = forms.IntegerField(label='Pensum')
+    pensum.widget.attrs = {'class': 'form-control', 'required': True}
 
 class SectionForm(forms.Form):
 
