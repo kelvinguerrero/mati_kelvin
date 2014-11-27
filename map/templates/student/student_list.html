@@ -1,0 +1,72 @@
+{% extends 'student/student_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Estudiantes" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+    <a href={% url 'student' %}>
+        {% trans "Listado de estudiantes" %}
+    </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Listado de estudiantes de maestría." %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% trans "Estudiantes" %}
+  </h2>
+
+    {% load i18n %}
+
+    <p>
+      {% trans "Clic en el código del estudiante para acceder a los detalles." %}
+    </p>
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+            <th>
+              code
+            </th>
+
+            <th>
+              email
+            </th>
+
+            <th>
+              apellido
+            </th>
+
+            <th>
+              nombre
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          <tr>
+              <td>
+                <a href='{% url 'student' object.id %}'>
+                    {{ object.code|stringformat:".3d" }}
+                </a>
+              </td>
+
+              <td>{{ object.email }}</td>
+
+              <td>{{ object.lastname }}</td>
+
+              <td>{{ object.name }}</td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% include 'student/pagination.html' %}
+{% endblock %}

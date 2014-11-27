@@ -1,0 +1,60 @@
+{% extends 'pensum/pensum_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Pensumes" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href=''>
+    {% trans "Listado de pensums" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Listado de pensums de maestría." %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% trans "Pensums" %}
+  </h2>
+  <p>
+      {% trans "Clic en el nombre del pensum para acceder a los detalles." %}
+  </p>
+  <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+
+            <th>
+              Nombre
+            </th>
+
+            <th>
+              Activo
+            </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          <tr>
+
+              <td>
+                <a href='{% url 'pensum' object.id %}'>
+                    {{ object.name}}
+                </a>
+              </td>
+
+              <td>{{ object.active }}</td>
+
+
+          </tr>
+        {% endfor %}
+      </tbody>
+  </table>
+  {% include 'pensum/pagination.html' %}
+{% endblock %}

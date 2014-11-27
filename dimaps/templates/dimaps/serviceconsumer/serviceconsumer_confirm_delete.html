@@ -1,0 +1,37 @@
+{% extends 'dimaps/serviceconsumer/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/serviceconsumer/serviceconsumer_confirm_delete.html
+{% endblock %}
+
+{% block title %}
+  {% trans "Borrar consumidor de servicio" %}
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_serviceconsumer_delete" pk=object.pk %}>
+  {% trans "Borrar consumidor de servicio" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+{#  {% trans "A view that displays a confirmation page (on GET) and deletes an existing object (on POST)." %}#}
+{% endblock %}
+
+{% block content %}
+  <h4>
+    {% trans "¿Borrar este consumidor de servicio?" %}
+  </h4>
+  <br />
+  {% include 'dimaps/serviceconsumer/object_table_detail.html' %}
+  <form action='' charset='utf-8' method='post'>
+    <fieldset>
+      {% csrf_token %}
+      <div class='form-actions'>
+        <button class='btn btn-danger' type='submit'>
+          {% trans "Borrar" %}
+        </button>
+      </div>
+    </fieldset>
+  </form>
+{% endblock %}

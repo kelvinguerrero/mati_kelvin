@@ -1,0 +1,36 @@
+{% extends 'pensum/pensum_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Confirmación de eliminación" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href='{% url map_pensum_delete pk=object.pk %}'>
+  {% trans "Confirmación de eliminación de pensum" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Confirmación de eliminación de pensum" %}
+{% endblock %}
+
+{% block content %}
+    <h2>
+        {% trans "¿Quiere eliminar este curso?" %}
+    </h2>
+
+    {% include 'pensum/fragments/pensum_data.html' %}
+
+    <div class="col-lg-12">
+        <form method="post" action="{% url 'delete_pensum' object.id %}">
+            {% csrf_token %}
+            <button class='btn btn-danger' type="submit">
+              {% trans "Borrar" %}
+            </button>
+        </form>
+    </div>
+{% endblock %}

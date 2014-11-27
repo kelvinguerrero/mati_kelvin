@@ -1,0 +1,22 @@
+{% extends 'dimaps/operation/base.html' %}
+{% load i18n %}
+
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/operation/operation_list.html
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_operation_list" %}>
+      {% trans "Listado de operaciones de los servicios." %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+{#  {% trans "Listado de operaciones de los servicios." %#}
+{% endblock %}
+
+{% block content %}
+
+  {% include 'dimaps/operation/object_table_list.html' %}
+  {% include 'dimaps/operation/pagination.html' %}
+{% endblock %}

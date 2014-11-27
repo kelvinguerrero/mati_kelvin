@@ -1,0 +1,44 @@
+{% extends 'dimaps/input/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/input/input_archive.html
+{% endblock %}
+{% block title %}
+  {% trans "Indice de entradas" %}
+{% endblock %}
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_input_archive_index" %}>
+        {% trans "Indice de entradas" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block header-link %}
+  <a href={% url "dimaps_input_archive_index" %}>
+    {% trans "Indice por fecha" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+    {% trans "Indice de entradas organizados por fecha." %}
+{% endblock %}
+{% block content %}
+  <h3>
+    Por año
+  </h3>
+  <ul class='nav nav-tabs nav-stacked'>
+    {% for date in date_list %}
+      <li>
+        <a href={% url "dimaps_input_year_archive" year=date.year %}>
+          {{ date.year }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  <h2>
+    {% trans "Recent Inputs" %}
+  </h2>
+  {% include 'dimaps/input/object_table_list.html' %}
+  {% include 'dimaps/input/pagination.html' %}
+{% endblock %}

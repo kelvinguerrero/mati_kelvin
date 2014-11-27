@@ -1,0 +1,56 @@
+{% extends 'dimaps/serviceconsumer/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/serviceconsumer/serviceconsumer_archive_month.html
+{% endblock %}
+
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_serviceconsumer_archive_index" %}>
+        {% trans "Indice de consumidores de servios" %}
+      </a>
+      <span class='divider'></span>
+    </li>
+    <li>
+      <a href={% url "dimaps_serviceconsumer_year_archive" year=month.year %}>
+        {% trans "Indice por año" %}
+      </a>
+      <span class='divider'></span>
+    </li>
+    <li>
+      <a href={% url "dimaps_serviceconsumer_month_archive" year=month.year month=month.month %}>
+        {% trans "Indice por mes" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block header-link %}
+  <a href={% url "dimaps_serviceconsumer_month_archive" year=month.year month=month.month %}>
+    {% trans "ServiceConsumer Month Archive" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+  {% trans "Página que muestra todos los consumidores de servicios organizados por mes." %}
+{% endblock %}
+{% block content %}
+  <h2>
+    By Day
+  </h2>
+  <ul class='nav nav-tabs nav-stacked'>
+    {% for date in date_list %}
+      <li>
+        <a href={% url "dimaps_serviceconsumer_day_archive" year=date.year month=date.month day=date.day %}>
+          {{ date|date:"M. d, Y" }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  <h2>
+    {% blocktrans %}
+      Consumidores de servicios creados en el mes {{ month|date:"M Y" }}
+    {% endblocktrans %}
+  </h2>
+  {% include 'dimaps/serviceconsumer/object_table_list.html' %}
+  {% include 'dimaps/serviceconsumer/pagination.html' %}
+{% endblock %}

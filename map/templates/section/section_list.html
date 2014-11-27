@@ -1,0 +1,84 @@
+{% extends 'section/section_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Secciones" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href=''>
+    {% trans "Listado de secciones" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Listado de secciones de maestría." %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% trans "Secciones" %}
+  </h2>
+
+    {% load i18n %}
+
+    <p>
+      {% trans "Clic en el nombre de la sección para acceder a los detalles." %}
+    </p>
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+            <th>
+              nombre
+            </th>
+
+            <th>
+                crn
+            </th>
+
+            <th>
+              semestre
+            </th>
+
+            <th>
+              año
+            </th>
+
+            <th>
+              profesor
+            </th>
+
+            <th>
+              curso
+            </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          <tr>
+              <td>
+                <a href='{% url 'section' object.id %}'>
+                    {{ object.name }}
+                  </a>
+              </td>
+              <td>{{ object.crn }}</td>
+
+              <td>{{ object.semester }}</td>
+
+              <td>{{ object.year }}</td>
+
+              <td>{{ object.teacher.name }}</td>
+
+              <td>{{ object.course.name }}</td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% include 'section/pagination.html' %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'subject/subject_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Detalles de la nota" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url 'subject' object.id %}>
+    {% trans "Detalles del registro" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Información detallada del registro." %}
+{% endblock %}
+
+{% block content %}
+    {% include 'subject/fragments/subject_data.html' %}
+
+    <div class="col-lg-12">
+        <a class='btn btn-success' href={% url 'edit_subject' object.id %}>
+          {% trans "Editar" %}
+        </a>
+        <a class='btn btn-danger' href={% url 'delete_subject' object.id %}>
+          {% trans "Borrar" %}
+        </a>
+    </div>
+{% endblock %}

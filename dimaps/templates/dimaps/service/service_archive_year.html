@@ -1,0 +1,51 @@
+{% extends 'dimaps/service/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/service/service_archive_year.html
+{% endblock %}
+
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_service_archive_index" %}>
+        {% trans "Indice de servios" %}
+      </a>
+      <span class='divider'></span>
+    </li>
+    <li>
+      <a href={% url 'dimaps_service_year_archive' year=year.year %}>
+        {% trans "Indice por año" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+
+    {% block header-link %}
+        <a href={% url "dimaps_service_year_archive" year=year.year %}>
+    {% trans "Indice por año" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+  {% trans "Página que muestra todos los servicios creados por año." %}
+{% endblock %}
+{% block content %}
+  <h3>
+    {% trans "Por mes" %}
+  </h3>
+  <ul class='nav nav-tabs nav-stacked'>
+    {% for date in date_list %}
+      <li>
+        <a href={% url "dimaps_service_month_archive" year=date.year month=date.month %}>
+          {{ date|date:"M Y" }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  <h2>
+    {% blocktrans %}
+      Servicios creados en el año {{ year }}
+    {% endblocktrans %}
+  </h2>
+  {% include 'dimaps/service/object_table_list.html' %}
+  {% include 'dimaps/service/pagination.html' %}
+{% endblock %}

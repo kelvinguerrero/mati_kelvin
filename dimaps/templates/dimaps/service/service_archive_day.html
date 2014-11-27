@@ -1,0 +1,58 @@
+{% extends 'dimaps/service/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/service/service_archive_day.html
+{% endblock %}
+
+{% block title %}
+  {% trans "Indice por día" %}
+{% endblock %}
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_service_archive_index" %}>
+        {% trans "Indice de servicios" %}
+      </a>
+      <span class='divider'>
+       </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_service_year_archive" year=day.year %}>
+        {% trans "Servicios por año" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_service_month_archive" year=day.year month=day.month %}>
+        {% trans "Servicios por mes" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_service_day_archive" year=day.year month=day.month day=day.day %}>
+        {% trans "Servicios por día" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_service_day_archive" year=day.year month=day.month day=day.day %}>
+    {% trans "Indice por día" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Página que muestra todos los servicios organizados por día." %}
+{% endblock %}
+{% block content %}
+  <h4>
+    {% blocktrans %}
+      Servicios creados en {{ day }}
+    {% endblocktrans %}
+  </h4>
+  {% include 'dimaps/service/object_table_list.html' %}
+  {% include 'dimaps/service/pagination.html' %}
+{% endblock %}

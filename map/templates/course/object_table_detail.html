@@ -1,0 +1,99 @@
+{% load i18n %}
+
+<table class='table table-bordered table-striped'>
+  <thead>
+    <tr>
+      <th>
+        {% trans "Campo" %}
+      </th>
+      <th>
+        {% trans "Valor" %}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        código
+      </td>
+      <td>{{ object.code }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        créditos
+      </td>
+      <td>{{ object.credits }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        nombre
+      </td>
+      <td>{{ object.name }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        vacacional
+      </td>
+      <td>{{ object.summer }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        pensum
+      </td>
+      <td>{{ object.pensum.name }}</td>
+    </tr>
+    
+  </tbody>
+</table>
+
+ <h1>Secciones</h1>
+<table class='table table-bordered table-striped'>
+  <thead>
+    <tr>
+
+        <th>
+          crn
+        </th>
+
+        <th>
+          nombre
+        </th>
+
+        <th>
+          semestre
+        </th>
+
+        <th>
+          año
+        </th>
+
+        <th>
+          profesor
+        </th>
+
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object.section_set.all %}
+      <tr>
+
+          <td>{{ object.crn }}</td>
+
+          <td>{{ object.name }}</td>
+
+          <td>{{ object.semester }}</td>
+
+          <td>{{ object.year }}</td>
+
+          <td>{{ object.teacher.name }} {{ object.teacher.lastname}}</td>
+
+
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

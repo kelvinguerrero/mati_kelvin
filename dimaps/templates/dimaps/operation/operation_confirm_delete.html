@@ -1,0 +1,37 @@
+{% extends 'dimaps/operation/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/operation/operation_confirm_delete.html
+{% endblock %}
+
+{% block title %}
+  {% trans "Borrar operaciones" %}
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_operation_delete" pk=object.pk %}>
+    {% trans "Borrar operaciones" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+{#  {% trans " " %}#}
+{% endblock %}
+
+{% block content %}
+  <h4>
+    {% trans "¿Borrar esta operation?" %}
+  </h4>
+  <br />
+  {% include 'dimaps/operation/object_table_detail.html' %}
+  <form action='' charset='utf-8' method='post'>
+    <fieldset>
+      {% csrf_token %}
+      <div class='form-actions'>
+        <button class='btn btn-danger' type='submit'>
+          {% trans "Delete" %}
+        </button>
+      </div>
+    </fieldset>
+  </form>
+{% endblock %}

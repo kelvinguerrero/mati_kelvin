@@ -1,0 +1,67 @@
+{% load i18n %}
+
+<div class="col-lg-12">
+    <table class='table table-bordered table-striped'>
+        <thead>
+            <tr>
+              <th>
+                {% trans "Campo" %}
+              </th>
+              <th>
+                {% trans "Valor" %}
+              </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td>
+                nombre
+              </td>
+              <td>{{ object.name }}</td>
+            </tr>
+
+            <tr>
+              <td>
+                activo
+              </td>
+              <td>{{ object.active }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h1>Cursos</h1>
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+            <th>
+              código
+            </th>
+
+            <th>
+              créditos
+            </th>
+
+            <th>
+              nombre
+            </th>
+
+            <th>
+              vacaciones
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for op_course in object.course_set.all %}
+          <tr>
+              <td>{{ op_course.code }}</td>
+
+              <td>{{ op_course.credits }}</td>
+
+              <td>{{ op_course.name }}</td>
+
+              <td>{{ op_course.summer }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>

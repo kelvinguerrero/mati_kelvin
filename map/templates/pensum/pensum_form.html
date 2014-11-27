@@ -1,0 +1,55 @@
+{% extends 'pensum/pensum_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+  {% if object %}
+    {% trans "Editar pensum" %}
+  {% else %}
+    {% trans "Crear un nuevo pensum" %}
+  {% endif %}
+{% endblock %}
+
+{% block header-link %}
+  {% if object %}
+    <a href={% url 'edit_pensum' object.id %}>
+      {% trans "Editar pensum" %}
+    </a>
+  {% else %}
+    <a href={% url 'create_pensum' %}>
+      {% trans "Crear pensum" %}
+    </a>
+  {% endif %}
+{% endblock %}
+
+{% block header-description %}
+  {% if object %}
+    {% trans "Editar pensum." %}
+  {% else %}
+    {% trans "Crear pensum." %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <form action={% if object.id %}{% url 'edit_pensum' object.id %}{% else %}{% url 'create_pensum' %}{% endif %} method='post' class="form-horizontal" role="form">
+    {% csrf_token %}
+    {{ form.id }}
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
+        <div class="col-lg-8">
+            {{ form.name }}
+        </div>
+    </div>
+  <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.active.auto_id }}">{{ form.active.label }}</label>
+        <div class="col-lg-8">
+            {{ form.active }}
+        </div>
+    </div>
+  <div class="form-group">
+      <div class="col-lg-8 col-lg-offset-3">
+        <button class="btn btn-primary" type="submit">{% trans 'Enviar' %}</button>
+      </div>
+  </div>
+  </form>
+{% endblock %}

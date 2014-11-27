@@ -1,0 +1,36 @@
+{% extends 'teacher/teacher_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+  {% trans "Confirmación de eliminación" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href='{% url map_teacher_delete pk=object.pk %}'>
+  {% trans "Confirmación de eliminación del profesor." %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Confirmación de eliminación del profesor." %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% trans "¿Quiere eliminar este profesor?" %}
+  </h2>
+
+  {% include 'teacher/fragments/teacher_data.html' %}
+
+  <div class="col-lg-12">
+        <form method="post" action="{% url 'delete_teacher' object.id %}">
+            {% csrf_token %}
+            <button class='btn btn-danger' type="submit">
+              {% trans "Borrar" %}
+            </button>
+        </form>
+    </div>
+{% endblock %}

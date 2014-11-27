@@ -1,0 +1,48 @@
+{% load i18n %}
+
+<div class="col-lg-12">
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th>
+            {% trans "Campo" %}
+          </th>
+          <th>
+            {% trans "Valor" %}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+
+
+        <tr>
+          <td>
+            nota
+          </td>
+          <td>{{ object.grade }}</td>
+        </tr>
+
+        <tr>
+          <td>
+            Estado del estudiante
+          </td>
+          <td>{{ object.student_status }}</td>
+        </tr>
+
+        <tr>
+          <td>
+            estudiante
+          </td>
+          <td>{{ object.student.name }}</td>
+        </tr>
+
+        <tr>
+          <td>
+            sección
+          </td>
+          <td>{{ object.section.name }}</td>
+        </tr>
+
+      </tbody>
+    </table>
+</div>

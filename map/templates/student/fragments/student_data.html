@@ -1,0 +1,107 @@
+{% load i18n %}
+
+<div class="col-lg-12">
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th>
+            {% trans "Campo" %}
+          </th>
+          <th>
+            {% trans "Valor" %}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            codigo
+          </td>
+          <td>{{ object.code }}</td>
+        </tr>
+
+        <tr>
+          <td>
+            email
+          </td>
+          <td>{{ object.email }}</td>
+        </tr>
+
+        <tr>
+          <td>
+            apellido
+          </td>
+          <td>{{ object.lastname }}</td>
+        </tr>
+
+        <tr>
+          <td>
+            nombre
+          </td>
+          <td>{{ object.name }}</td>
+        </tr>
+
+        <tr>
+          <td>
+            student_status
+          </td>
+          <td>{{ object.student_status }}</td>
+        </tr>
+
+        <tr>
+          <td>
+            total_approved_credits
+          </td>
+          <td>{{ object.total_approved_credits }}</td>
+        </tr>
+
+        <tr>
+          <td>
+            total_credits_actual_semester
+          </td>
+          <td>{{ object.total_credits_actual_semester }}</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <p>
+        {% trans "Información detallada del historial del estudiante." %}
+    </p>
+
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+            <th>
+              Curso
+            </th>
+
+            <th>
+              Seccion
+            </th>
+
+            <th>
+              Nota
+            </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object.subject_set.all %}
+          <tr>
+
+              <td>
+                {{ object.section.name }}
+              </td>
+
+              <td>
+                  {{ object.section.course.name }}
+              </td>
+
+              <td>{{ object.grade }}</td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>

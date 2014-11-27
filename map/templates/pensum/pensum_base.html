@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block sidebar_one %}
+    <ul class="sidebar-one">
+        {% if not detail %}
+            <li>
+                <a href={% url 'pensum' %}>
+                    {% trans "Listar pensumes" %}
+                </a>
+            </li>
+        {% endif %}
+        <li>
+            <a href={% url 'create_pensum' %}>
+                {% trans "Crear pensum" %}
+            </a>
+        </li>
+        {% if detail %}
+            <li>
+                <a href=''>
+                    {% trans "Editar pensum" %}
+                </a>
+            </li>
+            <li>
+                <a href=''>
+                    {% trans "Borrar pensum" %}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}

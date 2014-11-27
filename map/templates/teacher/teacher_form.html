@@ -1,0 +1,67 @@
+{% extends 'teacher/teacher_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+  {% if object %}
+    {% trans "Editar profesor" %}
+  {% else %}
+    {% trans "Crear nuevo profesro" %}
+  {% endif %}
+{% endblock %}
+
+{% block header-link %}
+  {% if object %}
+    <a href={% url 'edit_teachert' object.id %}>
+      {% trans "Editar profesor" %}
+    </a>
+  {% else %}
+    <a href={% url 'create_teacher' %}>
+      {% trans "Teacher Create" %}
+    </a>
+  {% endif %}
+{% endblock %}
+
+{% block header-description %}
+  {% if object %}
+    {% trans "Editar profesor." %}
+  {% else %}
+    {% trans "Crear profesor." %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <form action={% if object.id %}{% url 'edit_teacher' object.id %}{% else %}{% url 'create_teacher' %}{% endif %} method='post' class="form-horizontal" role="form">
+    {% csrf_token %}
+    {{ form.id }}
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.code.auto_id }}">{{ form.code.label }}</label>
+        <div class="col-lg-8">
+            {{ form.code }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.email.auto_id }}">{{ form.email.label }}</label>
+        <div class="col-lg-8">
+            {{ form.email }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.lastname.auto_id }}">{{ form.lastname.label }}</label>
+        <div class="col-lg-8">
+            {{ form.lastname }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
+        <div class="col-lg-8">
+            {{ form.name }}
+        </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-lg-offset-3">
+        <button class="btn btn-primary" type="submit">{% trans 'Enviar' %}</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

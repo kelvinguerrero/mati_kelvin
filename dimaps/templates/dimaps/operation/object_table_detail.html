@@ -1,0 +1,157 @@
+{% load i18n %}
+
+<table class='table table-bordered table-striped'>
+  <thead>
+    <tr>
+      <th>
+        {% trans "Campo" %}
+      </th>
+      <th>
+        {% trans "Detalles" %}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% comment %}<tr>
+      <td>
+        id
+      </td>
+      <td>
+        <a href='{{ object.get_absolute_url }}'>
+          {{ object.id|stringformat:".3d" }}
+        </a>
+      </td>
+    </tr>{% endcomment %}
+    
+    <tr>
+      <td>
+        Nombre
+      </td>
+      <td>{{ object.name }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        precondiciones
+      </td>
+      <td>{{ object.preconditions }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        postcondiciones
+      </td>
+      <td>{{ object.postconditions }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        service
+      </td>
+      <td>{{ object.service.name }}</td>
+    </tr>
+    
+   {% comment %} <tr>
+      <td>
+        created_at
+      </td>
+      <td>{{ object.created_at }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        updated_at
+      </td>
+      <td>{{ object.updated_at }}</td>
+    </tr>{% endcomment %}
+    
+  </tbody>
+</table>
+
+{% if object.input_set.all %}
+    <h2>Entradas</h2>
+
+    <table class='table table-bordered table-striped'>
+        <thead>
+        <tr>
+
+            <th>
+                {% trans "Entradada" %}
+            </th>
+            <th>
+                {% trans "Tipo" %}
+            </th>
+            <th>
+                {% trans "Detalles" %}
+            </th>
+
+        </tr>
+        </thead>
+            <tbody>
+
+                {% for input_obj in object.input_set.all %}
+                    <tr>
+                        <td>
+                            {{ input_obj.name }}
+                        </td>
+                        <td>
+                            {{ input_obj.type }}
+                        </td>
+                        <td>
+                            <a href='{{ input_obj.get_absolute_url }}'>
+                            Detalles
+                        </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+{% endif %}
+
+{% if object.output_set.all %}
+    <h2>Salidas</h2>
+
+    <table class='table table-bordered table-striped'>
+        <thead>
+        <tr>
+
+            <th>
+                {% trans "Salida" %}
+            </th>
+            <th>
+                {% trans "Tipo" %}
+            </th>
+            <th>
+                {% trans "Detalles" %}
+            </th>
+
+        </tr>
+        </thead>
+            <tbody>
+
+                {% for output_obj in object.output_set.all %}
+                    <tr>
+                        <td>
+                            {{ output_obj.name }}
+                        </td>
+                        <td>
+                            {{ output_obj.type }}
+                        </td>
+                        <td>
+                            <a href='{{ output_obj.get_absolute_url }}'>
+                                Detalles
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+{% endif %}
+
+<a href={% url "dimaps_input_create"%}><i class="fa fa-fw fa-hand-o-up"></i> Agregar entrada </a>
+    <br>
+    <br>
+
+<a href={% url "dimaps_output_create"%}><i class="fa fa-fw fa-hand-o-up"></i> Agregar salida </a>
+    <br>
+    <br>

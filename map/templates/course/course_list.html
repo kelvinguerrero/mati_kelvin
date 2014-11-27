@@ -1,0 +1,82 @@
+{% extends 'course/course_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Cursos" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href=''>
+    {% trans "Listado de cursos" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Listado de los cursos del departamento" %}
+{% endblock %}
+
+
+{% block content %}
+  <h2>
+    {% trans "Cursos" %}
+  </h2>
+
+    <p>
+      {% trans "Clic en el código del curso para acceder a los detalles." %}
+    </p>
+
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+
+            <th>
+              código
+            </th>
+
+            <th>
+              créditos
+            </th>
+
+            <th>
+              nombre
+            </th>
+
+            <th>
+              vacaciónes
+            </th>
+
+            <th>
+              pensum
+            </th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          <tr>
+
+              <td>
+                <a href='{% url 'course' object.id %}'>
+                    {{ object.code }}
+                </a>
+              </td>
+
+              <td>{{ object.credits }}</td>
+
+              <td>{{ object.name }}</td>
+
+              <td>{{ object.summer }}</td>
+
+              <td>{{ object.pensum.name }}</td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% include 'course/pagination.html' %}
+{% endblock %}

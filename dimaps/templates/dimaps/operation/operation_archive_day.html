@@ -1,0 +1,54 @@
+{% extends 'dimaps/operation/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/operation/operation_archive_day.html
+{% endblock %}
+
+{% block title %}
+  {% trans "Indice de día por operación" %}
+{% endblock %}
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_operation_archive_index" %}>
+        {% trans "Indice de operaciones" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_operation_year_archive" year=day.year %}>
+        {% trans "Operaciones por año" %}
+      </a>
+      <span class='divider'></span>
+    </li>
+    <li>
+      <a href={% url "dimaps_operation_month_archive" year=day.year month=day.month %}>
+        {% trans "Operaciones por mes" %}
+      </a>
+      <span class='divider'></span>
+    </li>
+    <li>
+      <a href={% url "dimaps_operation_day_archive" year=day.year month=day.month day=day.day %}>
+        {% trans "Operaciones por dia" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block header-link %}
+  <a href={% url "dimaps_operation_day_archive" year=day.year month=day.month day=day.day %}>
+    {% trans "Indice por día" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+  {% trans "Página que muestra todas las operaciones creadas por día." %}
+{% endblock %}
+{% block content %}
+  <h2>
+    {% blocktrans %}
+      Operaciones credas en {{ day }}
+    {% endblocktrans %}
+  </h2>
+  {% include 'dimaps/operation/object_table_list.html' %}
+  {% include 'dimaps/operation/pagination.html' %}
+{% endblock %}

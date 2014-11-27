@@ -1,0 +1,21 @@
+{% extends 'dimaps/input/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/input/input_list.html
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_input_list" %}>
+    {% trans "Lista de entradas" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+{#  {% trans "List of objects." %}#}
+{% endblock %}
+
+{% block content %}
+
+  {% include 'dimaps/input/object_table_list.html' %}
+  {% include 'dimaps/input/pagination.html' %}
+{% endblock %}

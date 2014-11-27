@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block sidebar_one %}
+    <ul class="sidebar-one">
+        {% if not detail %}
+            <li>
+                <a href={% url 'student' %}>
+                    {% trans "Listar estudiantes" %}
+                </a>
+            </li>
+        {% endif %}
+        <li>
+            <a href={% url 'create_student' %}>
+                {% trans "Crear estudiante" %}
+            </a>
+        </li>
+        {% if detail %}
+            <li>
+                <a href=''>
+                    {% trans "Editar seccion" %}
+                </a>
+            </li>
+            <li>
+                <a href=''>
+                    {% trans "Borrar seccion" %}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'dimaps/serviceconsumer/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/serviceconsumer/serviceconsumer_list.html
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_serviceconsumer_list" %}>
+    {% trans "Lista de consumidor de servicios" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+{#  {% trans "A page representing a list of objects." %}#}
+{% endblock %}
+
+{% block content %}
+
+  {% include 'dimaps/serviceconsumer/object_table_list.html' %}
+  {% include 'dimaps/serviceconsumer/pagination.html' %}
+{% endblock %}

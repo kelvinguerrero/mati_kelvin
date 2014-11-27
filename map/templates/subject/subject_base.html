@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block sidebar_one %}
+    <ul class="sidebar-one">
+        {% if not detail %}
+            <li>
+                <a href={% url 'subject' %}>
+                    {% trans "Listar registros" %}
+                </a>
+            </li>
+        {% endif %}
+        <li>
+            <a href={% url 'create_subject' %}>
+                {% trans "Crear registro" %}
+            </a>
+        </li>
+        {% if detail %}
+            <li>
+                <a href=''>
+                    {% trans "Editar registro" %}
+                </a>
+            </li>
+            <li>
+                <a href=''>
+                    {% trans "Borrar registr" %}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}

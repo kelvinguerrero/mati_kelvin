@@ -1,0 +1,71 @@
+{% extends 'teacher/teacher_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Profesores" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+    <a href={% url 'teacher' %}>
+        {% trans "Listado de profesores" %}
+    </a>
+{% endblock %}
+
+{% block header-description %}
+    {% trans "Listado de profesores" %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% trans "Profesores" %}
+  </h2>
+
+    <p>
+      {% trans "Clic en el código del profesor para acceder a los detalles." %}
+    </p>
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+
+            <th>
+              código
+            </th>
+
+            <th>
+              email
+            </th>
+
+            <th>
+              apellido
+            </th>
+
+            <th>
+              nombre
+            </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          <tr>
+              <td>
+                <a href='{% url 'teacher' object.id %}'>
+                    {{ object.code|stringformat:".3d" }}
+                </a>
+              </td>
+
+              <td>{{ object.email }}</td>
+
+              <td>{{ object.lastname }}</td>
+
+              <td>{{ object.name }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% include 'teacher/pagination.html' %}
+{% endblock %}

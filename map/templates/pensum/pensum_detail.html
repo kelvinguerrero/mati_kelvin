@@ -1,0 +1,33 @@
+{% extends 'pensum/pensum_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Detalles del pensum" %}
+    </title>
+{% endblock %}
+
+
+{% block header-link %}
+  <a href={% url 'pensum' object.id %}>
+    {% trans "Detalles del pensum" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Información detallada del pensum." %}
+{% endblock %}
+
+
+{% block content %}
+    {% include 'pensum/fragments/pensum_data.html' %}
+<div class="col-lg-12">
+    <a class='btn btn-success' href={% url 'edit_pensum' object.id %}>
+      {% trans "Editar" %}
+    </a>
+    <a class='btn btn-danger' href={% url 'delete_pensum' object.id %}>
+      {% trans "Borrar" %}
+    </a>
+</div>
+{% endblock %}

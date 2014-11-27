@@ -1,0 +1,84 @@
+{% extends 'subject/subject_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Registros" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+    <a href={% url 'subject' %}>
+    {% trans "Listado de registro de notas" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Listado de registro de notas." %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% trans "Registro de notas" %}
+  </h2>
+
+    <p>
+      {% trans "Clic en la nota del estudiante para acceder a los detalles." %}
+    </p>
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+
+
+
+            <th>
+             código
+            </th>
+
+            <th>
+              estudiante
+            </th>
+
+            <th>
+              sección
+            </th>
+
+            <th>
+              curso
+            </th>
+
+               <th>
+              nota
+            </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          <tr>
+
+            <td>
+                <a href='{% url 'subject' object.id %}'>
+                    {{ object.student.code }}
+                </a>
+            </td>
+              <td>
+                    {{ object.student.name }}
+            </td>
+
+            <td>{{ object.section.name }}</td>
+
+            <td>{{ object.section.course.name }}</td>
+
+            <td>{{ object.grade }}</td>
+
+            </td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% include 'subject/pagination.html' %}
+{% endblock %}

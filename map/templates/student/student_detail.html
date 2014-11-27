@@ -1,0 +1,32 @@
+{% extends 'subject/subject_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Detalles del estudiante" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url 'student' object.id %}>
+    {% trans "Detalles del estudiante" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Información detallada del estudiante." %}
+{% endblock %}
+
+{% block content %}
+    {% include 'subject/fragments/subject_data.html' %}
+
+    <div class="col-lg-12">
+        <a class='btn btn-success' href={% url 'edit_student' object.id %}>
+          {% trans "Editar" %}
+        </a>
+        <a class='btn btn-danger' href={% url 'delete_student' object.id %}>
+          {% trans "Borrar" %}
+        </a>
+    </div>
+{% endblock %}

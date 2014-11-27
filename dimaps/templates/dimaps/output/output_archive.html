@@ -1,0 +1,48 @@
+
+
+{% extends 'dimaps/output/base.html' %}
+
+{% load i18n %}
+
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/output/output_archive.html
+{% endblock %}
+{% block title %}
+  {% trans "Output Archive Index" %}
+{% endblock %}
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_output_archive_index" %}>
+        {% trans "Archive Index" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block header-link %}
+  <a href={% url "dimaps_output_archive_index" %}>
+    {% trans "Output Archive Index" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+  {% trans "A top-level index page showing the latest objects, by date." %}
+{% endblock %}
+{% block content %}
+  <h2>
+    By Year
+  </h2>
+  <ul class='nav nav-tabs nav-stacked'>
+    {% for date in date_list %}
+      <li>
+        <a href={% url "dimaps_output_year_archive" year=date.year %}>
+          {{ date.year }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  <h2>
+    {% trans "Recent Outputs" %}
+  </h2>
+  {% include 'dimaps/output/object_table_list.html' %}
+  {% include 'dimaps/output/pagination.html' %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Master’s Directory Services Platform" %}
+    </title>
+{% endblock %}
+
+{% block header-description %}
+    <h1 class="page-header">
+        MAP Master’s Directory Services Platform
+    </h1>
+{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <p>
+          Plataforma orientada a servicios que suple inicialmente las necesidades más costosas dentro de los proceso de gestión académica del departamento.
+        </p>
+
+        <p>
+            Capaz de realizar recomendaciones de los cursos opcionales y obligatorios que un estudiante podría y debería tomar. Mediante un optimizador de plan de estudios. Estas recomendaciones se deben realizar según el pensum y el plan de estudios creado por parte del estudiante y con base a los criterios de coordinación.
+        </p>
+
+        <p>
+            Esta plataforma complementa su implementación basándose en el apoyo de un directorio de servicios DIMAP el cual, brindara una interfaz y una estructura de comunicación entre el usuario final y la plataforma MAP.
+        </p>
+
+    </div>
+{% endblock %}

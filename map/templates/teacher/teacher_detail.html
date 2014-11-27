@@ -1,0 +1,31 @@
+{% extends 'teacher/teacher_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Detalles del profesor" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url 'student' object.id %}>
+    {% trans "Detalles del profesor" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Información detallada del profesor." %}
+{% endblock %}
+
+{% block content %}
+    {% include 'teacher/fragments/teacher_data.html' %}
+  <div class="col-lg-12">
+        <a class='btn btn-success' href={% url 'edit_teacher' object.id %}>
+          {% trans "Editar" %}
+        </a>
+        <a class='btn btn-danger' href={% url 'delete_teacher' object.id %}>
+          {% trans "Borrar" %}
+        </a>
+   </div>
+{% endblock %}

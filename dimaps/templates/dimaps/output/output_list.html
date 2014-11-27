@@ -1,0 +1,27 @@
+
+
+{% extends 'dimaps/output/base.html' %}
+
+{% load i18n %}
+
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/output/output_list.html
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_output_list" %}>
+    {% trans "Output List" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "A page representing a list of objects." %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% trans "Outputs" %}
+  </h2>
+  {% include 'dimaps/output/object_table_list.html' %}
+  {% include 'dimaps/output/pagination.html' %}
+{% endblock %}

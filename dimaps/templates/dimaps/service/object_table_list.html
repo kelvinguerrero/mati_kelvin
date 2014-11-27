@@ -1,0 +1,134 @@
+{% load i18n %}
+<p>
+  {% trans "Clic en el identificador para acceder en al servicio." %}
+</p>
+<table class='table table-bordered table-striped'>
+  <thead>
+    <tr>
+      {% comment %}<th>
+        id
+      </th>{% endcomment %}
+      
+        <th>
+          Identificador
+        </th>
+      
+        <th>
+          Nombre
+        </th>
+      
+        <th>
+          Descripción
+        </th>
+
+        <th>
+          Proveedor
+        </th>
+      
+        <th>
+          Categoría
+        </th>
+
+        <th>
+          Operaciones
+        </th>
+      
+{% comment %}        <th>
+          created_at
+        </th>
+      
+        <th>
+          updated_at
+        </th>{% endcomment %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+      <tr>
+{% comment %}        <td>
+          <a href='{{ object.get_absolute_url }}'>
+            {{ object.id|stringformat:".3d" }}
+          </a>
+        </td>{% endcomment %}
+        
+          <td>
+              <a href='{{ object.get_absolute_url }}'>
+
+                  {{ object.identifier }}
+              </a>
+          </td>
+        
+          <td>{{ object.name }}</td>
+        
+          <td>{{ object.description }}</td>
+        
+{% comment %}          <td>{{ object.discovery_method }}</td>{% endcomment %}
+        
+{% comment %}          <td>{{ object.business_function }}</td>{% endcomment %}
+
+          <td>{{ object.service_providers }}</td>
+        
+          <td>{{ object.category }}</td>
+
+          <td>
+
+            <button class="btn btn-primary" data-toggle="modal" data-target="#mod_operaciones_{{ object.name|cut:" " }}" >Ver</button>
+          </td>
+
+        
+{% comment %}          <td>{{ object.created_at }}</td>
+        
+          <td>{{ object.updated_at }}</td>{% endcomment %}
+        
+      </tr>
+
+        <div class="modal fade "  id="mod_operaciones_{{ object.name|cut:" " }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    {% for op_ser in object.operation_set.all %}
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title">Operación: {{ op_ser.name }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel panel-default">
+                              <!-- Default panel contents -->
+                              <div class="panel-heading">Precondiciones</div>
+                              <div class="panel-body">
+                                <p>{{ op_ser.preconditions}}</p>
+                              </div>
+                            </div>
+                            <div class="panel panel-default">
+                              <!-- Default panel contents -->
+                              <div class="panel-heading">Postcondiciones</div>
+                              <div class="panel-body">
+                                <p> {{ op_ser.postconditions }}</p>
+                              </div>
+                            </div>
+
+                            {% comment %} if op_ser.input_set.all %}
+                                {% for input_ser in op_ser.input_set.all %}
+                                    {{ input_ser.name }}
+                                {% endfor %}
+                            {% endif %}{% endcomment %}
+                            {% comment %}<div class="panel panel-default">
+                              <!-- Default panel contents -->
+                              <div class="panel-heading">Postcondiciones</div>
+                              <div class="panel-body">
+                                <p> {{ op_ser.postconditions }}</p>
+                              </div>
+                            </div>{% endcomment %}
+                        </div>
+                    {% endfor %}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+  </tbody>
+</table>
+
+

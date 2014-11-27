@@ -1,0 +1,81 @@
+{% extends 'section/section_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+  {% if object %}
+    {% trans "Editar seccióm" %}
+  {% else %}
+    {% trans "Crear una nueva sección" %}
+  {% endif %}
+{% endblock %}
+
+{% block header-link %}
+  {% if object %}
+    <a href={% url 'edit_section' object.id %}>
+      {% trans "Editar sección" %}
+    </a>
+  {% else %}
+    <a href=''>
+      {% trans "Crear sección" %}
+    </a>
+  {% endif %}
+{% endblock %}
+
+{% block header-description %}
+  {% if object %}
+    {% trans "Editar sección." %}
+  {% else %}
+    {% trans "Crear sección." %}
+  {% endif %}
+{% endblock %}
+
+
+{% block content %}
+  <form action={% if object.id %}{% url 'edit_section' object.id %}{% else %}{% url 'create_section' %}{% endif %} method='post' class="form-horizontal" role="form">
+    {% csrf_token %}
+    {{ form.id }}
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.crn.auto_id }}">{{ form.crn.label }}</label>
+        <div class="col-lg-8">
+            {{ form.crn }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
+        <div class="col-lg-8">
+            {{ form.name }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.semester.auto_id }}">{{ form.semester.label }}</label>
+        <div class="col-lg-8">
+            {{ form.semester }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.year.auto_id }}">{{ form.year.label }}</label>
+        <div class="col-lg-8">
+            {{ form.year }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.teacher.auto_id }}">{{ form.teacher.label }}</label>
+        <div class="col-lg-8">
+            {{ form.teacher }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.course.auto_id }}">{{ form.course.label }}</label>
+        <div class="col-lg-8">
+            {{ form.course }}
+        </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-lg-8 col-lg-offset-3">
+        <button class="btn btn-primary" type="submit">{% trans 'Enviar' %}</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

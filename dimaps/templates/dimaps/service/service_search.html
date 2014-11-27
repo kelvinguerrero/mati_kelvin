@@ -1,0 +1,28 @@
+{% extends 'dimaps/service/base.html' %}
+
+{% load i18n %}
+
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/service/service_detail.html
+{% endblock %}
+
+{% block title %}
+  {% trans "Detalles de la busqueda" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block header-link %}
+  <a href={{ "object.get_absolute_url" }}>
+    {% trans "Detalles de la busqueda" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Descripcion detallada del servicio" %}
+{% endblock %}
+
+{% block content %}
+  {% include 'dimaps/service/object_table_search.html' %}
+{% endblock %}

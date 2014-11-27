@@ -1,0 +1,38 @@
+{% load i18n %}
+<table class='table table-bordered table-striped'>
+  <thead>
+    <tr>
+      <th>
+        {% trans "Campo" %}
+      </th>
+      <th>
+        {% trans "Valor" %}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>
+        name
+      </td>
+      <td>{{ object.name }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        description
+      </td>
+      <td>{{ object.description }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        service
+      </td>
+      <td>{{ object.service.name }}</td>
+    </tr>
+    
+
+  </tbody>
+</table>

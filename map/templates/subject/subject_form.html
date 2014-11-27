@@ -1,0 +1,68 @@
+{% extends 'subject/subject_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+  {% if object %}
+    {% trans "Editar registro" %}
+  {% else %}
+    {% trans "Crear nuevo registro" %}
+  {% endif %}
+{% endblock %}
+
+{% block header-link %}
+  {% if object %}
+    <a href={% url 'edit_subject' object.id %}>
+      {% trans "Editar registro" %}
+    </a>
+  {% else %}
+    <a href={% url 'create_subject' %}>
+      {% trans "Crear registro" %}
+    </a>
+  {% endif %}
+{% endblock %}
+
+{% block header-description %}
+  {% if object %}
+    {% trans "Editar registro." %}
+  {% else %}
+    {% trans "Crear registro." %}
+  {% endif %}
+{% endblock %}
+
+
+{% block content %}
+  <form action={% if object.id %}{% url 'edit_subject' object.id %}{% else %}{% url 'create_subject' %}{% endif %} method='post' class="form-horizontal" role="form">
+    {% csrf_token %}
+    {{ form.id }}
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.grade.auto_id }}">{{ form.grade.label }}</label>
+        <div class="col-lg-8">
+            {{ form.grade }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.student_status.auto_id }}">{{ form.student_status.label }}</label>
+        <div class="col-lg-8">
+            {{ form.student_status }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.student.auto_id }}">{{ form.student.label }}</label>
+        <div class="col-lg-8">
+            {{ form.student }}
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-lg-3 control-label" for="{{ form.section.auto_id }}">{{ form.section.label }}</label>
+        <div class="col-lg-8">
+            {{ form.section }}
+        </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-8 col-lg-offset-3">
+        <button class="btn btn-primary" type="submit">{% trans 'Enviar' %}</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

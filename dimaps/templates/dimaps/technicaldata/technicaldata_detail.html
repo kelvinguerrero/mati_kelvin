@@ -1,0 +1,76 @@
+{% extends 'dimaps/technicaldata/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/technicaldata/technicaldata_detail.html
+{% endblock %}
+
+{% block title %}
+  {% trans "Detalles de la información técnica" %}
+{% endblock %}
+
+
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_technicaldata_archive_index" %}>
+        {% trans "Indice de la información técnica" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_technicaldata_year_archive" year=object.created_at.year %}>
+        {% trans "Indice por año" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_technicaldata_month_archive" year=object.created_at.year month=object.created_at.month %}>
+        {% trans "Indice por mes" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_technicaldata_day_archive" year=object.created_at.year month=object.created_at.month day=object.created_at.day %}>
+        {% trans "Indice por día" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_technicaldata_date_detail" year=object.created_at.year month=object.created_at.month day=object.created_at.day pk=object.pk %}>
+        {% trans "Detalles por fecha" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+
+
+{% block header-link %}
+  <a href='{{ object.get_absolute_url }}'>
+    {% trans "Detalles de la información técnica" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Descripcion detallada de la información técnica" %}
+{% endblock %}
+
+{% block content %}
+  {% include 'dimaps/technicaldata/object_table_detail.html' %}
+  <form action={% url "dimaps_technicaldata_delete" pk=object.pk %} charset='utf-8' method='post'>
+    <fieldset>
+      {% csrf_token %}
+      <div class='form-actions'>
+        <a class='btn btn-success' href={% url "dimaps_technicaldata_update" pk=object.pk %}>
+          {% trans "Editar" %}
+        </a>
+        <button class='btn btn-danger' type='submit'>
+          {% trans "Borrar" %}
+        </button>
+      </div>
+    </fieldset>
+  </form>
+{% endblock %}

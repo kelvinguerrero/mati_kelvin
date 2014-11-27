@@ -1,0 +1,21 @@
+{% extends 'dimaps/service/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/service/service_list.html
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_service_list" %}>
+        {% trans "Lista de servicios" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+{#  {% trans "Listado de servicios para el departamento de ingenieria de sistemas y computación." %}#}
+{% endblock %}
+
+{% block content %}
+
+  {% include 'dimaps/service/object_table_list.html' %}
+  {% include 'dimaps/service/pagination.html' %}
+{% endblock %}

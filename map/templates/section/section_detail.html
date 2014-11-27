@@ -1,0 +1,32 @@
+{% extends 'section/section_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Detalles de la sección" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url 'section' object.id %}>
+    {% trans "Detalles de la sección" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Información detallada de la sección." %}
+{% endblock %}
+
+{% block content %}
+    {% include 'section/fragments/section_data.html' %}
+
+    <div class="col-lg-12">
+        <a class='btn btn-success' href={% url 'edit_section' object.id %}>
+          {% trans "Editar" %}
+        </a>
+        <a class='btn btn-danger' href={% url 'delete_section' object.id %}>
+          {% trans "Borrar" %}
+        </a>
+    </div>
+{% endblock %}

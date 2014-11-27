@@ -1,0 +1,52 @@
+{% extends 'dimaps/input/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/input/input_archive_year.html
+{% endblock %}
+
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_input_archive_index" %}>
+        {% trans "Indice de entradas" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_input_year_archive" year=year.year %}>
+        {% trans "Indice por año" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_input_year_archive" year=year.year %}>
+        {% trans "Indice por año" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+  {% trans "Página que muestra todas las entradas creadas por año." %}
+{% endblock %}
+{% block content %}
+  <h2>
+        {% trans "Indice por mes" %}
+  </h2>
+  <ul class='nav nav-tabs nav-stacked'>
+    {% for date in date_list %}
+      <li>
+        <a href={% url "dimaps_input_month_archive" year=date.year month=date.month %}>
+          {{ date|date:"M Y" }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  <h2>
+    {% blocktrans %}
+      Entradas creadas en el año {{ year }}
+    {% endblocktrans %}
+  </h2>
+  {% include 'dimaps/input/object_table_list.html' %}
+  {% include 'dimaps/input/pagination.html' %}
+{% endblock %}

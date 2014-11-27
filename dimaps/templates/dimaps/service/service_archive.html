@@ -1,0 +1,44 @@
+{% extends 'dimaps/service/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/service/service_archive.html
+{% endblock %}
+{% block title %}
+  {% trans "Indice de servicios" %}
+{% endblock %}
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_service_archive_index" %}>
+        {% trans "Indice de servicios" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block header-link %}
+  <a href={% url "dimaps_service_archive_index" %}>
+    {% trans "Indice por fecha" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+  {% trans "Indice de servicios organizados por fecha." %}
+{% endblock %}
+{% block content %}
+  <h3>
+    Por año
+  </h3>
+  <ul class='nav nav-tabs nav-stacked'>
+    {% for date in date_list %}
+      <li>
+        <a href={% url "dimaps_service_year_archive" year=date.year %}>
+          {{ date.year }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  <h4>
+    {% trans "Servicios recientes" %}
+  </h4>
+  {% include 'dimaps/service/object_table_list.html' %}
+  {% include 'dimaps/service/pagination.html' %}
+{% endblock %}

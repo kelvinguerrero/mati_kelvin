@@ -1,0 +1,21 @@
+{% extends 'dimaps/technicaldata/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/technicaldata/technicaldata_list.html
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_technicaldata_list" %}>
+        {% trans "Lista de información técnica" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+{#  {% trans "A page representing a list of objects." %}#}
+{% endblock %}
+
+{% block content %}
+
+  {% include 'dimaps/technicaldata/object_table_list.html' %}
+  {% include 'dimaps/technicaldata/pagination.html' %}
+{% endblock %}

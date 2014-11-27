@@ -1,0 +1,45 @@
+{% extends 'dimaps/serviceconsumer/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/serviceconsumer/serviceconsumer_archive.html
+{% endblock %}
+{% block title %}
+  {% trans "Indice de consumidores de servicios" %}
+{% endblock %}
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_serviceconsumer_archive_index" %}>
+            {% trans "Indice de consumidores de servicios" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block header-link %}
+  <a href={% url "dimaps_serviceconsumer_archive_index" %}>
+    {% trans "Indice por fecha" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+  {% trans "Indice de consumidores de servicios organizados por fecha." %}
+{% endblock %}
+{% block content %}
+  <h2>
+    By Year
+  </h2>
+  <ul class='nav nav-tabs nav-stacked'>
+    {% for date in date_list %}
+      <li>
+        <a href={% url "dimaps_serviceconsumer_year_archive" year=date.year %}>
+          {{ date.year }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h4>
+    {% trans "Consumidores de servicios recientes" %}
+  </h4>
+  {% include 'dimaps/serviceconsumer/object_table_list.html' %}
+  {% include 'dimaps/serviceconsumer/pagination.html' %}
+{% endblock %}

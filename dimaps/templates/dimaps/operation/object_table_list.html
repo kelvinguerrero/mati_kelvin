@@ -1,0 +1,93 @@
+{% load i18n %}
+
+<p>
+  {% trans "Clic en el nombre para acceder a la operación." %}
+</p>
+
+<table class='table table-bordered table-striped'>
+  <thead>
+    <tr>
+        <th>
+          Nombre
+        </th>
+      
+        <th>
+          precondiciones
+        </th>
+      
+        <th>
+          postcondiciones
+        </th>
+      
+        <th>
+          Servicio
+        </th>
+
+        <th>
+          Detalles
+        </th>
+      {% comment %}  <th>
+          created_at
+        </th>
+      
+        <th>
+          updated_at
+        </th>
+      {% endcomment %}
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+      <tr>
+{% comment %}        <td>
+          <a href='{{ object.get_absolute_url }}'>
+            {{ object.id|stringformat:".3d" }}
+          </a>
+        </td>{% endcomment %}
+        
+          <td>
+               <a href='{{ object.get_absolute_url }}'>
+                {{ object.name }}
+               </a>
+          </td>
+        
+          <td>{{ object.preconditions }}</td>
+        
+          <td>{{ object.postconditions }}</td>
+        
+          <td>{{ object.service.name }}</td>
+        
+{% comment %}          <td>{{ object.created_at }}</td>
+        
+          <td>{{ object.updated_at }}</td>{% endcomment %}
+          <td>
+
+            <button class="btn btn-primary" data-toggle="modal" data-target="#mod_detalles_{{ object.name|cut:" " }}" >Ver</button>
+          </td>
+      </tr>
+
+        <div class="modal fade "  id="mod_detalles_{{ object.name|cut:" " }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    {% for entrada_op in object.input_set.all %}
+
+                        <div class="modal-body">
+                            <div class="panel panel-default">
+                              <!-- Default panel contents -->
+                              <div class="panel-heading"> Entrada: {{ entrada_op.name }}</div>
+                              <div class="panel-body">
+                                <p>Tipo de dato:<br>{{ entrada_op.type}}</p>
+                              </div>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+  </tbody>
+</table>

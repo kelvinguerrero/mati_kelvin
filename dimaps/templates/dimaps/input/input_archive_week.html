@@ -1,0 +1,27 @@
+{% extends 'dimaps/input/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/input/input_archive_week.html
+{% endblock %}
+
+{% block title %}
+        {% trans "Indice de entradas" %}
+{% endblock %}
+
+{% block header-link %}
+        {% trans "Indice de entradas por semana" %}
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Página que muestra todas las entradas creadas en una semana determinada." %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% blocktrans %}
+      Entradas creadas durante la semana {{ week }}
+    {% endblocktrans %}
+  </h2>
+  {% include 'dimaps/input/object_table_list.html' %}
+  {% include 'dimaps/input/pagination.html' %}
+{% endblock %}

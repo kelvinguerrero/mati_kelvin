@@ -1,0 +1,31 @@
+
+
+{% extends 'dimaps/output/base.html' %}
+
+{% load i18n %}
+
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/output/output_archive_week.html
+{% endblock %}
+
+{% block title %}
+  {% trans "Output Week Archive" %}
+{% endblock %}
+
+{% block header-link %}
+  {% trans "Output Week Archive" %}
+{% endblock %}
+
+{% block header-description %}
+  {% trans "A weekly archive page showing all objects in a given week." %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% blocktrans %}
+      Outputs created during the week beginning on {{ week }}
+    {% endblocktrans %}
+  </h2>
+  {% include 'dimaps/output/object_table_list.html' %}
+  {% include 'dimaps/output/pagination.html' %}
+{% endblock %}

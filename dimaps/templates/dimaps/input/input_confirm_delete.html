@@ -1,0 +1,37 @@
+{% extends 'dimaps/input/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/input/input_confirm_delete.html
+{% endblock %}
+
+{% block title %}
+  {% trans "Borrar entrada" %}
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url "dimaps_input_delete" pk=object.pk %}>
+    {% trans "Borrar entrada" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+{#  {% trans " " %}#}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% trans "¿Borrar esta entrada?" %}
+  </h2>
+  <br />
+  {% include 'dimaps/input/object_table_detail.html' %}
+  <form action='' charset='utf-8' method='post'>
+    <fieldset>
+      {% csrf_token %}
+      <div class='form-actions'>
+        <button class='btn btn-danger' type='submit'>
+          {% trans "Borrar" %}
+        </button>
+      </div>
+    </fieldset>
+  </form>
+{% endblock %}

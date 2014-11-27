@@ -1,0 +1,71 @@
+
+
+{% load i18n %}
+
+<p>
+  {% trans "Click on the primary key value to access the individual Input's page." %}
+</p>
+<table class='table table-bordered table-striped'>
+  <thead>
+    <tr>
+      <th>
+        id
+      </th>
+      
+        <th>
+          name
+        </th>
+      
+        <th>
+          type
+        </th>
+      
+        <th>
+          mandatory
+        </th>
+      
+        <th>
+          observation
+        </th>
+      
+        <th>
+          operation
+        </th>
+      
+        {% comment %}<th>
+          created_at
+        </th>
+      
+        <th>
+          updated_at
+        </th>{% endcomment %}
+      
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+      <tr>
+        <td>
+          <a href='{{ object.get_absolute_url }}'>
+            {{ object.id|stringformat:".3d" }}
+          </a>
+        </td>
+        
+          <td>{{ object.name }}</td>
+        
+          <td>{{ object.type }}</td>
+        
+          <td>{{ object.mandatory }}</td>
+        
+          <td>{{ object.observation }}</td>
+        
+          <td>{{ object.operation.name }}</td>
+        
+{% comment %}          <td>{{ object.created_at }}</td>
+        
+          <td>{{ object.updated_at }}</td>{% endcomment %}
+        
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

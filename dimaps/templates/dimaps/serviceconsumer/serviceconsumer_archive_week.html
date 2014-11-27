@@ -1,0 +1,27 @@
+{% extends 'dimaps/serviceconsumer/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/serviceconsumer/serviceconsumer_archive_week.html
+{% endblock %}
+
+{% block title %}
+        {% trans "Indice de consumidores de servicios" %}
+{% endblock %}
+
+{% block header-link %}
+        {% trans "Indice de consumidores de servicios por semana" %}
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Página que muestra todos los consumidores de servicios organizados por semana." %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% blocktrans %}
+      Consumidores de servicios creados durante la semana {{ week }}
+    {% endblocktrans %}
+  </h2>
+  {% include 'dimaps/serviceconsumer/object_table_list.html' %}
+  {% include 'dimaps/serviceconsumer/pagination.html' %}
+{% endblock %}

@@ -1,0 +1,78 @@
+
+
+{% load i18n %}
+
+<table class='table table-bordered table-striped'>
+  <thead>
+    <tr>
+      <th>
+        {% trans "Campo" %}
+      </th>
+      <th>
+        {% trans "Valor" %}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+{% comment %}    <tr>
+      <td>
+        id
+      </td>
+      <td>
+        <a href='{{ object.get_absolute_url }}'>
+          {{ object.id|stringformat:".3d" }}
+        </a>
+      </td>
+    </tr>{% endcomment %}
+    
+    <tr>
+      <td>
+        Nombre
+      </td>
+      <td>{{ object.name }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        Tipo
+      </td>
+      <td>{{ object.type }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        Obligatorio
+      </td>
+      <td>{{ object.mandatory }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        Observación
+      </td>
+      <td>{{ object.observation }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        Operación
+      </td>
+      <td>{{ object.operation.name }}</td>
+    </tr>
+    
+  {% comment %}  <tr>
+      <td>
+        created_at
+      </td>
+      <td>{{ object.created_at }}</td>
+    </tr>
+    
+    <tr>
+      <td>
+        updated_at
+      </td>
+      <td>{{ object.updated_at }}</td>
+    </tr>{% endcomment %}
+    
+  </tbody>
+</table>

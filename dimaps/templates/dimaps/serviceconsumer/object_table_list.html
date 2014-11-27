@@ -1,0 +1,36 @@
+{% load i18n %}
+<p>
+  {% trans "Clic en el identificador para acceder en al consumidor de servicio." %}
+</p>
+<table class='table table-bordered table-striped'>
+  <thead>
+    <tr>
+      
+        <th>
+          name
+        </th>
+      
+        <th>
+          objective
+        </th>
+      
+        <th>
+          service
+        </th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+      <tr>
+
+          <td>{{ object.name }}</td>
+        
+          <td>{{ object.objective }}</td>
+        
+          <td>{{ object.service.name }}</td>
+        
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -1,0 +1,44 @@
+{% extends 'dimaps/technicaldata/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/technicaldata/technicaldata_archive.html
+{% endblock %}
+{% block title %}
+  {% trans "Indice de información técnica" %}
+{% endblock %}
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_technicaldata_archive_index" %}>
+        {% trans "Indice de información técnica" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block header-link %}
+  <a href={% url "dimaps_technicaldata_archive_index" %}>
+    {% trans "Indice por fecha" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+  {% trans "Indice de información técnica organizada por fecha." %}
+{% endblock %}
+{% block content %}
+  <h3>
+    Por año
+  </h3>
+  <ul class='nav nav-tabs nav-stacked'>
+    {% for date in date_list %}
+      <li>
+        <a href={% url "dimaps_technicaldata_year_archive" year=date.year %}>
+          {{ date.year }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+  <h2>
+    {% trans "Información técnica recientes" %}
+  </h2>
+  {% include 'dimaps/technicaldata/object_table_list.html' %}
+  {% include 'dimaps/technicaldata/pagination.html' %}
+{% endblock %}

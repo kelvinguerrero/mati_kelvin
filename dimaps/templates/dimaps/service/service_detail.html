@@ -1,0 +1,78 @@
+{% extends 'dimaps/service/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/service/service_detail.html
+{% endblock %}
+
+{% block title %}
+  {% trans "Detalles del servicio" %}
+{% endblock %}
+
+
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_service_archive_index" %}>
+        {% trans "Indice de servicos" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_service_year_archive" year=object.created_at.year %}>
+        {% trans "Indice por año" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_service_month_archive" year=object.created_at.year month=object.created_at.month %}>
+        {% trans "Indice por mes" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_service_day_archive" year=object.created_at.year month=object.created_at.month day=object.created_at.day %}>
+        {% trans "Indice por día" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_service_date_detail" year=object.created_at.year month=object.created_at.month day=object.created_at.day pk=object.pk %}>
+        {% trans "Detalles por fecha" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+
+
+{% block header-link %}
+  <a href={{ "object.get_absolute_url" }}>
+    {% trans "Detalles del servicio" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Descripcion detallada del servicio" %}
+{% endblock %}
+
+{% block content %}
+  {% include 'dimaps/service/object_table_detail.html' %}
+  <form action={% url "dimaps_service_delete" pk=object.pk %} charset='utf-8' method='post'>
+
+    <fieldset>
+      {% csrf_token %}
+      <div class='form-actions'>
+        <a class='btn btn-success' href={% url "dimaps_service_update" pk=object.pk %}>
+          {% trans "Editar" %}
+        </a>
+        <button class='btn btn-danger' type='submit'>
+          {% trans "Borrar" %}
+        </button>
+      </div>
+    </fieldset>
+
+  </form>
+{% endblock %}

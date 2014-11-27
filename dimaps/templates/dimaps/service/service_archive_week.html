@@ -1,0 +1,27 @@
+{% extends 'dimaps/service/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/service/service_archive_week.html
+{% endblock %}
+
+{% block title %}
+        {% trans "Indice de servicios" %}
+{% endblock %}
+
+{% block header-link %}
+        {% trans "Indice de servicios por semana" %}
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Página que muestra todos los servicios creados por semana." %}
+{% endblock %}
+
+{% block content %}
+  <h2>
+    {% blocktrans %}
+      Servicios creados durante la semana {{ week }}
+    {% endblocktrans %}
+  </h2>
+  {% include 'dimaps/service/object_table_list.html' %}
+  {% include 'dimaps/service/pagination.html' %}
+{% endblock %}

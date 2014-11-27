@@ -1,0 +1,47 @@
+{% extends 'dimaps/operation/base.html' %}
+
+{% load i18n %}
+
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/operation/operation_archive.html
+{% endblock %}
+{% block title %}
+  {% trans "Operation Archive Index" %}
+{% endblock %}
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_operation_archive_index" %}>
+        {% trans "Indice por fecha" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block header-link %}
+  <a href={% url "dimaps_operation_archive_index" %}>
+    {% trans "Indice por operación" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+  {% trans "Indice de servicios organizados por fecha." %}
+{% endblock %}
+{% block content %}
+  <h3>
+    Por año
+  </h3>
+  <ul class='nav nav-tabs nav-stacked'>
+    {% for date in date_list %}
+      <li>
+        <a href={% url "dimaps_operation_year_archive" year=date.year %}>
+          {{ date.year }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h4>
+    {% trans "Operaciones recientes" %}
+  </h4>
+  {% include 'dimaps/operation/object_table_list.html' %}
+  {% include 'dimaps/operation/pagination.html' %}
+{% endblock %}

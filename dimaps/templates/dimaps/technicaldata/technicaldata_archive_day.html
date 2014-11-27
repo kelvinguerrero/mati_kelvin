@@ -1,0 +1,56 @@
+{% extends 'dimaps/technicaldata/base.html' %}
+{% load i18n %}
+{% block filename %}
+  /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/technicaldata/technicaldata_archive_day.html
+{% endblock %}
+
+{% block title %}
+  {% trans "Indice por día" %}
+{% endblock %}
+{% block breadcrumbs %}
+  <ul class='breadcrumb'>
+    <li>
+      <a href={% url "dimaps_technicaldata_archive_index" %}>
+        {% trans "Indice de información técnica" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_technicaldata_year_archive" year=day.year %}>
+        {% trans "Información técnica por año" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_technicaldata_month_archive" year=day.year month=day.month %}>
+        {% trans "Información técnica por mes" %}
+      </a>
+      <span class='divider'>
+      </span>
+    </li>
+    <li>
+      <a href={% url "dimaps_technicaldata_day_archive" year=day.year month=day.month day=day.day %}>
+        {% trans "Información técnica por día" %}
+      </a>
+    </li>
+  </ul>
+{% endblock %}
+{% block header-link %}
+  <a href={% url "dimaps_technicaldata_day_archive" year=day.year month=day.month day=day.day %}>
+    {% trans "Indice por día" %}
+  </a>
+{% endblock %}
+{% block header-description %}
+  {% trans "Página que muestra toda la información técnica organizada por día." %}
+{% endblock %}
+{% block content %}
+  <h2>
+    {% blocktrans %}
+      Información técnica creadas en {{ day }}
+    {% endblocktrans %}
+  </h2>
+  {% include 'dimaps/technicaldata/object_table_list.html' %}
+  {% include 'dimaps/technicaldata/pagination.html' %}
+{% endblock %}
