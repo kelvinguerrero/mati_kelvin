@@ -1,5 +1,5 @@
 {% extends 'dimaps/operation/base.html' %}
-{% load bootstrap %}
+{#{% load bootstrap %}#}
 {% load i18n %}
 {% block filename %}
   /home/kelvin/PycharmProjects/matienv/proyects/mati/dimaps/templates/dimaps/operation/operation_form.html
@@ -37,7 +37,7 @@
   <form action={% if object %}{% url "dimaps_operation_update" pk=object.pk %}{% else %}{% url "dimaps_operation_create" %}{% endif %} method='post' encoding='utf-8'>
     <fieldset>
       {% csrf_token %}
-      {{ form|bootstrap }}
+      {{ form }}
       <div class='form-actions'>
         <button class='btn btn-large btn-success' type='submit'>
           {% if object %}
