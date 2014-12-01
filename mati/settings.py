@@ -57,8 +57,8 @@ WSGI_APPLICATION = 'mati.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-#user=dimao_db
-#password = kelvin_db
+#user=matidb
+#password = portalmatidimap
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
