@@ -74,6 +74,7 @@ class Operation(models.Model):
     preconditions = models.TextField()
     postconditions = models.TextField()
     details = models.TextField()
+    http_call = models.CharField(max_length=10)
     url_operation = models.CharField(max_length=200)
     service = models.ForeignKey('Service')
     created_at = models.DateTimeField(

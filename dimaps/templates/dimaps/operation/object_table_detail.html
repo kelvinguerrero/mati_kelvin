@@ -12,16 +12,7 @@
     </tr>
   </thead>
   <tbody>
-    {% comment %}<tr>
-      <td>
-        id
-      </td>
-      <td>
-        <a href='{{ object.get_absolute_url }}'>
-          {{ object.id|stringformat:".3d" }}
-        </a>
-      </td>
-    </tr>{% endcomment %}
+
     
     <tr>
       <td>
@@ -53,6 +44,15 @@
 
     <tr>
       <td>
+        Llamada Http
+      </td>
+      <td>
+        {{ object.http_call}}
+      </td>
+    </tr>
+
+    <tr>
+      <td>
         Url
       </td>
       <td>
@@ -65,7 +65,7 @@
       <td>
         Detalles
       </td>
-      <td>{{ object.detail}}</td>
+      <td>{{ object.details}}</td>
     </tr>
 
     

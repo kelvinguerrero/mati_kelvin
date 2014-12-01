@@ -142,9 +142,27 @@
                                     <p> {{ op_ser.postconditions }}</p>
                                   </div>
                                 </div>
-                                {% for input_ser in op_ser.input_set.all %}
-                                    {{ input_ser.name }}
-                                {% endfor %}
+
+                                <div class="panel panel-default">
+                                  <!-- Default panel contents -->
+                                  <div class="panel-heading">Entradas</div>
+                                  <div class="panel-body">
+                                    <p> {% for input_ser in op_ser.input_set.all %}
+                                            {{ input_ser.name }}
+                                        {% endfor %}</p>
+                                  </div>
+                                </div>
+
+                                <div class="panel panel-default">
+                                  <!-- Default panel contents -->
+                                  <div class="panel-heading">Salidas</div>
+                                  <div class="panel-body">
+                                    <p> {% for input_ser in op_ser.output_set.all %}
+                                            {{ input_ser.name }},
+                                        {% endfor %}</p>
+                                  </div>
+                                </div>
+
 
                             </div>
                             <div class="modal-footer">
