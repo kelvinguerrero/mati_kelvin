@@ -3,11 +3,13 @@
 {% load i18n %}
 
 {% block title %}
+<title>
   {% if object %}
     {% trans "Editar registro" %}
   {% else %}
     {% trans "Crear nuevo registro" %}
   {% endif %}
+</title>
 {% endblock %}
 
 {% block header-link %}

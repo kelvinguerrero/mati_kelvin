@@ -1,4 +1,4 @@
-{% extends 'subject/subject_base.html' %}
+{% extends 'student/student_base.html' %}
 
 {% load i18n %}
 
@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block content %}
-    {% include 'subject/fragments/subject_data.html' %}
+    {% include 'student/fragments/student_data.html' %}
 
     <div class="col-lg-12">
         <a class='btn btn-success' href={% url 'edit_student' object.id %}>

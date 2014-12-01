@@ -53,7 +53,11 @@
       <tbody>
         {% for op_course in object.course_set.all %}
           <tr>
-              <td>{{ op_course.code }}</td>
+              <td>
+                <a href='{% url 'course' op_course.id %}'>
+                    {{ op_course.code }}
+                </a>
+              </td>
 
               <td>{{ op_course.credits }}</td>
 

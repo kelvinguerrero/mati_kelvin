@@ -82,7 +82,11 @@
         {% for object in object.section_set.all %}
           <tr>
 
-              <td>{{ object.crn }}</td>
+              <td>
+                <a href='{% url 'section' object.id %}'>
+                    {{ object.crn }}
+                </a>
+              </td>
 
               <td>{{ object.name }}</td>
 

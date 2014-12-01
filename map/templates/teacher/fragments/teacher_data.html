@@ -75,8 +75,6 @@
               curso
             </th>
 
-
-
         </tr>
       </thead>
       <tbody>
@@ -84,7 +82,11 @@
           <tr>
 
 
-              <td>{{ object.crn }}</td>
+              <td>
+                <a href='{% url 'section' object.id %}'>
+                    {{ object.crn }}
+                </a>
+              </td>
 
               <td>{{ object.name }}</td>
 

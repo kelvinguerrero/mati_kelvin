@@ -3,11 +3,13 @@
 {% load i18n %}
 
 {% block title %}
-  {% if object %}
-    {% trans "Editar seccióm" %}
-  {% else %}
-    {% trans "Crear una nueva sección" %}
-  {% endif %}
+    <title>
+          {% if object %}
+            {% trans "Editar seccióm" %}
+          {% else %}
+            {% trans "Crear una nueva sección" %}
+          {% endif %}
+    </title>
 {% endblock %}
 
 {% block header-link %}

@@ -3,11 +3,13 @@
 {% load i18n %}
 
 {% block title %}
+<title>
   {% if object %}
     {% trans "Editar profesor" %}
   {% else %}
     {% trans "Crear nuevo profesro" %}
   {% endif %}
+</title>
 {% endblock %}
 
 {% block header-link %}

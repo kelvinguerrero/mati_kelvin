@@ -73,6 +73,8 @@ class Operation(models.Model):
     name = models.CharField(max_length=200)
     preconditions = models.TextField()
     postconditions = models.TextField()
+    details = models.TextField()
+    url_operation = models.CharField(max_length=200)
     service = models.ForeignKey('Service')
     created_at = models.DateTimeField(
         auto_now_add=True,

@@ -3,11 +3,13 @@
 {% load i18n %}
 
 {% block title %}
+<title>
   {% if object %}
     {% trans "Editar pensum" %}
   {% else %}
     {% trans "Crear un nuevo pensum" %}
   {% endif %}
+</title>
 {% endblock %}
 
 {% block header-link %}

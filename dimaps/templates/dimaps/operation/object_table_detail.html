@@ -50,20 +50,24 @@
       </td>
       <td>{{ object.service.name }}</td>
     </tr>
-    
-   {% comment %} <tr>
-      <td>
-        created_at
-      </td>
-      <td>{{ object.created_at }}</td>
-    </tr>
-    
+
     <tr>
       <td>
-        updated_at
+        Url
       </td>
-      <td>{{ object.updated_at }}</td>
-    </tr>{% endcomment %}
+      <td>
+      <a href="{{ object.url_operation}}">{{ object.url_operation}}</a>
+
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        Detalles
+      </td>
+      <td>{{ object.detail}}</td>
+    </tr>
+
     
   </tbody>
 </table>

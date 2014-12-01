@@ -4,6 +4,7 @@ from map.common.course_common import list_courses
 from map.forms import CourseForm
 from django.views.generic import View
 
+
 class CourseView(View):
     def get(self, request):
         return render(request, 'course/course_list.html')
@@ -31,18 +32,19 @@ def course_edit(request, course_id=None):
                                        'credits': course.credits,
                                        'name': course.name,
                                        'summer': course.summer,
+                                       'pensum': course.id,
                                        'id': course.id})
             data.update({'object': course, 'form': form})
         return render(request, 'course/course_form.html', data)
     elif request.method == 'POST':
         form = CourseForm(request.POST)
-        print form
         if form.is_valid():
 
             if form.cleaned_data.get('id'):
                 # EDIT
-                pensum_obj = Pensum.objects.get(form.cleaned_data['pensum'])
+                pensum_obj = Pensum.objects.get(id=form.cleaned_data['pensum'])
                 course = Course.objects.get(id=form.cleaned_data['id'])
+
                 course.code = form.cleaned_data['code']
                 course.credits = form.cleaned_data['credits']
                 course.name = form.cleaned_data['name']
