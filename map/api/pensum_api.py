@@ -45,8 +45,10 @@ def pensum(request, pensum_id=None):
     elif request.method == 'DELETE':
         if pensum_id != None:
             pensum = Pensum.objects.get(id=pensum_id)
-            pensum.active = False
-            pensum.save()
+            pensum.delete()
+            print('entro')
+            # pensum.active = False
+            # pensum.save()
             return HttpResponse(status=204)
         else:
             return HttpResponse(status=500)

@@ -52,8 +52,7 @@ def pensum_delete(request, pensum_id):
         return render(request, 'pensum/pensum_confirm_delete.html', {'object':pensum, 'detail':True})
     elif request.method == 'POST':
         pensum = Pensum.objects.get(id=pensum_id)
-        pensum.active = False
-        pensum.save()
-
+        if not pensum == None:
+            pensum.delete()
         lista = list_pensums()
         return render(request, 'pensum/pensum_list.html', {'object_list':lista})
