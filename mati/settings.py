@@ -121,7 +121,6 @@ TEMPLATE_DIRS = (
 
 PROXY_API_KEYS = [
     # Add the API KEYS you wish to allow consuming services
-    # API KEYS are required. Services cannot be consumed without an API KEY
     '^ugfp@+cw!+se1b8kw%!23(sbrzk8f!uzrhqp$s)@67g9f1tdj',
     '123'
 ]

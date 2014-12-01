@@ -76,9 +76,9 @@
     {% for tec_data in object.technicaldata_set.all %}
       <tr>
           <td>{{ tec_data.name }}</td>
+          <td>{{ tec_data.description }}</td>
       </tr>
     {% endfor %}
-
 
     {% if object.serviceconsumer_set.all %}
         <tr>
