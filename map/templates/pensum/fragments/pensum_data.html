@@ -24,7 +24,14 @@
               <td>
                 activo
               </td>
-              <td>{{ object.active }}</td>
+              <td>
+                    {% if object.active %}
+                        Si
+                    {% else %}
+                        No
+                    {% endif %}
+
+              </td>
             </tr>
         </tbody>
     </table>
@@ -63,7 +70,13 @@
 
               <td>{{ op_course.name }}</td>
 
-              <td>{{ op_course.summer }}</td>
+              <td>
+                    {% if op_course.summer %}
+                        Si
+                    {% else %}
+                        No
+                    {% endif %}
+              </td>
           </tr>
         {% endfor %}
       </tbody>
