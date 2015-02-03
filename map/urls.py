@@ -20,7 +20,9 @@ urlpatterns += patterns('',
 
 from map.views.section_views import *
 urlpatterns += patterns('',
+
    url(r'^section/$', section, name='section'),
+
    url(r'^section/(?P<section_id>[0-9]+)/$', section, name='section'),
    url(r'^section/create/$', section_edit, name='create_section'),
    url(r'^section/(?P<section_id>[0-9]+)/edit/$', section_edit, name='edit_section'),
@@ -57,74 +59,13 @@ urlpatterns += patterns('',
 
 from map.views.course_views import *
 urlpatterns += patterns('',
-    # url(
-    #     regex=r'^course/archive/$',
-    #     view=CourseArchiveIndexView.as_view(),
-    #     name='map_course_archive_index'
-    # ),
-    # url(
-    #     regex=r'^course/create/$',
-    #     view=CourseCreateView.as_view(),
-    #     name='map_course_create'
-    # ),
-    # url(
-    #     regex=r'^course/(?P<year>\d{4})/'
-    #            '(?P<month>\d{1,2})/'
-    #            '(?P<day>\d{1,2})/'
-    #            '(?P<pk>\d+?)/$',
-    #     view=CourseDateDetailView.as_view(),
-    #     name='map_course_date_detail'
-    # ),
-    # url(
-    #     regex=r'^course/archive/(?P<year>\d{4})/'
-    #            '(?P<month>\d{1,2})/'
-    #            '(?P<day>\d{1,2})/$',
-    #     view=CourseDayArchiveView.as_view(),
-    #     name='map_course_day_archive'
-    # ),
-    # url(
-    #     regex=r'^course/(?P<pk>\d+?)/delete/$',
-    #     view=CourseDeleteView.as_view(),
-    #     name='map_course_delete'
-    # ),
-    # url(
-    #     regex=r'^course/(?P<pk>\d+?)/$',
-    #     view=CourseDetailView.as_view(),
-    #     name='map_course_detail'
-    # ),
+
     url(
         regex=r'^course/$',
         view=CourseView.as_view(),
         name='map_course_list'
     ),
-    # url(
-    #     regex=r'^course/archive/(?P<year>\d{4})/'
-    #            '(?P<month>\d{1,2})/$',
-    #     view=CourseMonthArchiveView.as_view(),
-    #     name='map_course_month_archive'
-    # ),
-    # url(
-    #     regex=r'^course/today/$',
-    #     view=CourseTodayArchiveView.as_view(),
-    #     name='map_course_today_archive'
-    # ),
-    # url(
-    #     regex=r'^course/(?P<pk>\d+?)/update/$',
-    #     view=CourseUpdateView.as_view(),
-    #     name='map_course_update'
-    # ),
-    # url(
-    #     regex=r'^course/archive/(?P<year>\d{4})/'
-    #            '(?P<month>\d{1,2})/'
-    #            'week/(?P<week>\d{1,2})/$',
-    #     view=CourseWeekArchiveView.as_view(),
-    #     name='map_course_week_archive'
-    # ),
-    # url(
-    #     regex=r'^course/archive/(?P<year>\d{4})/$',
-    #     view=CourseYearArchiveView.as_view(),
-    #     name='map_course_year_archive'
-    # ),
+
 )
 
 # API pensum

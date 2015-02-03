@@ -2,19 +2,26 @@ from map.models import Pensum
 from django.shortcuts import render
 from map.common.pensum_common import list_pensums
 from map.forms import PensumForm
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
-
+@login_required()
 def pensum(request, pensum_id=None):
-    if request.method == 'GET':
-        if pensum_id == None:
-            lista = list_pensums()
-            return render(request, 'pensum/pensum_list.html', {'object_list':lista})
-        else:
-            ob_pensum = Pensum.objects.get(id=pensum_id)
-            return render(request, 'pensum/pensum_detail.html', {'object':ob_pensum, 'detail':True})
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    else:
+        if request.method == 'GET':
+            if pensum_id == None:
+                lista = list_pensums()
+                return render(request, 'pensum/pensum_list.html', {'object_list':lista})
+            else:
+                ob_pensum = Pensum.objects.get(id=pensum_id)
+                return render(request, 'pensum/pensum_detail.html', {'object':ob_pensum, 'detail':True})
 
-
+@login_required()
 def pensum_edit(request, pensum_id=None):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
     if request.method == 'GET':
         data = dict()
         if pensum_id == None:
@@ -45,8 +52,10 @@ def pensum_edit(request, pensum_id=None):
         # ENVIAR MENSAJE DE REQUEST ERRONEO
         pass
 
-
+@login_required()
 def pensum_delete(request, pensum_id):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
     if request.method ==  'GET':
         pensum = Pensum.objects.get(id=pensum_id)
         return render(request, 'pensum/pensum_confirm_delete.html', {'object':pensum, 'detail':True})

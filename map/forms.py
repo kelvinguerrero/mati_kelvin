@@ -6,7 +6,7 @@ class PensumForm(forms.Form):
 
     id = forms.CharField(widget=widgets.HiddenInput, required=False)
 
-    name = forms.CharField(label='Nombre')
+    name = forms.CharField(label='Nombre', required=True)
     name.widget.attrs = {'class': 'form-control', 'required': True}
 
     active = forms.BooleanField(label='Activo', required=False)

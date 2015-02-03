@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'proxy_server',
     'map',
     'dimaps',
+    'rest_framework',
     'south',
 )
 
@@ -55,6 +56,13 @@ ROOT_URLCONF = 'mati.urls'
 
 WSGI_APPLICATION = 'mati.wsgi.application'
 
+#URL for @login_required decorator to use
+LOGIN_URL = '/accounts/login/'
+
+#redirect authenticated users
+LOGIN_REDIRECT_URL = '/accounts/loggedin/'
+
+
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 #user=matidb
@@ -66,7 +74,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'kelvin',
         'HOST': 'localhost',
-        
+
     }
 }
 
@@ -125,3 +133,36 @@ PROXY_API_KEYS = [
     '^ugfp@+cw!+se1b8kw%!23(sbrzk8f!uzrhqp$s)@67g9f1tdj',
     '123'
 ]
+
+# REST_FRAMEWORK = {
+#     'PAGINATE_BY': 10,
+# }
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'filters': {
+#         'require_debug_false': {
+#             '()': 'django.utils.log.RequireDebugFalse'
+#         }
+#     },
+#     'handlers': {
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'filters': ['require_debug_false'],
+#             'class': 'django.utils.log.AdminEmailHandler'
+#         }
+#     },
+#     'loggers': {
+#         'django.request': {
+#             'handlers': ['mail_admins'],
+#             'level': 'ERROR',
+#             'propagate': True,
+#         },
+#     }
+# }

@@ -1,11 +1,12 @@
 from django.db import models
 from django.utils.timezone import now
+from django.utils.encoding import smart_unicode
 # Create your models here.
 
 
 class Pensum(models.Model):
-    name = models.CharField(max_length=200)
-    active = models.BooleanField(default=False)
+    name = models.CharField(max_length=200, null=False, blank=False)
+    active = models.BooleanField(default=False, null=False, blank=False)
     created_at = models.DateTimeField(
         auto_now_add=True,
         default=now(),
@@ -16,6 +17,8 @@ class Pensum(models.Model):
         default=now(),
         editable=False,
     )
+    def __unicode__(self):
+        return smart_unicode(self.name)
 
     @models.permalink
     def get_absolute_url(self):
@@ -34,10 +37,10 @@ class Pensum(models.Model):
 
 
 class Teacher(models.Model):
-    code = models.IntegerField()
-    email = models.CharField(max_length=200)
-    lastname = models.CharField(max_length=200)
-    name = models.CharField(max_length=200)
+    code = models.IntegerField(null=False, blank=False)
+    email = models.CharField(max_length=200, null=False, blank=False)
+    lastname = models.CharField(max_length=200, null=False, blank=False)
+    name = models.CharField(max_length=200, null=False, blank=False)
     created_at = models.DateTimeField(
         auto_now_add=True,
         default=now(),
@@ -48,6 +51,9 @@ class Teacher(models.Model):
         default=now(),
         editable=False,
     )
+
+    def __unicode__(self):
+        return smart_unicode(self.email)
 
     @models.permalink
     def get_absolute_url(self):
@@ -68,10 +74,10 @@ class Teacher(models.Model):
 
 
 class Student(models.Model):
-    code = models.IntegerField()
-    email = models.CharField(max_length=200)
-    lastname = models.CharField(max_length=200)
-    name = models.CharField(max_length=200)
+    code = models.IntegerField(null=False, blank=False)
+    email = models.CharField(max_length=200, null=False, blank=False)
+    lastname = models.CharField(max_length=200, null=False, blank=False)
+    name = models.CharField(max_length=200, null=False, blank=False)
     student_status = models.IntegerField()
     total_approved_credits = models.IntegerField()
     total_credits_actual_semester = models.IntegerField()
@@ -85,6 +91,9 @@ class Student(models.Model):
         default=now(),
         editable=False,
     )
+
+    def __unicode__(self):
+        return smart_unicode(self.email)
 
     @models.permalink
     def get_absolute_url(self):
@@ -108,10 +117,10 @@ class Student(models.Model):
 
 
 class Course(models.Model):
-    code = models.CharField(max_length=200)
-    credits = models.IntegerField()
-    name = models.CharField(max_length=200)
-    summer = models.BooleanField(default=False)
+    code = models.CharField(max_length=200, null=False, blank=False)
+    credits = models.IntegerField(null=False, blank=False)
+    name = models.CharField(max_length=200, null=False, blank=False)
+    summer = models.BooleanField(default=False, null=False, blank=False)
     pensum = models.ForeignKey('Pensum')
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -123,6 +132,8 @@ class Course(models.Model):
         default=now(),
         editable=False,
     )
+    def __unicode__(self):
+        return smart_unicode(self.name + "" + self.code)
 
     @models.permalink
     def get_absolute_url(self):
@@ -158,10 +169,10 @@ class Course(models.Model):
 
 
 class Section(models.Model):
-    crn = models.IntegerField()
-    name = models.CharField(max_length=200)
-    semester = models.IntegerField()
-    year = models.IntegerField()
+    crn = models.IntegerField(null=False, blank=False)
+    name = models.CharField(max_length=200, null=False, blank=False)
+    semester = models.IntegerField(null=False, blank=False)
+    year = models.IntegerField(null=False, blank=False)
     teacher = models.ForeignKey('Teacher')
     course = models.ForeignKey('Course')
     created_at = models.DateTimeField(
@@ -174,7 +185,8 @@ class Section(models.Model):
         default=now(),
         editable=False,
     )
-
+    def __unicode__(self):
+        return smart_unicode(self.name + " " + self.crn )
     @models.permalink
     def get_absolute_url(self):
         return ('map_section_detail', (), {'pk': self.pk})
@@ -211,8 +223,8 @@ class Section(models.Model):
 
 
 class Subject(models.Model):
-    grade = models.DecimalField(max_digits=10, decimal_places=5)
-    student_status = models.BooleanField(default=False)
+    grade = models.DecimalField(max_digits=10, decimal_places=5, null=False, blank=False)
+    student_status = models.BooleanField(default=False, null=False, blank=False)
     student = models.ForeignKey('Student')
     section = models.ForeignKey('Section')
     created_at = models.DateTimeField(

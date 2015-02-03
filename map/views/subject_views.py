@@ -2,9 +2,13 @@ from map.models import Subject, Student, Section
 from django.shortcuts import render
 from map.common.subject_common import list_subjects
 from map.forms import SubjectForm
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
-
+@login_required()
 def subject(request, subject_id=None):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
     if request.method == 'GET':
         if subject_id == None:
             lista = list_subjects()
@@ -15,6 +19,8 @@ def subject(request, subject_id=None):
 
 
 def subject_edit(request, subject_id=None):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
     if request.method == 'GET':
         data = dict()
         if subject_id == None:
@@ -60,6 +66,8 @@ def subject_edit(request, subject_id=None):
 
 
 def subject_delete(request, subject_id):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
     if request.method == 'GET':
         student = Subject.objects.get(id=subject_id)
         return render(request, 'subject/subject_confirm_delete.html', {'object': student, 'detail': True})

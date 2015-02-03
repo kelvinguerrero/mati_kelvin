@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from map.common.course_common import list_courses_api
 import json
 
-
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def course(request, course_id=None):
 
