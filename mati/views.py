@@ -14,7 +14,7 @@ def index(request):
 def login(request):
     c = {}
     c.update(csrf(request))
-    return render_to_response('login.html',c)
+    return render_to_response('login.html', c)
 
 
 def auth_view(request):

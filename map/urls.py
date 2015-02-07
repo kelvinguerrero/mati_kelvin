@@ -73,18 +73,28 @@ urlpatterns += patterns('map.api.pensum_api',
     url(r'^api/pensum/$', 'pensum'),
     url(r'^api/pensum/(?P<pensum_id>[0-9]+)/$', 'pensum'),
 )
-
+# API section
 urlpatterns += patterns('map.api.section_api',
      url(r'^api/section/$', 'section'),
      url(r'^api/section/(?P<section_id>[0-9]+)/$', 'section'),
 )
-
+# API course
 urlpatterns += patterns('map.api.course_api',
      url(r'^api/course/$', 'course'),
      url(r'^api/course/(?P<course_id>[0-9]+)/$', 'course'),
 )
-
+# API teacher
 urlpatterns += patterns('map.api.teacher_api',
      url(r'^api/teacher/$', 'teacher'),
      url(r'^api/teacher/(?P<teacher_id>[0-9]+)/$', 'teacher'),
+)
+# API student
+urlpatterns += patterns('map.api.student_api',
+     url(r'^api/student/$', 'student'),
+     url(r'^api/student/(?P<student_id>[0-9]+)/$', 'student'),
+)
+# API subject
+urlpatterns += patterns('map.api.subject_api',
+     url(r'^api/subject/$', 'subject'),
+     url(r'^api/subject/(?P<subject_id>[0-9]+)/$', 'subject'),
 )

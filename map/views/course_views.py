@@ -29,6 +29,7 @@ def course(request, course_id=None):
 
 @login_required()
 def course_edit(request, course_id=None):
+    print 'entrocurso'
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/')
     else:

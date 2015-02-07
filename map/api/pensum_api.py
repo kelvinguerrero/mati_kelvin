@@ -9,45 +9,53 @@ import json
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def pensum(request, pensum_id=None):
 
-    if (request.method == 'GET'):
-        if (pensum_id == None):
-            response = list_pensums()
-            json_response = json.dumps(response)
+    if not request.user.is_authenticated():
+        return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
+    else:
+        if (request.method == 'GET'):
+            if (pensum_id == None):
+                response = list_pensums()
+                json_response = json.dumps(response)
 
-            return HttpResponse(json_response,status=200,content_type='application/json')
-        else:
-            pensum = Pensum.objects.get(id=pensum_id)
-            json_response = json.dumps(pensum.to_dict())
-            return HttpResponse(json_response,status=200,content_type='application/json')
-    elif request.method == 'POST':
-        data = request.POST
+                return HttpResponse(json_response, status=200, content_type='application/json')
+            else:
+                pensum = Pensum.objects.get(id=pensum_id)
+                json_response = json.dumps(pensum.to_dict())
+                return HttpResponse(json_response, status=200, content_type='application/json')
+        elif request.method == 'POST':
+            data = request.POST
+            if validate_data(data, attrs=['name', 'active']):
+                pensum = Pensum.objects.create(name=data['name'], active=data['active'])
 
-        if validate_data(data, attrs=['name']):
-            pensum = Pensum.objects.create(name=data['name'])
-            json_response = json.dumps(pensum.to_dict())
-            return HttpResponse(json_response,status=200,content_type='application/json')
-        else:
-            return HttpResponse(status=500)
-    elif request.method == 'PUT':
-        data = request.DATA
-        if pensum_id != None:
-            pensum = Pensum.objects.get(id=pensum_id)
+                json_response = json.dumps(pensum.to_dict())
+                return HttpResponse(json_response, status=200, content_type='application/json')
+            else:
+                return HttpResponse(status=500)
 
-            if 'name' in data:
-                pensum.name = data['name']
-            if 'active' in data:
-                pensum.active = data['active']
+        elif request.method == 'PUT':
+            data = request.DATA
+            print(request.DATA)
+            if pensum_id != None:
+                pensum = Pensum.objects.get(id=pensum_id)
 
-            pensum.save()
-            return HttpResponse(status=204)
-        else:
-            return HttpResponse(status=500)
-    elif request.method == 'DELETE':
-        if pensum_id != None:
-            pensum = Pensum.objects.get(id=pensum_id)
-            pensum.active = False
-            pensum.save()
-            return HttpResponse(status=204)
-        else:
-            return HttpResponse(status=500)
-    return HttpResponse(status=400)
+                if 'name' in data:
+                    pensum.name = data['name']
+                if 'active' in data:
+                    if data['active'] == 'True':
+                        pensum.active = True
+                    elif data['active'] == 'False':
+                        pensum.active = False
+                pensum.save()
+                return HttpResponse(status=204)
+            else:
+                return HttpResponse(status=500)
+
+        elif request.method == 'DELETE':
+            if pensum_id != None:
+                pensum = Pensum.objects.get(id=pensum_id)
+                pensum.active = False
+                pensum.save()
+                return HttpResponse(status=204)
+            else:
+                return HttpResponse(status=500)
+        return HttpResponse(status=400)

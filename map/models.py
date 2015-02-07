@@ -1,11 +1,14 @@
+__author__ = 'kelvin Guerrero'
 from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import smart_unicode
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 # Create your models here.
 
 
 class Pensum(models.Model):
-    name = models.CharField(max_length=200, null=False, blank=False)
+    name = models.CharField(max_length=200, null=False, blank=False, unique=True)
     active = models.BooleanField(default=False, null=False, blank=False)
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -37,8 +40,8 @@ class Pensum(models.Model):
 
 
 class Teacher(models.Model):
-    code = models.IntegerField(null=False, blank=False)
-    email = models.CharField(max_length=200, null=False, blank=False)
+    code = models.IntegerField(null=False, blank=False, unique=True)
+    email = models.CharField(max_length=200, null=False, blank=False, unique=True)
     lastname = models.CharField(max_length=200, null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     created_at = models.DateTimeField(
@@ -74,8 +77,8 @@ class Teacher(models.Model):
 
 
 class Student(models.Model):
-    code = models.IntegerField(null=False, blank=False)
-    email = models.CharField(max_length=200, null=False, blank=False)
+    code = models.IntegerField(null=False, blank=False, unique=True)
+    email = models.CharField(max_length=200, null=False, blank=False, unique=True)
     lastname = models.CharField(max_length=200, null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     student_status = models.IntegerField()
@@ -148,7 +151,7 @@ class Course(models.Model):
             name=self.name,
             credits=self.credits,
             summer=self.summer,
-            pensum=self.pensum
+            pensum=json.dumps(self.pensum.to_dict(), cls=DjangoJSONEncoder)
         )
 
         return response
@@ -169,7 +172,7 @@ class Course(models.Model):
 
 
 class Section(models.Model):
-    crn = models.IntegerField(null=False, blank=False)
+    crn = models.IntegerField(null=False, blank=False, unique=True)
     name = models.CharField(max_length=200, null=False, blank=False)
     semester = models.IntegerField(null=False, blank=False)
     year = models.IntegerField(null=False, blank=False)
@@ -200,8 +203,8 @@ class Section(models.Model):
             name=self.name,
             semester=self.semester,
             year=self.year,
-            teacher=self.teacher,
-            course=self.course
+            teacher=json.dumps(self.teacher.to_dict()),
+            course=json.dumps(self.course.to_dict())
         )
 
         return response
@@ -247,10 +250,9 @@ class Subject(models.Model):
 
         response.update(
             id=self.id,
-            grade=self.grade,
-            student_status=self.student_status,
-            student=self.student,
-            section=self.section
+            grade=json.dumps(self.grade, cls=DjangoJSONEncoder),
+            section=json.dumps(self.section.to_dict())
         )
 
         return response
+

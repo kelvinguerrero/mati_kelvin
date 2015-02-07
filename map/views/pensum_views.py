@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect
 
 @login_required()
 def pensum(request, pensum_id=None):
+
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/')
     else:
@@ -20,6 +21,8 @@ def pensum(request, pensum_id=None):
 
 @login_required()
 def pensum_edit(request, pensum_id=None):
+
+    print ('entro')
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/')
     if request.method == 'GET':
@@ -34,6 +37,7 @@ def pensum_edit(request, pensum_id=None):
         return render(request, 'pensum/pensum_form.html', data)
     elif request.method == 'POST':
         form = PensumForm(request.POST)
+        print"hola"
         if form.is_valid():
             if form.cleaned_data.get('id'):
                 # EDIT
