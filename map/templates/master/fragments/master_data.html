@@ -1,0 +1,97 @@
+{% load i18n %}
+<div class="col-lg-12">
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th>
+            {% trans "Campo" %}
+          </th>
+          <th>
+            {% trans "Valor" %}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Nombre
+          </td>
+          <td>{{ object.name }}</td>
+        </tr>
+
+        </tr>
+
+      </tbody>
+    </table>
+
+
+     <h3>Pensum</h3>
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+
+            <th>
+              Nombre
+            </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object.pensum_set.all %}
+          <tr>
+
+              <td>
+                <a href='{% url 'pensum' object.id %}'>
+                    {{ object.name }}
+                </a>
+              </td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+     <h3>Cursos</h3>
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+
+            <th>
+              Código
+            </th>
+
+            <th>
+              Créditos
+            </th>
+
+            <th>
+              Nombre
+            </th>
+
+            <th>
+              Vacacional
+            </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object.course_set.all %}
+          <tr>
+
+              <td>
+                <a href='{% url 'course' object.id %}'>
+                    {{ object.code }}
+                </a>
+              </td>
+
+              <td>{{ object.credits }}</td>
+
+              <td>{{ object.name }}</td>
+
+              <td>{{ object.summer }}</td>
+
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>

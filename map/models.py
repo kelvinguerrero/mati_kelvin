@@ -7,9 +7,41 @@ import json
 # Create your models here.
 
 
+class Master(models.Model):
+    name = models.CharField(max_length=200, null=False, blank=False, unique=True)
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        default=now(),
+        editable=False,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        default=now(),
+        editable=False,
+    )
+
+    def __unicode__(self):
+        return smart_unicode(self.name)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('map_master_detail', (), {'pk': self.pk})
+
+    def to_dict(self):
+        response = dict()
+
+        response.update(
+            id=self.id,
+            name=self.name
+        )
+
+        return response
+
+
 class Pensum(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
     active = models.BooleanField(default=False, null=False, blank=False)
+    master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
         auto_now_add=True,
         default=now(),
@@ -33,7 +65,8 @@ class Pensum(models.Model):
         response.update(
             id = self.id,
             name = self.name,
-            active = self.active
+            active = self.active,
+            master = self.master.to_dict()
         )
 
         return response
@@ -84,6 +117,7 @@ class Student(models.Model):
     student_status = models.IntegerField()
     total_approved_credits = models.IntegerField()
     total_credits_actual_semester = models.IntegerField()
+    master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
         auto_now_add=True,
         default=now(),
@@ -113,7 +147,19 @@ class Student(models.Model):
             name=self.name,
             student_status=self.student_status,
             total_approved_credits=self.total_approved_credits,
-            total_credits_actual_semester=self.total_credits_actual_semester
+            total_credits_actual_semester=self.total_credits_actual_semester,
+            master=self.master.to_dict()
+        )
+
+        return response
+
+    def to_dict_curriculum(self):
+        response = dict()
+
+        response.update(
+            id=self.id,
+            code=self.code,
+            courses=self.course_set
         )
 
         return response
@@ -125,6 +171,8 @@ class Course(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     summer = models.BooleanField(default=False, null=False, blank=False)
     pensum = models.ForeignKey('Pensum')
+    #Relacion que modela el plan de estudios que el estudiante crea
+    student = models.ManyToManyField('Student', null=True, blank=True)
     created_at = models.DateTimeField(
         auto_now_add=True,
         default=now(),
@@ -142,6 +190,20 @@ class Course(models.Model):
     def get_absolute_url(self):
         return ('map_course_detail', (), {'pk': self.pk})
 
+    def to_dict_view(self):
+        response = dict()
+
+        response.update(
+            id=self.id,
+            code=self.code,
+            name=self.name,
+            credits=self.credits,
+            summer=self.summer,
+            pensum=self.pensum
+        )
+
+        return response
+
     def to_dict(self):
         response = dict()
 
@@ -151,7 +213,20 @@ class Course(models.Model):
             name=self.name,
             credits=self.credits,
             summer=self.summer,
-            pensum=json.dumps(self.pensum.to_dict(), cls=DjangoJSONEncoder)
+            pensum=json.dumps(self.pensum.to_dict(), cls=DjangoJSONEncoder),
+            master=self.master
+        )
+
+        return response
+
+    def to_dict_curriculum(self):
+        response = dict()
+
+        response.update(
+            id=self.id,
+            code=self.code,
+            name=self.name,
+            credits=self.credits
         )
 
         return response

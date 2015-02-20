@@ -9,6 +9,17 @@ urlpatterns = patterns('',
    url(r'^pensum/(?P<pensum_id>[0-9]+)/delete/$', pensum_delete, name='delete_pensum'),
 )
 
+from map.views.master_views import *
+urlpatterns += patterns('',
+
+   url(r'^master/$', master, name='master'),
+   url(r'^master/(?P<master_id>[0-9]+)/$', master, name='master'),
+   url(r'^master/create/$', master_edit, name='create_master'),
+   url(r'^master/(?P<master_id>[0-9]+)/edit/$', master_edit, name='edit_master'),
+   url(r'^master/(?P<master_id>[0-9]+)/delete/$', master_delete, name='delete_master'),
+)
+
+
 from map.views.course_views import *
 urlpatterns += patterns('',
    url(r'^course/$', course, name='course'),
@@ -97,4 +108,14 @@ urlpatterns += patterns('map.api.student_api',
 urlpatterns += patterns('map.api.subject_api',
      url(r'^api/subject/$', 'subject'),
      url(r'^api/subject/(?P<subject_id>[0-9]+)/$', 'subject'),
+)
+# API Master
+urlpatterns += patterns('map.api.master_api',
+     url(r'^api/master/$', 'master'),
+     url(r'^api/master/(?P<master_id>[0-9]+)/$', 'master'),
+)
+# API Curriculum student
+urlpatterns += patterns('map.api.curriculum_student_api',
+     url(r'^api/curriculum_student/$', 'curriculum_student'),
+     url(r'^api/curriculum_student/(?P<curriculum_student_id>[0-9]+)/$', 'curriculum_student'),
 )

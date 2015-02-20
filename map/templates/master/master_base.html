@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block sidebar_one %}
+    <ul class="sidebar-one">
+        {% if not detail %}
+            <li>
+                <a href={% url 'master' %}>
+                    {% trans "Listar Maestrias" %}
+                </a>
+            </li>
+        {% endif %}
+        <li>
+            <a href={% url 'create_master' %}>
+                {% trans "Crear Maestria" %}
+            </a>
+        </li>
+        {% if detail %}
+            <li>
+                <a href=''>
+                    {% trans "Editar Maestria" %}
+                </a>
+            </li>
+            <li>
+                <a href=''>
+                    {% trans "Borrar Maestria" %}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+{% endblock %}

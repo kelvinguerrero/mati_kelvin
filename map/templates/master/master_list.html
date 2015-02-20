@@ -1,0 +1,53 @@
+{% extends 'master/master_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Maestrías" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href=''>
+    {% trans "Listado de maestrías" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Listado de los maestrías del departamento" %}
+{% endblock %}
+
+
+{% block content %}
+  <h2>
+    {% trans "Maestrías" %}
+  </h2>
+
+    <p>
+      {% trans "Clic en el nombre de la maestrías para acceder a los detalles." %}
+    </p>
+
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+            <th>
+              nombre
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          <tr>
+              <td>
+                <a href='{% url 'master' object.id %}'>
+                    {{ object.name }}
+                </a>
+              </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  {% include 'master/pagination.html' %}
+{% endblock %}

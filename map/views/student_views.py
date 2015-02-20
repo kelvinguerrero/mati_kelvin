@@ -1,4 +1,4 @@
-from map.models import Student
+from map.models import Student, Master
 from django.shortcuts import render
 from map.common.student_common import list_students
 from map.forms import StudentForm
@@ -37,6 +37,7 @@ def student_edit(request, student_id=None):
                                             'student_status': student.student_status,
                                             'total_approved_credits': student.total_approved_credits,
                                             'total_credits_actual_semester': student.total_credits_actual_semester,
+                                            'master': student.master,
                                             'id': student.id})
                 data.update({'object': student, 'form': form})
             return render(request, 'student/student_form.html', data)
@@ -45,6 +46,7 @@ def student_edit(request, student_id=None):
             if form.is_valid():
                 if form.cleaned_data.get('id'):
                     # EDIT
+                    ob_master = Master.objects.get(id=form.cleaned_data['master'])
                     student = Student.objects.get(id=form.cleaned_data['id'])
                     student.code = form.cleaned_data['code']
                     student.email = form.cleaned_data['email']
@@ -53,16 +55,19 @@ def student_edit(request, student_id=None):
                     student.student_status = form.cleaned_data['student_status']
                     student.total_approved_credits = form.cleaned_data['total_approved_credits']
                     student.total_credits_actual_semester = form.cleaned_data['total_credits_actual_semester']
+                    student.master = ob_master
                     student.save()
                 else:
                     # CREATE
+                    ob_master = Master.objects.get(id=form.cleaned_data['master'])
                     student = Student.objects.create(code=form.cleaned_data['code'],
                                                      email=form.cleaned_data['email'],
                                                      lastname=form.cleaned_data['lastname'],
                                                      name=form.cleaned_data['name'],
                                                      student_status=form.cleaned_data['student_status'],
                                                      total_approved_credits=form.cleaned_data['total_approved_credits'],
-                                                     total_credits_actual_semester=form.cleaned_data['total_credits_actual_semester']
+                                                     total_credits_actual_semester=form.cleaned_data['total_credits_actual_semester'],
+                                                     master=ob_master
                                                      )
                 return render(request, 'student/student_detail.html', {'object': student, 'detail': True})
             else:

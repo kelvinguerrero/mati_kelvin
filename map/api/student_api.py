@@ -1,4 +1,4 @@
-from map.models import Student
+from map.models import Student, Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
@@ -26,6 +26,7 @@ def student(request, student_id=None):
             data = request.POST
 
             lista_attrs = list()
+            lista_attrs.append('master_id')
             lista_attrs.append('code')
             lista_attrs.append('email')
             lista_attrs.append('lastname')
@@ -35,6 +36,8 @@ def student(request, student_id=None):
             lista_attrs.append('total_credits_actual_semester')
 
             if validate_data(data, attrs=lista_attrs):
+                master_obj = Master.objects.get(id=data['master_id'])
+
                 #agregar la validacion del objeto
                 student = Student.objects.create(code=data['code'],
                                                  email=data['email'],
@@ -42,7 +45,8 @@ def student(request, student_id=None):
                                                  name=data['name'],
                                                  student_status=data['student_status'],
                                                  total_approved_credits=data['total_approved_credits'],
-                                                 total_credits_actual_semester=data['total_credits_actual_semester']
+                                                 total_credits_actual_semester=data['total_credits_actual_semester'],
+                                                 master=master_obj
                                                  )
                 json_response = json.dumps(student.to_dict())
                 return HttpResponse(json_response, status=200, content_type='application/json')

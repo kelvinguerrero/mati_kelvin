@@ -70,6 +70,28 @@
                     </ul>
                 </li>
             </ul>
+
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Usuario <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        {% if request.user.is_authenticated %}
+                            <li>
+                                <a href="/accounts/logout/"><i class="fa fa-fw fa-sign-out"></i> Salir </a>
+                            </li>
+                        {% else %}
+                            <li>
+                            <a href="/accounts/register/" ><i class="fa fa-fw fa-plus-square-o"></i> Registrase </a>
+                            </li>
+
+                            <li>
+                                <a href="/accounts/login/" data-toggle="modal" data-target="#legal"><i class="fa fa-fw fa-sign-in "></i> Iniciar sesión </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
         <!-- /.navbar-collapse -->
         </nav>
     </header>
@@ -78,6 +100,9 @@
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <ul class="nav nav-pills nav-stacked">
 
+                <li>
+                    <a href='{% url 'master' %}'><i class="fa fa-fw fa-pencil"></i> Maestrias </a>
+                </li>
                 <li>
                     <a href='{% url 'pensum' %}'><i class="fa fa-fw fa-desktop"></i> Pensumes </a>
                 </li>

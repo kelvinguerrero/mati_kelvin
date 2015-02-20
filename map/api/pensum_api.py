@@ -1,4 +1,4 @@
-from map.models import Pensum
+from map.models import Pensum, Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
@@ -24,8 +24,9 @@ def pensum(request, pensum_id=None):
                 return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
             data = request.POST
-            if validate_data(data, attrs=['name', 'active']):
-                pensum = Pensum.objects.create(name=data['name'], active=data['active'])
+            if validate_data(data, attrs=['name', 'active', 'master_id']):
+                master_obj = Master.objects.get(id=data['master_id'])
+                pensum = Pensum.objects.create(name=data['name'], active=data['active'], master=master_obj)
 
                 json_response = json.dumps(pensum.to_dict())
                 return HttpResponse(json_response, status=200, content_type='application/json')
@@ -34,7 +35,7 @@ def pensum(request, pensum_id=None):
 
         elif request.method == 'PUT':
             data = request.DATA
-            print(request.DATA)
+
             if pensum_id != None:
                 pensum = Pensum.objects.get(id=pensum_id)
 

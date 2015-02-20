@@ -1,0 +1,33 @@
+{% extends 'master/master_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+  {% trans "Detalles de la maestría" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url 'master' object.id %}>
+    {% trans "Detalles de la maestría" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+  {% trans "Información detallada de la maestría" %}
+{% endblock %}
+
+
+{% block content %}
+{% include 'master/fragments/master_data.html' %}
+<div class="col-lg-12">
+    <a class='btn btn-success' href={% url 'edit_master' object.id %}>
+      {% trans "Editar" %}
+    </a>
+    <a class='btn btn-danger' href={% url 'delete_master' object.id %}>
+      {% trans "Borrar" %}
+    </a>
+</div>
+{% endblock %}
+

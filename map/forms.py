@@ -2,6 +2,14 @@ from django import forms
 from django.forms import widgets
 
 
+class MasterForm(forms.Form):
+
+    id = forms.CharField(widget=widgets.HiddenInput, required=False)
+
+    name = forms.CharField(label='Nombre', required=True)
+    name.widget.attrs = {'class': 'form-control', 'required': True}
+
+
 class PensumForm(forms.Form):
 
     id = forms.CharField(widget=widgets.HiddenInput, required=False)
@@ -10,6 +18,9 @@ class PensumForm(forms.Form):
     name.widget.attrs = {'class': 'form-control', 'required': True}
 
     active = forms.BooleanField(label='Activo', required=False)
+
+    master = forms.IntegerField(label='Master')
+    master.widget.attrs = {'class': 'form-control', 'required': True}
 
 
 class CourseForm(forms.Form):
@@ -29,6 +40,7 @@ class CourseForm(forms.Form):
 
     pensum = forms.IntegerField(label='Pensum')
     pensum.widget.attrs = {'class': 'form-control', 'required': True}
+
 
 class SectionForm(forms.Form):
 
@@ -77,6 +89,9 @@ class StudentForm(forms.Form):
 
     total_credits_actual_semester = forms.IntegerField(label='T. creditos semestre actual')
     total_credits_actual_semester.widget.attrs = {'class': 'form-control', 'required': True}
+
+    master = forms.IntegerField(label='Master')
+    master.widget.attrs = {'class': 'form-control', 'required': True}
 
 
 class TeacherForm(forms.Form):

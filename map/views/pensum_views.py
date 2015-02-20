@@ -1,4 +1,4 @@
-from map.models import Pensum
+from map.models import Pensum, Master
 from django.shortcuts import render
 from map.common.pensum_common import list_pensums
 from map.forms import PensumForm
@@ -37,17 +37,19 @@ def pensum_edit(request, pensum_id=None):
         return render(request, 'pensum/pensum_form.html', data)
     elif request.method == 'POST':
         form = PensumForm(request.POST)
-        print"hola"
         if form.is_valid():
             if form.cleaned_data.get('id'):
                 # EDIT
                 pensum = Pensum.objects.get(id=form.cleaned_data['id'])
+                master_obj = Master.objects.get(id=form.cleaned_data['master'])
                 pensum.name = form.cleaned_data['name']
                 pensum.active = form.cleaned_data['active']
+                pensum.master = master_obj
                 pensum.save()
             else:
                 # CREATE
-                pensum = Pensum.objects.create(name=form.cleaned_data['name'], active=form.cleaned_data['active'])
+                ob_master = Master.objects.get(id=form.cleaned_data['master'])
+                pensum = Pensum.objects.create(name=form.cleaned_data['name'], active=form.cleaned_data['active'], master=ob_master)
             return render(request, 'pensum/pensum_detail.html', {'object':pensum, 'detail':True})
         else:
             # ENVIAR MENSAJE

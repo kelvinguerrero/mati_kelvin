@@ -1,21 +1,18 @@
 {% extends "base.html" %}
+{% load bootstrap %}
 
 {% block content %}
   
-  <h2>Register</h2>
+  <h2>Registro de usuario</h2>
   
   {% for field in form %}
     {{field.error}}
-
   {% endfor %}
   
-  <form action="/accounts/register/" method="post">{% csrf_token %}
-  {{form}}
-  
-  
-  
-  <input type="submit" value="Register" />
-    
+  <form action="/accounts/register/" method="post">
+    {% csrf_token %}
+    {{form|bootstrap }}
+    <input type="submit" value="Register" />
   </form>
   
 {% endblock %}

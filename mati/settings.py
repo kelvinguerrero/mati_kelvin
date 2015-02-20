@@ -34,11 +34,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'proxy_server',
     'map',
     'dimaps',
     'rest_framework',
     'south',
+    'bootstrapform',
 )
 
 MIDDLEWARE_CLASSES = (

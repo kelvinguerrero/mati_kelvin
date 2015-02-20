@@ -22,7 +22,6 @@ def section(request, section_id=None):
                 json_response = json.dumps(section.to_dict())
                 return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
-            print 'entro'
             data = request.POST
             lista_attrs = list()
             lista_attrs.append('crn')
@@ -71,9 +70,9 @@ def section(request, section_id=None):
             else:
                 return HttpResponse(status=500)
         elif request.method == 'DELETE':
-            if section_id != None:
+            if section_id is not None:
                 section_obj = Section.objects.get(id=section_id)
-                if not section_obj == None:
+                if not section_obj is None:
                     section_obj.delete()
                 return HttpResponse(status=204)
             else:

@@ -1,65 +1,65 @@
-{% extends 'course/course_base.html' %}
+{% extends 'master/master_base.html' %}
 
 {% load i18n %}
 
 {% block title %}
   {% if object %}
     <title>
-        {% trans "Editar curso" %}
+        {% trans "Editar maestría" %}
     </title>
   {% else %}
     <title>
-        {% trans "Crear un nuevo curso" %}
+        {% trans "Crear un nueva maestría" %}
     </title>
   {% endif %}
 {% endblock %}
 
 {% block header-link %}
   {% if object %}
-    <a href={% url 'edit_course' object.id %}>
-      {% trans "Editar curso" %}
+    <a href={% url 'edit_master' object.id %}>
+      {% trans "Editar maestría" %}
     </a>
   {% else %}
-    <a href={% url 'create_course' %}>
-      {% trans "Crear curso" %}
+    <a href={% url 'create_master' %}>
+      {% trans "Crear maestría" %}
     </a>
   {% endif %}
 {% endblock %}
 
 {% block header-description %}
   {% if object %}
-    {% trans "Editar curso." %}
+    {% trans "Editar maestría." %}
   {% else %}
-    {% trans "Crear curso." %}
+    {% trans "Crear maestría." %}
   {% endif %}
 {% endblock %}
 
 
 {% block content %}
-  <form action={% if object.id %}{% url 'edit_course' object.id %}{% else %}{% url 'create_course' %}{% endif %} method='post' class="form-horizontal" role="form">
+  <form action={% if object.id %}{% url 'edit_master' object.id %}{% else %}{% url 'create_master' %}{% endif %} method='post' class="form-horizontal" role="form">
     {% csrf_token %}
     {{ form.id }}
     <div class="form-group">
         <label class="col-lg-3 control-label" for="{{ form.code.auto_id }}">{{ form.code.label }}</label>
-        <div class="col-lg-2">
+        <div class="col-lg-8">
             {{ form.code }}
         </div>
     </div>
     <div class="form-group">
         <label class="col-lg-3 control-label" for="{{ form.credits.auto_id }}">{{ form.credits.label }}</label>
-        <div class="col-lg-2">
+        <div class="col-lg-8">
             {{ form.credits }}
         </div>
     </div>
     <div class="form-group">
         <label class="col-lg-3 control-label" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
-        <div class="col-lg-3">
+        <div class="col-lg-8">
             {{ form.name }}
         </div>
     </div>
     <div class="form-group">
         <label class="col-lg-3 control-label" for="{{ form.summer.auto_id }}">{{ form.summer.label }}</label>
-        <div class="col-lg-1">
+        <div class="col-lg-8">
             {{ form.summer }}
         </div>
     </div>
@@ -69,7 +69,6 @@
             {{ form.pensum }}
         </div>
     </div>
-
   <div class="form-group">
       <div class="col-lg-8 col-lg-offset-3">
         <button class="btn btn-primary" type="submit">{% trans 'Enviar' %}</button>

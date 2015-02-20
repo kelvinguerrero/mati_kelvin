@@ -46,6 +46,10 @@
             <th>
               nombre
             </th>
+
+            <th>
+              Maestría
+            </th>
         </tr>
       </thead>
       <tbody>
@@ -62,6 +66,9 @@
               <td>{{ object.lastname }}</td>
 
               <td>{{ object.name }}</td>
+
+
+              <td>{{ object.master.name }}</td>
 
           </tr>
         {% endfor %}
