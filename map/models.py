@@ -166,7 +166,7 @@ class Student(models.Model):
 
 
 class Course(models.Model):
-    code = models.CharField(max_length=200, null=False, blank=False)
+    code = models.CharField(max_length=200, null=True, blank=True)
     credits = models.IntegerField(null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     summer = models.BooleanField(default=False, null=False, blank=False)

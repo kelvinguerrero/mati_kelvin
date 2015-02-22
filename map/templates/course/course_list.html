@@ -68,8 +68,11 @@
               <td>{{ object.credits }}</td>
 
               <td>{{ object.name }}</td>
-
-              <td>{{ object.summer }}</td>
+              {% if object.summer %}
+                <td>Si</td>
+              {% else %}
+                <td>No</td>
+              {% endif %}
 
               <td>{{ object.pensum.name }}</td>
 
