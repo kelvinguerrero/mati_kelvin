@@ -2,7 +2,7 @@ from map.models import Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
-from map.common.master_common import list_masters
+from map.common.master_common import list_masters, structure_master_courses
 import json
 
 
@@ -24,11 +24,15 @@ def master(request, master_id=None):
                 return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
             data = request.POST
-            if validate_data(data, attrs=['name']):
-                master = Master.objects.create(name=data['name'])
-
-                json_response = json.dumps(master.to_dict())
-                return HttpResponse(json_response, status=200, content_type='application/json')
+            if validate_data(data, attrs=['name', 'operation', 'student_code']):
+                if data['operation'] == "1":
+                    datos = structure_master_courses(data['student_code'])
+                    json_response = json.dumps(datos)
+                    return HttpResponse(json_response, status=200, content_type='application/json')
+                else:
+                    master = Master.objects.create(name=data['name'])
+                    json_response = json.dumps(master.to_dict())
+                    return HttpResponse(json_response, status=200, content_type='application/json')
             else:
                 return HttpResponse(status=500)
 

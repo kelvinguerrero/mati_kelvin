@@ -1,6 +1,6 @@
 from map.models import Course, Pensum, Student
 from django.shortcuts import render
-from map.common.folder_common import list_courses_scheme, calculate_credits, list_courses_approved
+from map.common.folder_common import list_courses_scheme, calculate_credits, list_subject_approved
 from map.forms import CourseForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -17,7 +17,7 @@ def folder(request, code_student_id=None):
             #    return render(request, 'folder/folder_list.html', {'object_list': lista})
             #else:
             lista = list_courses_scheme(student_code=code_student_id)
-            lista_ap = list_courses_approved(student_code=code_student_id)
+            lista_ap = list_subject_approved(student_code=code_student_id)
             creditos = calculate_credits(student_code=code_student_id)
             return render(request, 'folder/folder_detail.html', {'object_list': lista,
                                                                  'obj_cedits': creditos,

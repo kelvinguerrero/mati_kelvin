@@ -9,3 +9,8 @@ def list_students():
         lista.append(obj_student.to_dict())
 
     return lista
+
+
+def dar_maestria(code_student):
+    student = Student.objects.get(code=code_student)
+    return student.master.name

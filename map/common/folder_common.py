@@ -32,16 +32,24 @@ def calculate_credits(student_code):
     return tot_credits
 
 
-#Metodo que calcula la cantidad de creditos aprobados por el estudiante
-def list_courses_approved(student_code):
-
+#Metodo enterga los cursos aprobados por el estudiante
+def list_subject_approved(student_code):
     student = Student.objects.get(code=student_code)
     subject_list = student.subject_set.all()
     if subject_list.all().count() > 0:
         lista_ap = list()
         for obj_subject in subject_list:
             if obj_subject.student_status and obj_subject.grade > 3:
-                print(obj_subject.to_dict())
-                lista_ap.append(obj_subject.to_dict())
+                lista_ap.append(obj_subject)
+    return lista_ap
 
+#Metodo enterga los cursos aprobados por el estudiante
+def list_subject_approved_master(student_code):
+    student = Student.objects.get(code=student_code)
+    subject_list = student.subject_set.all()
+    if subject_list.all().count() > 0:
+        lista_ap = list()
+        for obj_subject in subject_list:
+            if obj_subject.student_status and obj_subject.grade > 3:
+                lista_ap.append(obj_subject)
     return lista_ap
