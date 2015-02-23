@@ -7,7 +7,6 @@ def list_courses():
 
     for obj_course in lista_courses:
         lista.append(obj_course.to_dict_view())
-
     return lista
 
 

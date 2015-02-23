@@ -51,47 +51,5 @@
       </tbody>
     </table>
 
-     <h3>Cursos</h3>
-    <table class='table table-bordered table-striped'>
-      <thead>
-        <tr>
 
-            <th>
-              Código
-            </th>
-
-            <th>
-              Créditos
-            </th>
-
-            <th>
-              Nombre
-            </th>
-
-            <th>
-              Vacacional
-            </th>
-
-        </tr>
-      </thead>
-      <tbody>
-        {% for object in object.course_set.all %}
-          <tr>
-
-              <td>
-                <a href='{% url 'course' object.id %}'>
-                    {{ object.code }}
-                </a>
-              </td>
-
-              <td>{{ object.credits }}</td>
-
-              <td>{{ object.name }}</td>
-
-              <td>{{ object.summer }}</td>
-
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
 </div>

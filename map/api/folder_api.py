@@ -1,76 +1,32 @@
-from map.models import Course, Pensum
+# coding=utf-8
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
-from map.common.course_common import list_courses
+from map.common.folder_common import calculate_credits, list_courses_approved, list_courses_scheme
 import json
 
-@expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
-def course(request, course_id=None):
-
+@expose_service([ 'POST', 'PUT', 'DELETE'], public=True)
+def folder(request, student_code_id=None):
     if not request.user.is_authenticated():
-        return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
+        return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
     else:
-        if (request.method == 'GET'):
-            if (course_id == None):
-                response = list_courses()
-                json_response = json.dumps(response)
+        if (request.method == 'POST'):
 
-                return HttpResponse(json_response, status=200, content_type='application/json')
+            if student_code_id==None:
+                return HttpResponse(unicode('Se debe agregar el código del estudiante'), status=500)
             else:
-                course = Course.objects.get(id=course_id)
-                json_response = json.dumps(course.to_dict())
-                return HttpResponse(json_response, status=200, content_type='application/json')
-        elif request.method == 'POST':
-            data = request.POST
-
-            lista_attrs = list()
-            lista_attrs.append('code')
-            lista_attrs.append('name')
-            lista_attrs.append('credits')
-            lista_attrs.append('summer')
-            lista_attrs.append('pensum')
-
-            if validate_data(data, attrs=lista_attrs):
-                pensum_obj = Pensum.objects.get(id=data['pensum'])
-
-                course = Course.objects.create(code=data['code'],
-                                               name=data['name'],
-                                               credits=data['credits'],
-                                               summer=data['summer'],
-                                               pensum=pensum_obj)
-                json_response = json.dumps(course.to_dict())
-                return HttpResponse(json_response, status=200, content_type='application/json')
-            else:
-                return HttpResponse(status=500)
-        elif request.method == 'PUT':
-            data = request.DATA
-            if course_id != None:
-                course = Course.objects.get(id=course_id)
-                print 'Valida:' + str(course.clean())
-
-                if 'code' in data:
-                    course.code = data['code']
-                if 'name' in data:
-                    course.name = data['name']
-                if 'credits' in data:
-                    course.credits = data['credits']
-                if 'summer' in data:
-                    course.summer = data['summer']
-                if 'pensum' in data:
-                    pensum_obj = Pensum.objects.get(id=data['pensum'])
-                    course.teacher = pensum_obj
-
-                course.save()
-                return HttpResponse(status=204)
-            else:
-                return HttpResponse(status=500)
-        elif request.method == 'DELETE':
-            if course_id != None:
-                course_obj = Course.objects.get(id=course_id)
-                if not course_obj == None:
-                    course_obj.delete()
-                return HttpResponse(status=204)
-            else:
-                return HttpResponse(status=500)
-        return HttpResponse(status=400)
+                data = request.POST
+                if validate_data(data, attrs=['operation']):
+                    print "GET" + student_code_id
+                    if data['operation'] == "1":
+                        return HttpResponse(json.dumps(calculate_credits(student_code_id)), status=200, content_type='application/json')
+                    elif data['operation'] == "2":
+                        json_response = json.dumps(list_courses_approved(student_code_id))
+                        return HttpResponse(json_response, status=200, content_type='application/json')
+                    elif data['operation'] == "3":
+                        json_response = json.dumps(list_courses_scheme(student_code_id))
+                        return HttpResponse(json_response, status=200, content_type='application/json')
+                    else:
+                        return HttpResponse(unicode('No se llamo una operación correcta'), status=500)
+                else:
+                    return HttpResponse(unicode('No se agrego una operación correcta'), status=500)

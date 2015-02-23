@@ -27,7 +27,7 @@ def section_edit(request, section_id=None):
             data = dict()
             if section_id == None:
                 form = SectionForm()
-                data.update({'form':form})
+                data.update({'form': form})
             else:
                 section = Section.objects.get(id=section_id)
                 form = SectionForm(initial={'crn': section.crn,

@@ -14,10 +14,10 @@ def pensum(request, pensum_id=None):
         if request.method == 'GET':
             if pensum_id == None:
                 lista = list_pensums()
-                return render(request, 'pensum/pensum_list.html', {'object_list':lista})
+                return render(request, 'pensum/pensum_list.html', {'object_list': lista})
             else:
                 ob_pensum = Pensum.objects.get(id=pensum_id)
-                return render(request, 'pensum/pensum_detail.html', {'object':ob_pensum, 'detail':True})
+                return render(request, 'pensum/pensum_detail.html', {'object': ob_pensum, 'detail':True})
 
 @login_required()
 def pensum_edit(request, pensum_id=None):
@@ -29,11 +29,11 @@ def pensum_edit(request, pensum_id=None):
         data = dict()
         if pensum_id == None:
             form = PensumForm()
-            data.update({'form':form})
+            data.update({'form': form})
         else:
             pensum = Pensum.objects.get(id=pensum_id)
-            form = PensumForm(initial={'name':pensum.name, 'active':pensum.active, 'id':pensum.id})
-            data.update({'object':pensum, 'form':form})
+            form = PensumForm(initial={'name': pensum.name, 'active': pensum.active, 'id': pensum.id})
+            data.update({'object':pensum, 'form': form})
         return render(request, 'pensum/pensum_form.html', data)
     elif request.method == 'POST':
         form = PensumForm(request.POST)

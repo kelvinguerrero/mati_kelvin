@@ -67,6 +67,15 @@ urlpatterns += patterns('',
    url(r'^subject/(?P<subject_id>[0-9]+)/delete/$', subject_delete, name='delete_subject'),
 )
 
+from map.views.folder_views import *
+urlpatterns += patterns('',
+   url(r'^folder/$', folder, name='folder'),
+   url(r'^folder/(?P<code_student_id>[0-9]+)/$', folder, name='folder'),
+   url(r'^folder/create/$', folder_edit, name='create_folder'),
+   url(r'^folder/(?P<folder_id>[0-9]+)/edit/$', folder_edit, name='edit_folder'),
+   url(r'^folder/(?P<folder_id>[0-9]+)/delete/$', folder_delete, name='delete_folder'),
+)
+
 
 from map.views.course_views import *
 urlpatterns += patterns('',
@@ -114,8 +123,8 @@ urlpatterns += patterns('map.api.master_api',
      url(r'^api/master/$', 'master'),
      url(r'^api/master/(?P<master_id>[0-9]+)/$', 'master'),
 )
-# API Curriculum student
-urlpatterns += patterns('map.api.curriculum_student_api',
-     url(r'^api/curriculum_student/$', 'curriculum_student'),
-     url(r'^api/curriculum_student/(?P<curriculum_student_id>[0-9]+)/$', 'curriculum_student'),
+# API Folder
+urlpatterns += patterns('map.api.folder_api',
+     url(r'^api/folder/$', 'folder'),
+     url(r'^api/folder/(?P<student_code_id>[0-9]+)/$', 'folder'),
 )

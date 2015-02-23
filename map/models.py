@@ -114,9 +114,10 @@ class Student(models.Model):
     email = models.CharField(max_length=200, null=False, blank=False, unique=True)
     lastname = models.CharField(max_length=200, null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
-    student_status = models.IntegerField()
-    total_approved_credits = models.IntegerField()
-    total_credits_actual_semester = models.IntegerField()
+    student_status = models.IntegerField(default=1)
+    total_approved_credits = models.IntegerField(default=0)
+    total_credits_actual_semester = models.IntegerField(default=0)
+    scheme = models.OneToOneField('Scheme', related_name='Scheme', null=True, blank=True)
     master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -150,29 +151,59 @@ class Student(models.Model):
             total_credits_actual_semester=self.total_credits_actual_semester,
             master=self.master.to_dict()
         )
-
         return response
 
     def to_dict_curriculum(self):
         response = dict()
-
         response.update(
             id=self.id,
             code=self.code,
             courses=self.course_set
+        )
+        return response
+
+
+#Relacion que modela el plan de estudios que el estudiante crea
+class Scheme(models.Model):
+    name = models.CharField(max_length=200, null=False, blank=False, unique=True)
+    courses = models.ManyToManyField('Course')
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        default=now(),
+        editable=False,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        default=now(),
+        editable=False,
+    )
+    def __unicode__(self):
+        return smart_unicode(self.name)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('map_pensum_detail', (), {'pk': self.pk})
+
+    def to_dict(self):
+        response = dict()
+
+        response.update(
+            id = self.id,
+            name = self.name,
+            active = self.active,
+            master = self.master.to_dict()
         )
 
         return response
 
 
 class Course(models.Model):
-    code = models.CharField(max_length=200, null=True, blank=True)
+    code = models.CharField(max_length=200, null=True, blank=True, unique=True)
     credits = models.IntegerField(null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     summer = models.BooleanField(default=False, null=False, blank=False)
     pensum = models.ForeignKey('Pensum')
-    #Relacion que modela el plan de estudios que el estudiante crea
-    student = models.ManyToManyField('Student', null=True, blank=True)
+
     created_at = models.DateTimeField(
         auto_now_add=True,
         default=now(),
@@ -199,7 +230,7 @@ class Course(models.Model):
             name=self.name,
             credits=self.credits,
             summer=self.summer,
-            pensum=self.pensum
+            pensum=self.pensum.to_dict()
         )
 
         return response
@@ -213,8 +244,8 @@ class Course(models.Model):
             name=self.name,
             credits=self.credits,
             summer=self.summer,
-            pensum=json.dumps(self.pensum.to_dict(), cls=DjangoJSONEncoder),
-            master=self.master
+            pensum=self.pensum.to_dict()
+            #master=self.master.to_dict()
         )
 
         return response
@@ -244,6 +275,36 @@ class Course(models.Model):
         )
 
         return response
+
+
+class Capacity(models.Model):
+    name = models.CharField(max_length=200, null=False, blank=False)
+    capacity = models.IntegerField(null=False, blank=False)
+    section = models.ForeignKey('Section')
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        default=now(),
+        editable=False,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        default=now(),
+        editable=False,
+    )
+    def __unicode__(self):
+        return smart_unicode(self.name + " " + self.capacity )
+    @models.permalink
+    def get_absolute_url(self):
+        return ('map_capacity_detail', (), {'pk': self.pk})
+
+    def to_dict(self):
+        response = dict()
+
+        response.update(
+            name=self.name,
+            capacity=self.capacity
+        )
 
 
 class Section(models.Model):
@@ -278,8 +339,9 @@ class Section(models.Model):
             name=self.name,
             semester=self.semester,
             year=self.year,
-            teacher=json.dumps(self.teacher.to_dict()),
-            course=json.dumps(self.course.to_dict())
+            teacher=self.teacher.to_dict(),
+            course=self.course.to_dict(),
+            capacity=json.dumps(set(self.capacity_set.values_list("name", "capacity")), cls=SetEncoder)
         )
 
         return response
@@ -298,6 +360,13 @@ class Section(models.Model):
         )
 
         return response
+
+
+class SetEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, set):
+            return list(obj)
+        return json.JSONEncoder.default(self, obj)
 
 
 class Subject(models.Model):
@@ -325,8 +394,8 @@ class Subject(models.Model):
 
         response.update(
             id=self.id,
-            grade=json.dumps(self.grade, cls=DjangoJSONEncoder),
-            section=json.dumps(self.section.to_dict())
+            grade=str(self.grade),
+            section=self.section.to_dict()
         )
 
         return response

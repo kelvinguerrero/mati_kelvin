@@ -1,0 +1,64 @@
+{% load i18n %}
+<div class="col-lg-12">
+    <p>
+      {% trans "Creditos aprobados." %} {{ obj_cedits }}
+    </p>
+
+    <p>
+      {% trans "Lista de cursos aprobados." %}
+    </p>
+
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+            <th>
+              nombre
+            </th>
+            <th>
+              Nota
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list_ap %}
+          <tr>
+              <td>
+                <a href='{% url 'course' object.id %}'>
+                    {{ object.section.course.name }}
+                </a>
+              </td>
+              <td>
+                <a >
+                    {{ object.grade }}
+                </a>
+              </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+<p>
+      {% trans "Lista de cursos plan de estudios." %}
+    </p>
+
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+            <th>
+              nombre
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list %}
+          <tr>
+              <td>
+                <a href='{% url 'course' object.id %}'>
+                    {{ object.name }}
+                </a>
+              </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>

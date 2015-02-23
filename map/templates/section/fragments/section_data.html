@@ -57,6 +57,36 @@
           </td>
           <td>{{ object.course.name }}</td>
         </tr>
+
+      </tbody>
+    </table>
+
+    <p>
+      {% trans "Cupos de la sección." %}
+    </p>
+
+    <table class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th>
+            {% trans "Tipo" %}
+          </th>
+          <th>
+            {% trans "Cupos" %}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for obj in object.capacity_set.all %}
+             <tr>
+                <td>
+                    {{obj.name}}
+                </td>
+                <td>{{obj.capacity}}</td>
+            </tr>
+
+        {% endfor %}
       </tbody>
     </table>
 </div>
