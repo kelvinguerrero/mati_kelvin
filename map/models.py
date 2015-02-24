@@ -245,7 +245,6 @@ class Course(models.Model):
             credits=self.credits,
             summer=self.summer,
             pensum=self.pensum.to_dict()
-            #master=self.master.to_dict()
         )
 
         return response

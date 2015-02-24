@@ -16,7 +16,8 @@ def student(request, student_id=None):
                 return render(request, 'student/student_list.html', {'object_list': lista})
             else:
                 ob_student = Student.objects.get(id=student_id)
-                return render(request, 'student/student_detail.html', {'object': ob_student, 'detail': True})
+
+                return render(request, 'student/student_detail.html', {'object': ob_student, 'detail': True, 'code':ob_student.code})
 
 @login_required()
 def student_edit(request, student_id=None):
@@ -39,7 +40,7 @@ def student_edit(request, student_id=None):
                                             'total_credits_actual_semester': student.total_credits_actual_semester,
                                             'master': student.master,
                                             'id': student.id})
-                data.update({'object': student, 'form': form})
+                data.update({'object': student, 'form': form, 'code': student.code})
             return render(request, 'student/student_form.html', data)
         elif request.method == 'POST':
             form = StudentForm(request.POST)
@@ -69,7 +70,8 @@ def student_edit(request, student_id=None):
                                                      total_credits_actual_semester=form.cleaned_data['total_credits_actual_semester'],
                                                      master=ob_master
                                                      )
-                return render(request, 'student/student_detail.html', {'object': student, 'detail': True})
+                    print(student.code)
+                return render(request, 'student/student_detail.html', {'object': student, 'detail': True, 'code': student.code})
             else:
                 # ENVIAR MENSAJE
                 pass
@@ -84,7 +86,8 @@ def student_delete(request, student_id):
     else:
         if request.method == 'GET':
             student = Student.objects.get(id=student_id)
-            return render(request, 'student/student_confirm_delete.html', {'object': student, 'detail': True})
+            print(student.code)
+            return render(request, 'student/student_confirm_delete.html', {'object': student, 'detail': True, 'code':student.code})
         elif request.method == 'POST':
             student_obj = Student.objects.get(id=student_id)
             if not student_obj == None:

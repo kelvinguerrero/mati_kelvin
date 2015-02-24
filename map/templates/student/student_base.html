@@ -18,14 +18,21 @@
         {% if detail %}
             <li>
                 <a href=''>
-                    {% trans "Editar seccion" %}
+                    {% trans "Editar estudiante" %}
                 </a>
             </li>
             <li>
                 <a href=''>
-                    {% trans "Borrar seccion" %}
+                    {% trans "Borrar estudiante" %}
                 </a>
             </li>
+            {% if  detail %}
+                <li>
+                    <a href={% url 'folder' code %}>
+                        {% trans "Carpeta de estudiante" %}
+                    </a>
+                </li>
+            {% endif %}
         {% endif %}
     </ul>
 {% endblock %}

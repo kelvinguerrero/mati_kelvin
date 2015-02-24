@@ -2,7 +2,7 @@
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
-from map.common.folder_common import calculate_credits, list_subject_approved, list_courses_scheme
+from map.common.folder_common import calculate_credits, list_subject_approved, list_courses_scheme, structure_master_courses
 import json
 
 @expose_service(['POST'], public=True)
@@ -16,7 +16,7 @@ def folder(request, student_code_id=None):
                 return HttpResponse(unicode('Se debe agregar el código del estudiante'), status=500)
             else:
                 data = request.POST
-                if validate_data(data, attrs=['operation']):
+                if validate_data(data, attrs=['operation', 'student_code']):
                     if data['operation'] == "1":
                         return HttpResponse(json.dumps(calculate_credits(student_code_id)), status=200, content_type='application/json')
                     elif data['operation'] == "2":
@@ -24,6 +24,10 @@ def folder(request, student_code_id=None):
                         return HttpResponse(json_response, status=200, content_type='application/json')
                     elif data['operation'] == "3":
                         json_response = json.dumps(list_courses_scheme(student_code_id))
+                        return HttpResponse(json_response, status=200, content_type='application/json')
+                    elif data['operation'] == "4":
+                        datos = structure_master_courses(student_code_id)
+                        json_response = json.dumps(datos)
                         return HttpResponse(json_response, status=200, content_type='application/json')
                     else:
                         return HttpResponse(unicode('No se llamo una operación correcta'), status=500)
