@@ -2,7 +2,6 @@ __author__ = 'kelvin Guerrero'
 from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import smart_unicode
-from django.core.serializers.json import DjangoJSONEncoder
 import json
 # Create your models here.
 
@@ -178,7 +177,7 @@ class Scheme(models.Model):
         editable=False,
     )
     def __unicode__(self):
-        return smart_unicode(self.name)
+        return smart_unicode(self.name+""+str(self.active))
 
     @models.permalink
     def get_absolute_url(self):
@@ -188,10 +187,9 @@ class Scheme(models.Model):
         response = dict()
 
         response.update(
-            id = self.id,
-            name = self.name,
-            active = self.active,
-            master = self.master.to_dict()
+            id=self.id,
+            name=self.name,
+            courses=[r.to_dict() for r in self.courses.all()]
         )
 
         return response
@@ -251,7 +249,6 @@ class Course(models.Model):
 
     def to_dict_curriculum(self):
         response = dict()
-
         response.update(
             id=self.id,
             code=self.code,
@@ -263,7 +260,6 @@ class Course(models.Model):
 
     def to_dict_api(self):
         response = dict()
-
         response.update(
             id=self.id,
             code=self.code,
@@ -292,7 +288,7 @@ class Capacity(models.Model):
         editable=False,
     )
     def __unicode__(self):
-        return smart_unicode(self.name + " " + self.capacity )
+        return smart_unicode(self.name + "" + str(self.capacity) )
     @models.permalink
     def get_absolute_url(self):
         return ('map_capacity_detail', (), {'pk': self.pk})
@@ -301,9 +297,11 @@ class Capacity(models.Model):
         response = dict()
 
         response.update(
+            id=self.id,
             name=self.name,
             capacity=self.capacity
         )
+        return response
 
 
 class Section(models.Model):
@@ -324,7 +322,7 @@ class Section(models.Model):
         editable=False,
     )
     def __unicode__(self):
-        return smart_unicode(self.name + " " + self.crn )
+        return smart_unicode(self.name + " " + str(self.crn) )
     @models.permalink
     def get_absolute_url(self):
         return ('map_section_detail', (), {'pk': self.pk})
@@ -340,7 +338,7 @@ class Section(models.Model):
             year=self.year,
             teacher=self.teacher.to_dict(),
             course=self.course.to_dict(),
-            capacity=json.dumps(set(self.capacity_set.values_list("name", "capacity")), cls=SetEncoder)
+            capacity=[r.to_dict() for r in self.capacity_set.all()]
         )
 
         return response
@@ -390,12 +388,10 @@ class Subject(models.Model):
 
     def to_dict(self):
         response = dict()
-
         response.update(
             id=self.id,
             grade=str(self.grade),
+            student=self.student.to_dict(),
             section=self.section.to_dict()
         )
-
         return response
-

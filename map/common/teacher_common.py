@@ -9,3 +9,6 @@ def list_teachers():
         lista.append(obj_teacher.to_dict())
 
     return lista
+
+def dar_profesor_by_code(code_profesor):
+    return Teacher.objects.get(code = code_profesor)
