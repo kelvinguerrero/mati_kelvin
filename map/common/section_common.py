@@ -45,8 +45,6 @@ def dar_capacidad(id_seccion):
     capacidad = obj_seccion.capacity_set.all()
     lista = list()
     for obj_cap in capacidad:
-        print(obj_cap)
-        print(obj_cap.to_dict())
         lista.append(obj_cap.to_dict())
     return lista
 

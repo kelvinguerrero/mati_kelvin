@@ -1,9 +1,12 @@
 __author__ = 'kelvin Guerrero'
+# coding=utf-8
+
 from map.models import Student, Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
-from map.common.student_common import list_students, dar_notas, crear_plan_studios
+from map.common.student_common import list_students, dar_notas, crear_plan_studios, dar_scheme
+from map.common.error_common import error_json
 
 import json
 
@@ -28,19 +31,32 @@ def student(request, student_id=None):
             if validate_data(data, attrs=['operation', 'master_id', 'code',
                                           'email', 'lastname', 'name', 'student_status',
                                           'total_approved_credits', 'total_credits_actual_semester',
-                                          'nombre','curso1','curso2','curso3','curso4','curso5','curso6',
-                                          'curso7','curso8','curso9','curso10']):
+                                          'nombre', 'curso1', 'curso2', 'curso3', 'curso4', 'curso5', 'curso6',
+                                          'curso7', 'curso8', 'curso9', 'curso10']):
                 if "operation" in data:
-                    if data['operation'] == "1":
-                        notas = dar_notas(id_student=student_id)
-                        json_response = json.dumps(notas)
-                        return HttpResponse(json_response, status=200, content_type='application/json')
-                    if data['operation'] == "2":
-                        plan = crear_plan_studios(student_id, data['nombre'], data['curso1'], data['curso2'], data['curso3'],
-                                                  data['curso4'], data['curso5'], data['curso6'], data['curso7'], data['curso8'],
-                                                  data['curso9'], data['curso10'])
-                        json_response = json.dumps(plan.to_dict())
-                        return HttpResponse(json_response, status=200, content_type='application/json')
+                    if student_id==None:
+                        error = error_json(4, "Se debe agregar el id del estudiante")
+                        return HttpResponse(error, status=500,content_type='application/json')
+                    else:
+                        if data['operation'] == "1":
+                            notas = dar_notas(id_student=student_id)
+                            json_response = json.dumps(notas)
+                            return HttpResponse(json_response, status=200, content_type='application/json')
+
+                        if data['operation'] == "2":
+                            plan = crear_plan_studios(student_id, data['nombre'], data['curso1'], data['curso2'], data['curso3'],
+                                                      data['curso4'], data['curso5'], data['curso6'], data['curso7'], data['curso8'],
+                                                      data['curso9'], data['curso10'])
+                            json_response = json.dumps(plan.to_dict())
+                            return HttpResponse(json_response, status=200, content_type='application/json')
+                        if data['operation'] == "3":
+                            plan = dar_scheme(student_id)
+                            if plan != None:
+                                json_response = json.dumps(plan.to_dict())
+                                return HttpResponse(json_response, status=200, content_type='application/json')
+                            else:
+                                error = error_json(2,"No existe plan de estudios")
+                                return HttpResponse(error, status=500, content_type='application/json')
                 else:
 
                     lista_attrs = list()

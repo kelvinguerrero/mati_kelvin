@@ -17,8 +17,11 @@ def list_students():
 
 
 def dar_maestria_de_estudiante(code_student):
-    student = Student.objects.get(code=code_student)
-    return student.master.name
+    try:
+        student = Student.objects.get(code=code_student)
+        return student.master.name
+    except Student.DoesNotExist:
+        return None
 
 
 def dar_estudiantes_de_maestria(master_id):
@@ -49,8 +52,16 @@ def dar_notas(id_student):
 
 
 def dar_crear_scheme(name):
-    obj_scheme = Scheme.objects.get_or_create(name=name, active=True)[0]
+    obj_scheme = Scheme.objects.get_or_create(name=name)[0]
     return obj_scheme
+
+
+def dar_scheme(id_student):
+    obj_student = dar_estudiante(id_student=id_student)
+    obj_scheme = obj_student.scheme
+    if obj_scheme != None:
+        return obj_scheme
+    return None
 
 
 def crear_plan_studios(id_student, nombre, curso1, curso2, curso3,
@@ -59,7 +70,13 @@ def crear_plan_studios(id_student, nombre, curso1, curso2, curso3,
     obj_scheme = obj_student.scheme
 
     if obj_student.scheme == None:
-        obj_scheme = dar_crear_scheme(nombre)
+        obj_scheme = dar_crear_scheme(nombre+ "" + str(id_student))
+    else:
+        scheme = obj_student.scheme
+        scheme.delete()
+        obj_student.save()
+        obj_scheme = dar_crear_scheme(nombre + "" + str(id_student))
+
     if curso1 != None:
         obj_scheme.courses.add(dar_curso_by_code(code_curso=curso1))
 

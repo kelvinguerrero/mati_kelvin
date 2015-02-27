@@ -257,8 +257,6 @@ def populate():
         obj_profesor = add_teacher(profesor, profesores[profesor]["email"],
                                    profesores[profesor]["lastname"],
                                    profesores[profesor]["name"])
-        print obj_profesor.name
-
 
 
 #-----------------------------------------------------------------------------------------------------------------------

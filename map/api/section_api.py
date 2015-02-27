@@ -6,6 +6,7 @@ from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
 from map.common.section_common import list_sections, dar_capacidad, dar_notas_seccion
+from map.common.error_common import error_json
 import json
 
 
@@ -28,19 +29,24 @@ def section(request, section_id=None):
             data = request.POST
             if validate_data(data, attrs=['operation', 'crn', 'name', 'semester', 'year', 'teacher', 'course']):
                 if "operation" in data:
-                    if data['operation'] == "1":
-                        if section_id!=None:
-                            capacidad = dar_capacidad(id_seccion=section_id)
-                            json_response = json.dumps(capacidad)
-                            return HttpResponse(json_response, status=200, content_type='application/json')
-                    if data['operation'] == "2":
-                        if section_id!=None:
-                            notas = dar_notas_seccion(id_seccion=section_id)
-                            json_response = json.dumps(notas)
-                            return HttpResponse(json_response, status=200, content_type='application/json')
+                    if section_id==None:
+                        error = error_json(3,"Se debe agregar el id de la sección")
+                        return HttpResponse(error, status=500,content_type='application/json')
                     else:
-                        json_response = json.dumps({"Error":1, "mensaje": "No existe esa operación"})
-                        return HttpResponse(json_response, status=500, content_type='application/json')
+                        if data['operation'] == "1":
+                            if section_id!=None:
+                                capacidad = dar_capacidad(id_seccion=section_id)
+                                json_response = json.dumps(capacidad)
+                                return HttpResponse(json_response, status=200, content_type='application/json')
+                        if data['operation'] == "2":
+                            if section_id!=None:
+                                notas = dar_notas_seccion(id_seccion=section_id)
+                                json_response = json.dumps(notas)
+                                return HttpResponse(json_response, status=200, content_type='application/json')
+                        else:
+                            error = error_json(1,"No existe la operació")
+                            return HttpResponse(error, status=200, content_type='application/json')
+
                 else:
                     lista_attrs = list()
                     lista_attrs.append('crn')

@@ -52,7 +52,6 @@ def subject(request, subject_id=None):
             data = request.DATA
             if subject_id != None:
                 subject = Subject.objects.get(id=subject_id)
-                print data
                 if 'grade' in data:
                     subject.grade = data['grade']
                 if 'student_status' in data:

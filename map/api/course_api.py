@@ -54,7 +54,6 @@ def course(request, course_id=None):
                         json_response = json.dumps(course.to_dict())
                         return HttpResponse(json_response, status=200, content_type='application/json')
             else:
-                print("nombre")
                 return HttpResponse(status=500)
         elif request.method == 'PUT':
             data = request.DATA
@@ -62,28 +61,29 @@ def course(request, course_id=None):
                 if validate_data(data, attrs=['operation', 'code', 'name', 'credits', 'summer', 'pensum', 'crn_section',
                                           'name_section', 'semester', 'year', 'code_teacher', 'MESI', 'MBIT', 'MISO',
                                           'MATI', 'MISIS', 'pregrado', 'otros']):
-                    if data['operation'] == "1":
-                        lista_capacity = {}
-                        if 'MESI'in data:
-                            lista_capacity['MESI'] = data['MESI']
-                        if 'MBIT' in data:
-                            lista_capacity['MBIT'] = data['MBIT']
-                        if 'MISO' in data:
-                            lista_capacity['MISO'] = data['MISO']
-                        if 'MATI'in data:
-                            lista_capacity['MATI'] = data['MATI']
-                        if 'MISIS' in data:
-                            lista_capacity['MISIS'] = data['MISIS']
-                        if 'pregrado'in data:
-                            lista_capacity['pregrado'] = data['pregrado']
-                        if 'otros' in data:
-                            lista_capacity['otros'] = data['otros']
+                    if 'operation' in data:
+                        if data['operation'] == "1":
+                            lista_capacity = {}
+                            if 'MESI'in data:
+                                lista_capacity['MESI'] = data['MESI']
+                            if 'MBIT' in data:
+                                lista_capacity['MBIT'] = data['MBIT']
+                            if 'MISO' in data:
+                                lista_capacity['MISO'] = data['MISO']
+                            if 'MATI'in data:
+                                lista_capacity['MATI'] = data['MATI']
+                            if 'MISIS' in data:
+                                lista_capacity['MISIS'] = data['MISIS']
+                            if 'pregrado'in data:
+                                lista_capacity['pregrado'] = data['pregrado']
+                            if 'otros' in data:
+                                lista_capacity['otros'] = data['otros']
 
-                        obj_section = crear_seccion(course_id, data['crn_section'], data['name_section'], data['semester'], data['year'],
-                                  data['code_teacher'], lista_capacity)
+                            obj_section = crear_seccion(course_id, data['crn_section'], data['name_section'], data['semester'], data['year'],
+                                      data['code_teacher'], lista_capacity)
 
-                        json_response = json.dumps(obj_section.to_dict())
-                        return HttpResponse(json_response, status=200, content_type='application/json')
+                            json_response = json.dumps(obj_section.to_dict())
+                            return HttpResponse(json_response, status=200, content_type='application/json')
                     else:
 
                         course = Course.objects.get(id=course_id)
@@ -101,7 +101,8 @@ def course(request, course_id=None):
                             course.teacher = pensum_obj
 
                         course.save()
-                        return HttpResponse(status=204)
+                        json_response = json.dumps(course.to_dict())
+                        return HttpResponse(json_response, status=200, content_type='application/json')
             else:
                 return HttpResponse(status=500)
         elif request.method == 'DELETE':

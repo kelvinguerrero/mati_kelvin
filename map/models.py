@@ -116,7 +116,7 @@ class Student(models.Model):
     student_status = models.IntegerField(default=1)
     total_approved_credits = models.IntegerField(default=0)
     total_credits_actual_semester = models.IntegerField(default=0)
-    scheme = models.OneToOneField('Scheme', related_name='Scheme', null=True, blank=True)
+    scheme = models.OneToOneField('Scheme', on_delete=models.SET_NULL, related_name='Scheme', null=True, blank=True)
     master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -177,7 +177,7 @@ class Scheme(models.Model):
         editable=False,
     )
     def __unicode__(self):
-        return smart_unicode(self.name+""+str(self.active))
+        return smart_unicode(self.name)
 
     @models.permalink
     def get_absolute_url(self):
@@ -191,7 +191,6 @@ class Scheme(models.Model):
             name=self.name,
             courses=[r.to_dict() for r in self.courses.all()]
         )
-
         return response
 
 

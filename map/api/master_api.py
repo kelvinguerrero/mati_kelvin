@@ -1,7 +1,11 @@
+__author__ = 'kelvin Guerrero'
+# coding=utf-8
+
 from map.models import Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
+from map.common.error_common import error_json
 from map.common.master_common import list_masters
 from map.common.pensum_common import dar_pensum_set, crear_pensum
 from map.common.student_common import dar_estudiantes_de_maestria, crear_student
@@ -28,18 +32,18 @@ def master(request, master_id=None):
             data = request.POST
             if validate_data(data, attrs=['operation', 'name']):
                 if 'operation' in data:
-                    if data['operation'] == "1":
-                        if master_id==None:
-                            return HttpResponse(unicode('Se debe agregar el id de la maestria'), status=500)
-                        obj_pensumes_lista = dar_pensum_set(master_id)
-                        json_response = json.dumps(obj_pensumes_lista)
-                        return HttpResponse(json_response, status=200, content_type='application/json')
-                    if data['operation'] == "2":
-                        if master_id==None:
-                            return HttpResponse(unicode('Se debe agregar el id de la maestria'), status=500)
-                        obj_estudiantes_lista = dar_estudiantes_de_maestria(master_id)
-                        json_response = json.dumps(obj_estudiantes_lista)
-                        return HttpResponse(json_response, status=200, content_type='application/json')
+                    if master_id==None:
+                        error = error_json(4,"Se debe agregar el id de la maestría")
+                        return HttpResponse(error, status=500,content_type='application/json')
+                    else:
+                        if data['operation'] == "1":
+                            obj_pensumes_lista = dar_pensum_set(master_id)
+                            json_response = json.dumps(obj_pensumes_lista)
+                            return HttpResponse(json_response, status=200, content_type='application/json')
+                        if data['operation'] == "2":
+                            obj_estudiantes_lista = dar_estudiantes_de_maestria(master_id)
+                            json_response = json.dumps(obj_estudiantes_lista)
+                            return HttpResponse(json_response, status=200, content_type='application/json')
                 else:
                     master = Master.objects.create(name=data['name'])
                     json_response = json.dumps(master.to_dict())
