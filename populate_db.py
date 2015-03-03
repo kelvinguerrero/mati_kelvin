@@ -286,17 +286,17 @@ def populate():
 
     print "carga de secciones de MATI"
     seccionesMati = {
-        13183: {"course": "ARTI4101", "capacity": {"MATI": 34, "pregrado": 3, "otros": 3}, "name": "1", "semester": 1, "year": 2015, "teacher": 79505041},
-        13579: {"course": "ARTI4102", "capacity": {"MATI": 32, "pregrado": 2, "otros": 6}, "name": "2", "semester": 1, "year": 2015, "teacher": 120000000},
-        12663: {"course": "ARTI4103", "capacity": {"MATI": 40, "MBIT": 40, "MESI": 10}, "name": "1", "semester": 1, "year": 2015, "teacher": 79232014},
-        13981: {"course": "ARTI4104", "capacity": {"MATI": 34, "pregrado": 2, "otros": 4}, "name": "2", "semester": 1, "year": 2015, "teacher": 198714604},
-        13982: {"course": "ARTI4106", "capacity": {"MATI": 60, "MBIT": 40}, "name": "1", "semester": 1, "year": 2015, "teacher": 130000000},
-        12664: {"course": "ARTI4201", "capacity": {"MATI": 35, "otros": 5}, "name": "1", "semester": 1, "year": 2015, "teacher": 79505041},
-        12667: {"course": "ARTI4202", "capacity": {"MATI": 34, "pregrado": 2, "otros": 4}, "name": "1", "semester": 1, "year": 2015, "teacher": 140000000},
-        12665: {"course": "ARTI4203", "capacity": {"MATI": 20, "MESI": 20}, "name": "1", "semester": 1, "year": 2015, "teacher": 79419382},
-        13185: {"course": "ARTI4204", "capacity": {"MATI": 32, "pregrado": 4, "otros": 4}, "name": "1", "semester": 1, "year": 2015, "teacher": 85462189},
-        13285: {"course": "ARTI4205", "capacity": {"MATI": 34, "pregrado": 2, "otros": 4}, "name": "1", "semester": 1, "year": 2015, "teacher": 200021872},
-        13582: {"course": "ARTI4301", "capacity": {"MATI": 99}, "name": "1", "semester": 1, "year": 2015, "teacher": 79505041}}
+        13183: {"course": "ARTI4101", "capacity": {"MATI": 34, "pregrado": 3, "otros": 3}, "name": "1", "semester": 1, "year": 2015, "teacher": 79505041, "status": 0},
+        13579: {"course": "ARTI4102", "capacity": {"MATI": 32, "pregrado": 2, "otros": 6}, "name": "2", "semester": 1, "year": 2015, "teacher": 120000000, "status": 0},
+        12663: {"course": "ARTI4103", "capacity": {"MATI": 40, "MBIT": 40, "MESI": 10}, "name": "1", "semester": 1, "year": 2015, "teacher": 79232014, "status": 0},
+        13981: {"course": "ARTI4104", "capacity": {"MATI": 34, "pregrado": 2, "otros": 4}, "name": "2", "semester": 1, "year": 2015, "teacher": 198714604, "status": 0},
+        13982: {"course": "ARTI4106", "capacity": {"MATI": 60, "MBIT": 40}, "name": "1", "semester": 1, "year": 2015, "teacher": 130000000, "status": 0},
+        12664: {"course": "ARTI4201", "capacity": {"MATI": 35, "otros": 5}, "name": "1", "semester": 1, "year": 2015, "teacher": 79505041, "status": 0},
+        12667: {"course": "ARTI4202", "capacity": {"MATI": 34, "pregrado": 2, "otros": 4}, "name": "1", "semester": 1, "year": 2015, "teacher": 140000000, "status": 0},
+        12665: {"course": "ARTI4203", "capacity": {"MATI": 20, "MESI": 20}, "name": "1", "semester": 1, "year": 2015, "teacher": 79419382, "status": 0},
+        13185: {"course": "ARTI4204", "capacity": {"MATI": 32, "pregrado": 4, "otros": 4}, "name": "1", "semester": 1, "year": 2015, "teacher": 85462189, "status": 0},
+        13285: {"course": "ARTI4205", "capacity": {"MATI": 34, "pregrado": 2, "otros": 4}, "name": "1", "semester": 1, "year": 2015, "teacher": 200021872, "status": 0},
+        13582: {"course": "ARTI4301", "capacity": {"MATI": 99}, "name": "1", "semester": 1, "year": 2015, "teacher": 79505041, "status": 0}}
 
     for seccion in seccionesMati:
         add_section(
@@ -306,7 +306,8 @@ def populate():
             year=seccionesMati[seccion]["year"],
             teacher=Teacher.objects.get(code=seccionesMati[seccion]["teacher"]),
             course=Course.objects.get(code=seccionesMati[seccion]["course"]),
-            capacity=seccionesMati[seccion]["capacity"]
+            capacity=seccionesMati[seccion]["capacity"],
+            status=seccionesMati[seccion]["status"]
         )
 #-----------------------------------------------------------------------------------------------------------------------
     #Cursos de MBC
@@ -361,17 +362,17 @@ def populate():
     #Secciones de MBIT
     print "carga de secciones de MBIT"
     seccionesMesi = {
-        16852: {"course": "MBIT4101", "name": "1", "capacity": {"MBIT": 40, "MESI": 10, "otros": 10}, "semester": 1, "year": 2015, "teacher": 800000000},
-        15804: {"course": "MBIT4101", "name": "2", "capacity": {"MBIT": 40, "MESI": 10, "otros": 10}, "semester": 1, "year": 2015, "teacher": 800000000},
-        13984: {"course": "MBIT4201", "name": "1", "capacity": {"MBIT": 40, "MISO": 26, "pregrado": 8, "otros": 6}, "semester": 1, "year": 2015, "teacher": 800000000},
-        16853: {"course": "MBIT4201", "name": "2", "capacity": {"MBIT": 40, "MISO": 26, "pregrado": 8, "otros": 6}, "semester": 1, "year": 2015, "teacher": 194814117},
-        13985: {"course": "MBIT4202", "name": "1", "capacity": {"MBIT": 30, "MESI": 10, "otros": 5}, "semester": 1, "year": 2015, "teacher": 900000000},
-        14598: {"course": "MBIT4203", "name": "1", "capacity": {"MBIT": 35, "otros": 5}, "semester": 1, "year": 2015, "teacher": 199617196},
-        14599: {"course": "MBIT4204", "name": "1", "capacity": {"MBIT": 35, "otros": 5}, "semester": 1, "year": 2015, "teacher": 110000000},
-        14600: {"course": "MBIT4205", "name": "1", "capacity": {"MBIT": 30, "MESI": 5, "otros": 5}, "semester": 1, "year": 2015, "teacher": 800000000},
-        17118: {"course": "MBIT4301", "name": "1", "capacity": {"MBIT": 99}, "semester": 1, "year": 2015, "teacher": 0},
-        17119: {"course": "MBIT4302", "name": "1", "capacity": {"MBIT": 99}, "semester": 1, "year": 2015, "teacher": 0},
-        17120: {"course": "MBIT4303", "name": "1", "capacity": {"MBIT": 99}, "semester": 1, "year": 2015, "teacher": 0}}
+        16852: {"course": "MBIT4101", "name": "1", "capacity": {"MBIT": 40, "MESI": 10, "otros": 10}, "semester": 1, "year": 2015, "teacher": 800000000, "status": 0},
+        15804: {"course": "MBIT4101", "name": "2", "capacity": {"MBIT": 40, "MESI": 10, "otros": 10}, "semester": 1, "year": 2015, "teacher": 800000000, "status": 0},
+        13984: {"course": "MBIT4201", "name": "1", "capacity": {"MBIT": 40, "MISO": 26, "pregrado": 8, "otros": 6}, "semester": 1, "year": 2015, "teacher": 800000000, "status": 0},
+        16853: {"course": "MBIT4201", "name": "2", "capacity": {"MBIT": 40, "MISO": 26, "pregrado": 8, "otros": 6}, "semester": 1, "year": 2015, "teacher": 194814117, "status": 0},
+        13985: {"course": "MBIT4202", "name": "1", "capacity": {"MBIT": 30, "MESI": 10, "otros": 5}, "semester": 1, "year": 2015, "teacher": 900000000, "status": 0},
+        14598: {"course": "MBIT4203", "name": "1", "capacity": {"MBIT": 35, "otros": 5}, "semester": 1, "year": 2015, "teacher": 199617196, "status": 0},
+        14599: {"course": "MBIT4204", "name": "1", "capacity": {"MBIT": 35, "otros": 5}, "semester": 1, "year": 2015, "teacher": 110000000, "status": 0},
+        14600: {"course": "MBIT4205", "name": "1", "capacity": {"MBIT": 30, "MESI": 5, "otros": 5}, "semester": 1, "year": 2015, "teacher": 800000000, "status": 0},
+        17118: {"course": "MBIT4301", "name": "1", "capacity": {"MBIT": 99}, "semester": 1, "year": 2015, "teacher": 0, "status": 0},
+        17119: {"course": "MBIT4302", "name": "1", "capacity": {"MBIT": 99}, "semester": 1, "year": 2015, "teacher": 0, "status": 0},
+        17120: {"course": "MBIT4303", "name": "1", "capacity": {"MBIT": 99}, "semester": 1, "year": 2015, "teacher": 0, "status": 0}}
 
     for seccion in seccionesMesi:
         add_section(
@@ -381,7 +382,8 @@ def populate():
             year=seccionesMesi[seccion]["year"],
             teacher=Teacher.objects.get(code=seccionesMesi[seccion]["teacher"]),
             course=Course.objects.get(code=seccionesMesi[seccion]["course"]),
-            capacity=seccionesMesi[seccion]["capacity"]
+            capacity=seccionesMesi[seccion]["capacity"],
+            status=seccionesMesi[seccion]["status"]
         )
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -406,12 +408,12 @@ def populate():
     #Secciones de MESI
     print "carga de secciones de MESI"
     seccionesMesi = {
-        15850: {"course": "MSIN4101", "name": "1", "capacity": {"MESI": 33, "pregrado": 4, "otros": 3}, "semester": 1, "year": 2015, "teacher": 000000005},
-        14607: {"course": "MSIN4201", "name": "1", "capacity": {"MESI": 33, "pregrado": 4, "otros": 3}, "semester": 1, "year": 2015, "teacher": 199427762},
-        15851: {"course": "MSIN4203", "name": "1", "capacity": {"MESI": 33, "pregrado": 4, "otros": 3}, "semester": 1, "year": 2015, "teacher": 000000006},
-        14609: {"course": "MSIN4302", "name": "1", "capacity": {"MESI": 99}, "semester": 1, "year": 2015, "teacher": 000000004},
-        14608: {"course": "MSIN4301", "name": "1", "capacity": {"MESI": 99}, "semester": 1, "year": 2015, "teacher": 000000007},
-        16217: {"course": "MSIN4303", "name": "1", "capacity": {"MESI": 99}, "semester": 1, "year": 2015, "teacher": 000000004}}
+        15850: {"course": "MSIN4101", "name": "1", "capacity": {"MESI": 33, "pregrado": 4, "otros": 3}, "semester": 1, "year": 2015, "teacher": 000000005, "status": 0},
+        14607: {"course": "MSIN4201", "name": "1", "capacity": {"MESI": 33, "pregrado": 4, "otros": 3}, "semester": 1, "year": 2015, "teacher": 199427762, "status": 0},
+        15851: {"course": "MSIN4203", "name": "1", "capacity": {"MESI": 33, "pregrado": 4, "otros": 3}, "semester": 1, "year": 2015, "teacher": 000000006, "status": 0},
+        14609: {"course": "MSIN4302", "name": "1", "capacity": {"MESI": 99}, "semester": 1, "year": 2015, "teacher": 000000004, "status": 0},
+        14608: {"course": "MSIN4301", "name": "1", "capacity": {"MESI": 99}, "semester": 1, "year": 2015, "teacher": 000000007, "status": 0},
+        16217: {"course": "MSIN4303", "name": "1", "capacity": {"MESI": 99}, "semester": 1, "year": 2015, "teacher": 000000004, "status": 0}}
 
     for seccion in seccionesMesi:
         add_section(
@@ -421,7 +423,8 @@ def populate():
             year=seccionesMesi[seccion]["year"],
             teacher=Teacher.objects.get(code=seccionesMesi[seccion]["teacher"]),
             course=Course.objects.get(code=seccionesMesi[seccion]["course"]),
-            capacity=seccionesMesi[seccion]["capacity"]
+            capacity=seccionesMesi[seccion]["capacity"],
+            status=seccionesMesi[seccion]["status"]
         )
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -466,13 +469,13 @@ def populate():
     #Secciones de MISO
     print "carga de secciones de MISO"
     seccionesMiso = {
-        14446: {"course": "MISO4101", "name": "1", "capacity": {"MISO": 35, "pregrado": 3, "otros": 2}, "semester": 1, "year": 2015, "teacher": 79505041},
-        13986: {"course": "MISO4202", "name": "1", "capacity": {"MISO": 35, "pregrado": 2, "otros": 3}, "semester": 1, "year": 2015, "teacher": 000000001},
-        14604: {"course": "MISO4204", "name": "1", "capacity": {"MISO": 35, "pregrado": 3, "otros": 2}, "semester": 1, "year": 2015, "teacher": 79505041},
-        16210: {"course": "MISO4205", "name": "1", "capacity": {"MISO": 33, "otros": 3}, "semester": 1, "year": 2015, "teacher": 000000002},
-        16211: {"course": "MISO4301", "name": "1", "capacity": {"MISO": 99}, "semester": 1, "year": 2015, "teacher": 000000003},
-        15251: {"course": "MISO4302", "name": "1", "capacity": {"MISO": 99}, "semester": 1, "year": 2015, "teacher": 000000004},
-        16212: {"course": "MISO4303", "name": "1", "capacity": {"MISO": 99}, "semester": 1, "year": 2015, "teacher": 000000004}}
+        14446: {"course": "MISO4101", "name": "1", "capacity": {"MISO": 35, "pregrado": 3, "otros": 2}, "semester": 1, "year": 2015, "teacher": 79505041, "status": 0},
+        13986: {"course": "MISO4202", "name": "1", "capacity": {"MISO": 35, "pregrado": 2, "otros": 3}, "semester": 1, "year": 2015, "teacher": 000000001, "status": 0},
+        14604: {"course": "MISO4204", "name": "1", "capacity": {"MISO": 35, "pregrado": 3, "otros": 2}, "semester": 1, "year": 2015, "teacher": 79505041, "status": 0},
+        16210: {"course": "MISO4205", "name": "1", "capacity": {"MISO": 33, "otros": 3}, "semester": 1, "year": 2015, "teacher": 000000002, "status": 0},
+        16211: {"course": "MISO4301", "name": "1", "capacity": {"MISO": 99}, "semester": 1, "year": 2015, "teacher": 000000003, "status": 0},
+        15251: {"course": "MISO4302", "name": "1", "capacity": {"MISO": 99}, "semester": 1, "year": 2015, "teacher": 000000004, "status": 0},
+        16212: {"course": "MISO4303", "name": "1", "capacity": {"MISO": 99}, "semester": 1, "year": 2015, "teacher": 000000004, "status": 0}}
 
     for seccion in seccionesMiso:
         add_section(
@@ -482,7 +485,8 @@ def populate():
             year=seccionesMiso[seccion]["year"],
             teacher=Teacher.objects.get(code=seccionesMiso[seccion]["teacher"]),
             course=Course.objects.get(code=seccionesMiso[seccion]["course"]),
-            capacity=seccionesMiso[seccion]["capacity"]
+            capacity=seccionesMiso[seccion]["capacity"],
+            status=seccionesMiso[seccion]["status"]
         )
 
 #-----------------------------------------------------------------------------------------------------------------------
@@ -583,13 +587,14 @@ def add_course(pensum, code, credits, name, summer):
 
 
 #Metodo encargado crear una sección
-def add_section(crn, name, semester, year, teacher, course, capacity):
+def add_section(crn, name, semester, year, teacher, course, capacity, status):
     obj_section = Section.objects.get_or_create(crn=crn,
                                                 name=name,
                                                 semester=semester,
                                                 year=year,
                                                 teacher=teacher,
-                                                course=course)[0]
+                                                course=course,
+                                                status=status)[0]
     for capacidad in capacity:
         Capacity.objects.create(name=capacidad, capacity=capacity[capacidad], section=obj_section)
     return obj_section

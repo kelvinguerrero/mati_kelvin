@@ -45,21 +45,21 @@ def pensum(request, pensum_id=None):
             data = request.DATA
             if pensum_id!=None:
                 if validate_data(data, attrs=['name', 'active', 'operation', 'code_course', 'summer', 'name', 'credits']):
-                    if data['operation'] == "1":
-                        codigo_curso = data['code_course']
-                        summer = data['summer']
-                        name = data['name']
-                        credits = data['credits']
+                    if 'operation' in data:
+                        if data['operation'] == "1":
+                            codigo_curso = data['code_course']
+                            summer = data['summer']
+                            name = data['name']
+                            credits = data['credits']
 
-                        obj_curso = agregar_curso(id_pensum=pensum_id,
-                                                  code=codigo_curso,
-                                                  summer=summer,
-                                                  name=name,
-                                                  credits=credits,
-                                                  pensum=pensum_id)
-                        json_response = json.dumps(obj_curso.to_dict())
-                        return HttpResponse(json_response, status=200, content_type='application/json')
-
+                            obj_curso = agregar_curso(id_pensum=pensum_id,
+                                                      code=codigo_curso,
+                                                      summer=summer,
+                                                      name=name,
+                                                      credits=credits,
+                                                      pensum=pensum_id)
+                            json_response = json.dumps(obj_curso.to_dict())
+                            return HttpResponse(json_response, status=200, content_type='application/json')
                     else:
                         pensum = Pensum.objects.get(id=pensum_id)
                         if 'name' in data:

@@ -10,5 +10,15 @@ def list_teachers():
 
     return lista
 
+
+def dar_teachers(id_teacher):
+    obj_pensum = Teacher.objects.get(id=id_teacher)
+    return obj_pensum
+
+    return lista
+
 def dar_profesor_by_code(code_profesor):
-    return Teacher.objects.get(code = code_profesor)
+    try:
+        return Teacher.objects.get(code = code_profesor)
+    except Teacher.DoesNotExist:
+        return None

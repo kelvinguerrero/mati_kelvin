@@ -5,7 +5,7 @@ from map.models import Section, Course, Teacher
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
-from map.common.section_common import list_sections, dar_capacidad, dar_notas_seccion
+from map.common.section_common import list_sections, dar_capacidad, dar_notas_seccion,  agergar_nota, cambiar_estado
 from map.common.error_common import error_json
 import json
 
@@ -27,7 +27,9 @@ def section(request, section_id=None):
                 return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
             data = request.POST
-            if validate_data(data, attrs=['operation', 'crn', 'name', 'semester', 'year', 'teacher', 'course']):
+            if validate_data(data, attrs=['operation', 'crn', 'name', 'semester',
+                                          'year', 'teacher', 'course', 'code_student',
+                                          'grade', 'status']):
                 if "operation" in data:
                     if section_id==None:
                         error = error_json(3,"Se debe agregar el id de la sección")
@@ -43,8 +45,25 @@ def section(request, section_id=None):
                                 notas = dar_notas_seccion(id_seccion=section_id)
                                 json_response = json.dumps(notas)
                                 return HttpResponse(json_response, status=200, content_type='application/json')
+                        if data['operation'] == "3":
+                            if section_id!=None:
+                                notas = agergar_nota(code_student=data['code_student'], id_section=section_id,
+                                                     grade=data['grade'])
+                                if notas == None:
+                                    error = error_json(5, "Verificar datos")
+                                    return HttpResponse(error, status=200, content_type='application/json')
+                                json_response = json.dumps(notas.to_dict())
+                                return HttpResponse(json_response, status=200, content_type='application/json')
+                        if data['operation'] == "4":
+                            if section_id!=None:
+                                notas = cambiar_estado(id_section=section_id, estado=data['status'])
+                                if notas == None:
+                                    error = error_json(5, "Verificar datos")
+                                    return HttpResponse(error, status=200, content_type='application/json')
+                                json_response = json.dumps(notas.to_dict())
+                                return HttpResponse(json_response, status=200, content_type='application/json')
                         else:
-                            error = error_json(1,"No existe la operació")
+                            error = error_json(1, "No existe la operació")
                             return HttpResponse(error, status=200, content_type='application/json')
 
                 else:

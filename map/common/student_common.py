@@ -5,8 +5,19 @@ from map.common.course_common import dar_curso_by_code
 
 
 def dar_estudiante(id_student):
-    obj_student = Student.objects.get(id=id_student)
-    return obj_student
+    try:
+        obj_student = Student.objects.get(id=id_student)
+        return obj_student
+    except Student.DoesNotExist:
+        return None
+
+
+def dar_estudiante_codigo(code_student):
+    try:
+        obj_student = Student.objects.get(code=code_student)
+        return obj_student
+    except Student.DoesNotExist:
+        return None
 
 def list_students():
     lista_student = Student.objects.all()
@@ -44,10 +55,18 @@ def crear_student(code, email, lastname, name, master):
 
 def dar_notas(id_student):
     obj_student = dar_estudiante(id_student=id_student)
+    print(obj_student.name)
     notas = obj_student.subject_set.all()
+    print("notas")
+    print(notas.__len__())
     lista = list()
+    i = 0
     for nota in notas:
+
         lista.append(nota.to_dict())
+        print('numero'+str(i))
+        i= i+1
+    print(lista)
     return lista
 
 

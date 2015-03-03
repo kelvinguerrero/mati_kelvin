@@ -11,6 +11,14 @@ def list_masters():
     return lista
 
 
-def dar_maestria(id_master):
-    obj_master = Master.objects.get(id=id_master)
+def crear_maestria(name):
+    obj_master = Master.objects.get_or_create(name=name)[0]
     return obj_master
+
+
+def dar_maestria(id_master):
+    try:
+        obj_master = Master.objects.get(id=id_master)
+        return obj_master
+    except Master.DoesNotExist:
+        return None

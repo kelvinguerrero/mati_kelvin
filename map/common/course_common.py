@@ -44,6 +44,6 @@ def dar_secciones(id_curso):
     lista_secciones = obj_curso.section_set.all()
     lista = list()
     for obj_seccion in lista_secciones:
-        lista.append(obj_seccion.to_dict_api())
+        lista.append(obj_seccion.to_dict())
     return lista
 

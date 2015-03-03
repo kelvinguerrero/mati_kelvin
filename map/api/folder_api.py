@@ -16,7 +16,7 @@ def folder(request, student_code_id=None):
         if (request.method == 'POST'):
 
             if student_code_id==None:
-                error = error_json(4,"Se debe agregar el código del estudiante")
+                error = error_json(4, "Se debe agregar el código del estudiante")
                 return HttpResponse(error, status=500,content_type='application/json')
             else:
                 data = request.POST

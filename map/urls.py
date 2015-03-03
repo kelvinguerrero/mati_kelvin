@@ -11,7 +11,6 @@ urlpatterns = patterns('',
 
 from map.views.master_views import *
 urlpatterns += patterns('',
-
    url(r'^master/$', master, name='master'),
    url(r'^master/(?P<master_id>[0-9]+)/$', master, name='master'),
    url(r'^master/create/$', master_edit, name='create_master'),
@@ -90,41 +89,46 @@ urlpatterns += patterns('',
 
 # API pensum
 urlpatterns += patterns('map.api.pensum_api',
-    url(r'^api/pensum/$', 'pensum'),
-    url(r'^api/pensum/(?P<pensum_id>[0-9]+)/$', 'pensum'),
+    url(r'^api/pensum/$', 'pensum', name='pensum_api'),
+    url(r'^api/pensum/(?P<pensum_id>[0-9]+)/$', 'pensum', name='pensum_api'),
 )
 # API section
 urlpatterns += patterns('map.api.section_api',
-     url(r'^api/section/$', 'section'),
-     url(r'^api/section/(?P<section_id>[0-9]+)/$', 'section'),
+     url(r'^api/section/$', 'section', name='section_api'),
+     url(r'^api/section/(?P<section_id>[0-9]+)/$', 'section', name='section_api'),
 )
 # API course
 urlpatterns += patterns('map.api.course_api',
-     url(r'^api/course/$', 'course'),
-     url(r'^api/course/(?P<course_id>[0-9]+)/$', 'course'),
+     url(r'^api/course/$', 'course', name='course_api'),
+     url(r'^api/course/(?P<course_id>[0-9]+)/$', 'course', name='course_api'),
 )
 # API teacher
 urlpatterns += patterns('map.api.teacher_api',
-     url(r'^api/teacher/$', 'teacher'),
-     url(r'^api/teacher/(?P<teacher_id>[0-9]+)/$', 'teacher'),
+     url(r'^api/teacher/$', 'teacher', name='teacher_api'),
+     url(r'^api/teacher/(?P<teacher_id>[0-9]+)/$', 'teacher', name='teacher_api'),
 )
 # API student
 urlpatterns += patterns('map.api.student_api',
-     url(r'^api/student/$', 'student'),
-     url(r'^api/student/(?P<student_id>[0-9]+)/$', 'student'),
+     url(r'^api/student/$', 'student', name='student_api'),
+     url(r'^api/student/(?P<student_id>[0-9]+)/$', 'student', name='student_api'),
 )
 # API subject
 urlpatterns += patterns('map.api.subject_api',
-     url(r'^api/subject/$', 'subject'),
-     url(r'^api/subject/(?P<subject_id>[0-9]+)/$', 'subject'),
+     url(r'^api/subject/$', 'subject', name='subject_api'),
+     url(r'^api/subject/(?P<subject_id>[0-9]+)/$', 'subject', name='subject_api'),
 )
 # API Master
 urlpatterns += patterns('map.api.master_api',
-     url(r'^api/master/$', 'master'),
-     url(r'^api/master/(?P<master_id>[0-9]+)/$', 'master'),
+     url(r'^api/master/$', 'master', name='master_api'),
+     url(r'^api/master/(?P<master_id>[0-9]+)/$', 'master', name='master_api'),
 )
 # API Folder
 urlpatterns += patterns('map.api.folder_api',
-     url(r'^api/folder/$', 'folder'),
-     url(r'^api/folder/(?P<student_code_id>[0-9]+)/$', 'folder'),
+     url(r'^api/folder/$', 'folder', name='folder_api'),
+     url(r'^api/folder/(?P<student_code_id>[0-9]+)/$', 'folder', name='folder_api'),
+)
+# API Autenticacion
+urlpatterns += patterns('map.api.account_api',
+     url(r'^api/account/$', 'account', name='account_api'),
+     url(r'^api/account/(?P<student_code_id>[0-9]+)/$', 'account', name='account_api'),
 )

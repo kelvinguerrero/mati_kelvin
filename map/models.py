@@ -2,8 +2,8 @@ __author__ = 'kelvin Guerrero'
 from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import smart_unicode
-import json
-# Create your models here.
+
+# Modelos de la plataforma MAP
 
 
 class Master(models.Model):
@@ -114,8 +114,8 @@ class Student(models.Model):
     lastname = models.CharField(max_length=200, null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     student_status = models.IntegerField(default=1)
-    total_approved_credits = models.IntegerField(default=0)
-    total_credits_actual_semester = models.IntegerField(default=0)
+    #total_approved_credits = models.IntegerField(default=0)
+    #total_credits_actual_semester = models.IntegerField(default=0)
     scheme = models.OneToOneField('Scheme', on_delete=models.SET_NULL, related_name='Scheme', null=True, blank=True)
     master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
@@ -146,8 +146,6 @@ class Student(models.Model):
             lastname=self.lastname,
             name=self.name,
             student_status=self.student_status,
-            total_approved_credits=self.total_approved_credits,
-            total_credits_actual_semester=self.total_credits_actual_semester,
             master=self.master.to_dict()
         )
         return response
@@ -302,6 +300,15 @@ class Capacity(models.Model):
         )
         return response
 
+EXECUTION = 0
+PROPOSED = 1
+DEVELOPED = 2
+SECTION_STATUS_CHOICES = (
+    (EXECUTION, 'Dictandose'),
+    (PROPOSED, 'Propuesta'),
+    (DEVELOPED, 'Dictada'),
+)
+
 
 class Section(models.Model):
     crn = models.IntegerField(null=False, blank=False, unique=True)
@@ -310,6 +317,7 @@ class Section(models.Model):
     year = models.IntegerField(null=False, blank=False)
     teacher = models.ForeignKey('Teacher')
     course = models.ForeignKey('Course')
+    status = models.IntegerField(null=False, blank=False, choices=SECTION_STATUS_CHOICES)
     created_at = models.DateTimeField(
         auto_now_add=True,
         default=now(),
@@ -321,10 +329,10 @@ class Section(models.Model):
         editable=False,
     )
     def __unicode__(self):
-        return smart_unicode(self.name + " " + str(self.crn) )
+        return smart_unicode(self.name + " " + str(self.crn))
     @models.permalink
     def get_absolute_url(self):
-        return ('map_section_detail', (), {'pk': self.pk})
+        return ('map_section_detail',(),{'pk':self.pk})
 
     def to_dict(self):
         response = dict()
@@ -337,32 +345,11 @@ class Section(models.Model):
             year=self.year,
             teacher=self.teacher.to_dict(),
             course=self.course.to_dict(),
+            status=self.status,
             capacity=[r.to_dict() for r in self.capacity_set.all()]
         )
 
         return response
-
-    def to_dict_api(self):
-        response = dict()
-
-        response.update(
-            id=self.id,
-            crn=self.crn,
-            name=self.name,
-            semester=self.semester,
-            year=self.year,
-            teacher=self.teacher.id,
-            course=self.course.id
-        )
-
-        return response
-
-
-class SetEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, set):
-            return list(obj)
-        return json.JSONEncoder.default(self, obj)
 
 
 class Subject(models.Model):
@@ -390,6 +377,7 @@ class Subject(models.Model):
         response.update(
             id=self.id,
             grade=str(self.grade),
+            student_status=self.student_status,
             student=self.student.to_dict(),
             section=self.section.to_dict()
         )
