@@ -1,13 +1,11 @@
 __author__ = 'kelvin Guerrero'
 # coding=utf-8
-
 from map.models import Student, Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
-from map.common.student_common import list_students, dar_notas, crear_plan_studios, dar_scheme
+from map.common.student_common import list_students, dar_notas, crear_plan_studios, dar_scheme, ingles_aprobado, tiene_cruso
 from map.common.error_common import error_json
-
 import json
 
 
@@ -16,7 +14,7 @@ def student(request, student_id=None):
     if not request.user.is_authenticated():
         return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
     else:
-        if (request.method == 'GET'):
+        if request.method == 'GET':
             if student_id is None:
                 response = list_students()
                 json_response = json.dumps(response)
@@ -28,13 +26,12 @@ def student(request, student_id=None):
                 return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
             data = request.POST
-            if validate_data(data, attrs=['operation', 'master_id', 'code',
-                                          'email', 'lastname', 'name', 'student_status',
+            if validate_data(data, attrs=['operation', 'master_id', 'code', 'email', 'lastname', 'name', 'student_status',
                                           'total_approved_credits', 'total_credits_actual_semester',
                                           'nombre', 'curso1', 'curso2', 'curso3', 'curso4', 'curso5', 'curso6',
-                                          'curso7', 'curso8', 'curso9', 'curso10']):
+                                          'curso7', 'curso8', 'curso9', 'curso10', 'code_curso']):
                 if "operation" in data:
-                    if student_id==None:
+                    if student_id == None:
                         error = error_json(4, "Se debe agregar el id del estudiante")
                         return HttpResponse(error, status=500,content_type='application/json')
                     else:
@@ -55,7 +52,32 @@ def student(request, student_id=None):
                                 json_response = json.dumps(plan.to_dict())
                                 return HttpResponse(json_response, status=200, content_type='application/json')
                             else:
-                                error = error_json(2,"No existe plan de estudios")
+                                error = error_json(2, "No existe plan de estudios")
+                                return HttpResponse(error, status=500, content_type='application/json')
+                        if data['operation'] == "4":
+                            nota = ingles_aprobado(id_student=student_id)
+                            if nota != None:
+                                if nota == False:
+                                    json_response = json.dumps({"Respuesta": "No tiene aprobado Ingles"})
+                                    return HttpResponse(json_response, status=200, content_type='application/json')
+                                else:
+                                    json_response = json.dumps(nota.to_dict())
+                                    return HttpResponse(json_response, status=200, content_type='application/json')
+                            else:
+                                error = error_json(2, "No existe el estudiante")
+                                return HttpResponse(error, status=500, content_type='application/json')
+                        if data['operation'] == "5":
+
+                            nota = tiene_cruso(id_student=student_id, code_curso_temp=data['code_curso'])
+                            if nota != None:
+                                if nota == False:
+                                    json_response = json.dumps({"Respuesta": "No tiene el curso " + data['code_curso'] + " aprobado"})
+                                    return HttpResponse(json_response, status=200, content_type='application/json')
+                                else:
+                                    json_response = json.dumps(nota.to_dict())
+                                    return HttpResponse(json_response, status=200, content_type='application/json')
+                            else:
+                                error = error_json(2, "No existe el estudiante")
                                 return HttpResponse(error, status=500, content_type='application/json')
                 else:
 

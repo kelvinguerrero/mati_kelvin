@@ -2,8 +2,14 @@ __author__ = 'kelvin Guerrero'
 from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import smart_unicode
+import datetime
 
 # Modelos de la plataforma MAP
+
+
+class Map(models.Model):
+    semester = models.IntegerField(null=False, blank=False, unique=True, default=2)
+    year = models.IntegerField(null=False, blank=False, unique=True, default=datetime.date.today().year)
 
 
 class Master(models.Model):
@@ -315,7 +321,7 @@ class Section(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     semester = models.IntegerField(null=False, blank=False)
     year = models.IntegerField(null=False, blank=False)
-    teacher = models.ForeignKey('Teacher')
+    teacher = models.ForeignKey('Teacher', null=True, blank=True)
     course = models.ForeignKey('Course')
     status = models.IntegerField(null=False, blank=False, choices=SECTION_STATUS_CHOICES)
     created_at = models.DateTimeField(
@@ -343,7 +349,7 @@ class Section(models.Model):
             name=self.name,
             semester=self.semester,
             year=self.year,
-            teacher=self.teacher.to_dict(),
+            teacher=verificar_teacher(self),
             course=self.course.to_dict(),
             status=self.status,
             capacity=[r.to_dict() for r in self.capacity_set.all()]
@@ -351,6 +357,12 @@ class Section(models.Model):
 
         return response
 
+
+def verificar_teacher(self_obj):
+    if self_obj.teacher == None:
+        return "Sin aignar"
+    else:
+        self_obj.teacher.to_dict()
 
 class Subject(models.Model):
     grade = models.DecimalField(max_digits=10, decimal_places=5, null=False, blank=False)
@@ -378,7 +390,21 @@ class Subject(models.Model):
             id=self.id,
             grade=str(self.grade),
             student_status=self.student_status,
-            student=self.student.to_dict(),
-            section=self.section.to_dict()
+            student=verificar_student(self),
+            section=verificar_section(self)
         )
         return response
+
+
+def verificar_student(self_obj):
+    if self_obj.student == None:
+        return "Sin aignar"
+    else:
+        return self_obj.student.to_dict()
+
+
+def verificar_section(self_obj):
+    if self_obj.section == None:
+        return "Sin aignar"
+    else:
+        return  self_obj.section.to_dict()

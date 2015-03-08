@@ -54,6 +54,7 @@ MIDDLEWARE_CLASSES = (
     'proxy_server.middleware.DisableCSRF',
 )
 
+
 ROOT_URLCONF = 'mati.urls'
 
 WSGI_APPLICATION = 'mati.wsgi.application'
@@ -76,7 +77,6 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'kelvin',
         'HOST': 'localhost',
-
     }
 }
 

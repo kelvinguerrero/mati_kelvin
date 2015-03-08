@@ -4,6 +4,38 @@ from map.common.master_common import dar_maestria
 from map.common.course_common import dar_curso_by_code
 
 
+def tiene_cruso(id_student, code_curso_temp):
+    obj_student = dar_estudiante(id_student=id_student)
+    if obj_student != None:
+        for sub in obj_student.subject_set.all():
+            code_curso = sub.section.course.code
+            if code_curso == code_curso_temp:
+                return sub
+        return False
+    else:
+        return None
+
+
+def ingles_aprobado(id_student):
+    obj_student = dar_estudiante(id_student=id_student)
+    if obj_student != None:
+        for sub in obj_student.subject_set.all():
+            code_curso = sub.section.course.code
+            if code_curso == "LENG0001":
+                return sub
+        return False
+    else:
+        return None
+
+
+def buscar_curso_por_codigo(code_course,id_student):
+
+    obj_student = dar_estudiante(id_student)
+    if obj_student != None:
+        obj_student.section
+    return None
+
+
 def dar_estudiante(id_student):
     try:
         obj_student = Student.objects.get(id=id_student)
@@ -18,6 +50,7 @@ def dar_estudiante_codigo(code_student):
         return obj_student
     except Student.DoesNotExist:
         return None
+
 
 def list_students():
     lista_student = Student.objects.all()
@@ -55,18 +88,12 @@ def crear_student(code, email, lastname, name, master):
 
 def dar_notas(id_student):
     obj_student = dar_estudiante(id_student=id_student)
-    print(obj_student.name)
     notas = obj_student.subject_set.all()
-    print("notas")
-    print(notas.__len__())
     lista = list()
     i = 0
     for nota in notas:
-
         lista.append(nota.to_dict())
-        print('numero'+str(i))
         i= i+1
-    print(lista)
     return lista
 
 

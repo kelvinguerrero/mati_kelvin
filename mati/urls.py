@@ -9,7 +9,6 @@ urlpatterns = patterns('mati.views',
 
     url(r'^$', 'index', name='index'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
     # urls de autenticacion de usuario
     url(r'^accounts/login/$',  'login', name='login'),
     url(r'^accounts/auth/$',  'auth_view', name='auth_view'),

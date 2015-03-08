@@ -12,6 +12,7 @@ def dar_seccion(id_seccion):
     except Section.DoesNotExist:
         return None
 
+
 def dar_seccion_crn(crn_seccion):
     try:
         obj_section = Section.objects.get(crn=crn_seccion)

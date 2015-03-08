@@ -74,15 +74,17 @@ def section(request, section_id=None):
                     lista_attrs.append('year')
                     lista_attrs.append('teacher')
                     lista_attrs.append('course')
+                    lista_attrs.append('status')
 
                     if validate_data(data, attrs=lista_attrs):
                         teacher_obj = Teacher.objects.get(id=data['teacher'])
                         course_obj = Course.objects.get(id=data['course'])
-
+                        print"hola"
                         section = Section.objects.create(crn=data['crn'],
                                                          name=data['name'],
                                                          semester=data['semester'],
                                                          year=data['year'],
+                                                         status=data['status'],
                                                          teacher=teacher_obj,
                                                          course=course_obj)
                         json_response = json.dumps(section.to_dict())

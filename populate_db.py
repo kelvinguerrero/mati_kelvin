@@ -1,13 +1,14 @@
 __author__ = 'kelvin Guerrero'
 # coding=utf-8
 import os
+import random
 
 
 # Metodo encargado de cargar la base de datos con la información inicial
 def populate():
 
     #Carga de Mestrias
-    maestrias = ["MATI", "MBC", "MBIT", "MESI", "MISIS", "MISO"]
+    maestrias = ["MATI", "MBC", "MBIT", "MESI", "MISIS", "MISO", "ENGLISH"]
 
     print "carga de maestrias"
     for maestria in maestrias:
@@ -490,6 +491,41 @@ def populate():
         )
 
 #-----------------------------------------------------------------------------------------------------------------------
+    #Cursos de MISO
+    print "carga de curso Ingles"
+    cursosMiso = {
+        "LENG0001": {"name": "Ingles", "credits": 0, "summer": False}}
+
+    for codigo in cursosMiso:
+        add_course(
+            pensum=Pensum.objects.get(name="Pensum_ENGLISH"),
+            code=codigo,
+            credits=cursosMiso[codigo]["credits"],
+            name=cursosMiso[codigo]["name"],
+            summer=cursosMiso[codigo]["summer"])
+
+    #Secciones de MISO
+    print "carga de secciones de Ingles"
+    seccionesMiso = {
+        00001: {"course": "LENG0001", "name": "1", "capacity": {"otros": 99}, "semester": 1, "year": 2015, "status": 0},
+        00002: {"course": "LENG0001", "name": "1", "capacity": {"otros": 99}, "semester": 2, "year": 2015, "status": 0},
+        00003: {"course": "LENG0001", "name": "1", "capacity": {"otros": 99}, "semester": 1, "year": 2014, "status": 0},
+        00004: {"course": "LENG0001", "name": "1", "capacity": {"otros": 99}, "semester": 2, "year": 2014, "status": 0}
+        }
+
+    for seccion in seccionesMiso:
+        add_section_no_teacher(
+            crn=seccion,
+            name=seccionesMiso[seccion]["name"],
+            semester=seccionesMiso[seccion]["semester"],
+            year=seccionesMiso[seccion]["year"],
+            course=Course.objects.get(code=seccionesMiso[seccion]["course"]),
+            capacity=seccionesMiso[seccion]["capacity"],
+            status=seccionesMiso[seccion]["status"]
+        )
+
+
+#-----------------------------------------------------------------------------------------------------------------------
     #Creación de plan de estudio
     print "Plan de estudio de estudiante"
     planEstudio = {
@@ -502,9 +538,9 @@ def populate():
                     200125103: {"course_1": "MISO4101", "course_2": "MISO4202", "course_3": "MISO4204", "course_4": "MISO4205" },
                     200220825: {"course_1": "MISO4101", "course_2": "MISO4202", "course_3": "MISO4204", "course_4": "MISO4205" }}
 
-    for course in planEstudio:
-        obj_scheme = add_scheme("plan"+str(course))
-        add_couse_scheme(obj_scheme, planEstudio, course)
+    for code_student in planEstudio:
+        obj_scheme = add_scheme("plan"+str(code_student))
+        add_couse_scheme(obj_scheme, planEstudio, code_student)
 
     notasEstudiantes = {
                         199024632: {14446: 5, 13986: 4, 14604: 2.5, 16210: 3},
@@ -520,12 +556,40 @@ def populate():
         for section in notasEstudiantes[estudiante]:
             add_course_grade(section, estudiante, notasEstudiantes[estudiante][section])
 
+#Creacion de escenarios
+    print("carga de escenarios")
+    print("Carga de cursos de ingles")
+    for i in range(1, 10):
+        stude = Student.objects.order_by('?')[0]
+        ingles = random.randint(0, 1)
+        if ingles == 1:
+            curso = dar_curso_by_code("LENG0001")
+            section = curso.section_set.order_by('?')[0]
+            add_course_grade(section.crn, stude.code, 5)
+
+
+
 
 #-----------------------------------------------------------------------------------------------------------------------
+
+
+#Metodo encargado de verificar si el estudiante tiene ingles o no
+def add_course_grade(section_crn, student_code, grade):
+    sect_obj = Section.objects.get(crn=section_crn)
+    stud_obj = Student.objects.get(code=student_code)
+    student_status = False
+    if grade >= 3:
+        student_status = True
+    subj_obj = Subject.objects.get_or_create(grade=grade,
+                                             section=sect_obj,
+                                             student=stud_obj,
+                                             student_status=student_status)
+    return subj_obj
+
 #Metodo encargado de crear un plan de estudio del estudiante
-def add_course_grade(section, student, grade):
-    sect_obj = Section.objects.get(crn=section)
-    stud_obj = Student.objects.get(code=student)
+def add_course_grade(section_crn, student_code, grade):
+    sect_obj = Section.objects.get(crn=section_crn)
+    stud_obj = Student.objects.get(code=student_code)
     student_status = False
     if grade >= 3:
         student_status = True
@@ -537,11 +601,11 @@ def add_course_grade(section, student, grade):
 
 
 #Metodo encargado de crear un plan de estudio del estudiante
-def add_couse_scheme(scheme, planEstudio, course):
-        for cursos in planEstudio[course]:
-            curso_obj = Course.objects.get(code=planEstudio[course][cursos])
+def add_couse_scheme(scheme, planEstudio, code_student):
+        for cursos in planEstudio[code_student]:
+            curso_obj = Course.objects.get(code=planEstudio[code_student][cursos])
             scheme.courses.add(curso_obj)
-            student_obj = Student.objects.get(code=course)
+            student_obj = Student.objects.get(code=code_student)
             student_obj.scheme = scheme
             student_obj.save()
 
@@ -600,6 +664,19 @@ def add_section(crn, name, semester, year, teacher, course, capacity, status):
     return obj_section
 
 
+#Metodo encargado crear una sección si profesor
+def add_section_no_teacher(crn, name, semester, year, course, capacity, status):
+    obj_section = Section.objects.get_or_create(crn=crn,
+                                                name=name,
+                                                semester=semester,
+                                                year=year,
+                                                course=course,
+                                                status=status)[0]
+    for capacidad in capacity:
+        Capacity.objects.create(name=capacidad, capacity=capacity[capacidad], section=obj_section)
+    return obj_section
+
+
 #Metodo encargado en definir la creacion de un pensum
 def add_pensum(name, active, master):
     if master != None:
@@ -613,43 +690,7 @@ def add_pensum(name, active, master):
 if __name__ == '__main__':
     print "Iniciando población de datos base"
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mati.settings')
-    from map.models import Master, Pensum, Course, Teacher, Section, Capacity, Student, Scheme,Subject
+    from map.models import Master, Pensum, Course, Teacher, Section, Capacity, Student, Scheme, Subject
+    from map.common.course_common import dar_curso_by_code
 
     populate()
-
-    # add_page(cat=python_cat,
-    #     title="How to Think like a Computer Scientist",
-    #     url="http://www.greenteapress.com/thinkpython/")
-    #
-    # add_page(cat=python_cat,
-    #     title="Learn Python in 10 Minutes",
-    #     url="http://www.korokithakis.net/tutorials/python/")
-    #
-    # django_cat = add_cat("Django")
-    #
-    # add_page(cat=django_cat,
-    #     title="Official Django Tutorial",
-    #     url="https://docs.djangoproject.com/en/1.5/intro/tutorial01/")
-    #
-    # add_page(cat=django_cat,
-    #     title="Django Rocks",
-    #     url="http://www.djangorocks.com/")
-    #
-    # add_page(cat=django_cat,
-    #     title="How to Tango with Django",
-    #     url="http://www.tangowithdjango.com/")
-    #
-    # frame_cat = add_cat("Other Frameworks")
-    #
-    # add_page(cat=frame_cat,
-    #     title="Bottle",
-    #     url="http://bottlepy.org/docs/dev/")
-    #
-    # add_page(cat=frame_cat,
-    #     title="Flask",
-    #     url="http://flask.pocoo.org")
-
-    # # Print out what we have added to the user.
-    # for c in Category.objects.all():
-    #     for p in Page.objects.filter(category=c):
-    #         print "- {0} - {1}".format(str(c), str(p))
