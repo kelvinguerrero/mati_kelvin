@@ -35,6 +35,18 @@ def dar_cursos_pensum(id_pensum):
         return None
 
 
+def dar_cursos_pensum_obj(id_pensum):
+    try:
+        obj_pensum = Pensum.objects.get(id=id_pensum)
+        lista_cursos = obj_pensum.course_set.all()
+        lista = list()
+        for obj_curso in lista_cursos:
+            lista.append(obj_curso)
+        return lista
+    except Pensum.DoesNotExist:
+        return None
+
+
 def dar_pensum_set(id_maestria):
     obj_maestria = dar_maestria(id_master=id_maestria)
     if obj_maestria == None:

@@ -568,11 +568,144 @@ def populate():
             add_course_grade(section.crn, stude.code, 5)
 
 
+    print("carga de estudaintes con proyecyo de grado MATI")
 
+    planEstudio_proyectos ={"MATI": {"proyecto":"ARTI4301"},
+                  "MBIT": {"proyecto":"MBIT4301","tesis":"MBIT4302"},
+                  "MESI": {"proyecto":"MSIN4301","tesis":"MSIN4302"},
+                  "MISO": {"proyecto":"MISO4301","tesis":"MISO4302"}}
+
+    for i in range(1, 25):
+        master = dar_maestria_nombre("MATI")
+        estudianes_lista = []
+
+        stude = random.choice(dar_estudiantes_de_maestria_obj(master.id))
+        if not(stude.code in estudianes_lista):
+            estudianes_lista.append(stude.code)
+            ingles = random.randint(0, 1)
+            proyecto = random.randint(0, 1)
+            if ingles == 1:
+                cargarIngles(stude.code)
+            if proyecto == 1:
+                    creditos = dar_cantidad_creditos(stude.id)
+                    semes_cant_cursos = creditos/4
+                    cursos_json= total_cursos_maestria_elect(stude.id)
+                    cursos_maestria = int(cursos_json["cursos_mestria"])
+                    cursos_otros = int(cursos_json["cursos_otros"])
+            if master != None:
+                pensum = master.pensum_set.first()
+                bol_temp = True
+                cursos = dar_cursos_pensum_obj(pensum.id)
+                while bol_temp:
+                    cursos_json= total_cursos_maestria_elect(stude.id)
+                    print(cursos_json)
+                    cursos_maestria = float(cursos_json["cursos_mestria"])
+                    if cursos_maestria < 7:
+                        curso = random.choice(cursos)
+                        if not(verificar_existe_curso_plan(curso.code, stude.code)):
+                            if stude.scheme == None:
+                                obj_scheme = add_scheme("plan"+str(stude.code))
+                                stude.scheme = obj_scheme
+                                stude.save()
+                            curso_schema_obj = Scheme_courses(scheme=stude.scheme, course=curso, semester=4)
+                            curso_schema_obj.save()
+                    else:
+                        bol_temp = False
+
+                bol_temp = True
+                while bol_temp:
+                    bol_temo_master = True
+                    while bol_temo_master:
+                        temp_master = Master.objects.all().order_by('?')[0]
+                        if temp_master.name != master.name:
+                            bol_temo_master = False
+                    cursos_json = total_cursos_maestria_elect(stude.id)
+                    cursos_otros = int(cursos_json["cursos_otros"])
+                    print "CURSOS OTROS" + str(cursos_otros)
+                    cursos_otra_mas = dar_cursos_pensum_obj(temp_master.pensum_set.first().id)
+                    if cursos_otros < 2 and cursos_otra_mas.__len__()>0:
+                        curso = random.choice(cursos_otra_mas)
+                        if not(verificar_existe_curso_plan(curso.code, stude.code)):
+                            if stude.scheme == None:
+                                obj_scheme = add_scheme("plan"+str(stude.code))
+                                stude.scheme = obj_scheme
+                                stude.save()
+                            curso_schema_obj = Scheme_courses(scheme=stude.scheme, course=curso, semester=4)
+                            curso_schema_obj.save()
+                    else:
+                        bol_temp = False
+                for i in range(1, 8):
+                    if pensum != None:
+                        cursos = dar_cursos_pensum(pensum.id)
+                        curso = None
+                        i=0
+                        while True:
+                            curso = random.choice(cursos)
+                            if (curso["code"] != "ARTI4301" and verificar_existe_curso_aprobado(curso["code"], stude.code)) or i > cursos.__len__():
+                                break
+                            i=i+1
+                        if curso != None:
+                            print("Curso" + str(i))
+                            if i < cursos.__len__():
+                                cargarCursoEstudiante(curso["code"], stude.code)
+                                print "curso:"+curso["code"]
+                print "estudiante:" + str(stude.code)
+
+
+def total_cursos_maestria_elect(student_id):
+    stude = Student.objects.get(id=student_id)
+    maestria_name = stude.master.name
+    cursos = 0
+    cursos_otros=0
+    if stude.scheme != None:
+        lista = stude.scheme.courses.all()
+        for course_temp in lista:
+            if course_temp.pensum.master.name == maestria_name:
+                cursos = cursos+1
+            else:
+                cursos_otros = cursos_otros +1
+    return {"cursos_otros":cursos_otros,"cursos_mestria":cursos}
+
+
+def verificar_existe_curso_plan(code_curso, code_student):
+    stude = Student.objects.get(code=code_student)
+    curso = dar_curso_by_code(code_curso)
+    if curso != None:
+        if stude.scheme != None:
+            lista = stude.scheme.courses.all()
+            for course_temp in lista:
+                if course_temp.name == curso.name:
+                    return True
+            return False
+    return False
+
+
+def verificar_existe_curso_aprobado(code_curso, code_student):
+    stude = Student.objects.get(code=code_student)
+    curso = dar_curso_by_code(code_curso)
+    if curso != None:
+        lista = dar_notas(stude.id)
+        for nota in lista:
+            nota_obj = Subject.objects.get(id= nota["id"])
+            curso_temp = nota_obj.section.course
+            if curso_temp.name == curso.name and nota_obj.grade >3:
+                return False
+        return True
+    return False
+
+
+def cargarCursoEstudiante(code_curso, code_student):
+    curso = dar_curso_by_code(code_curso)
+    section = curso.section_set.order_by('?')[0]
+    add_course_grade(section.crn, code_student, 5)
+
+
+def cargarIngles(code_student):
+    curso = dar_curso_by_code("LENG0001")
+    section = curso.section_set.order_by('?')[0]
+    add_course_grade(section.crn, code_student, 5)
 
 #-----------------------------------------------------------------------------------------------------------------------
-
-
 #Metodo encargado de verificar si el estudiante tiene ingles o no
 def add_course_grade(section_crn, student_code, grade):
     sect_obj = Section.objects.get(crn=section_crn)
@@ -585,6 +718,7 @@ def add_course_grade(section_crn, student_code, grade):
                                              student=stud_obj,
                                              student_status=student_status)
     return subj_obj
+
 
 #Metodo encargado de crear un plan de estudio del estudiante
 def add_course_grade(section_crn, student_code, grade):
@@ -602,12 +736,19 @@ def add_course_grade(section_crn, student_code, grade):
 
 #Metodo encargado de crear un plan de estudio del estudiante
 def add_couse_scheme(scheme, planEstudio, code_student):
+        i = 1
+        cont = 0
         for cursos in planEstudio[code_student]:
+            if cont ==2:
+                cont = 0
+                i = i+1
             curso_obj = Course.objects.get(code=planEstudio[code_student][cursos])
-            scheme.courses.add(curso_obj)
+            curso_schema_obj = Scheme_courses(scheme = scheme, course = curso_obj,semester=i)
+            curso_schema_obj.save()
             student_obj = Student.objects.get(code=code_student)
             student_obj.scheme = scheme
             student_obj.save()
+            cont = cont+1
 
 
 #Metodo encargado de crear un plan de estudio del estudiante
@@ -690,7 +831,9 @@ def add_pensum(name, active, master):
 if __name__ == '__main__':
     print "Iniciando población de datos base"
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mati.settings')
-    from map.models import Master, Pensum, Course, Teacher, Section, Capacity, Student, Scheme, Subject
+    from map.models import Master, Pensum, Course, Teacher, Section, Capacity, Student, Scheme, Subject, Scheme_courses
     from map.common.course_common import dar_curso_by_code
-
+    from map.common.master_common import *
+    from map.common.student_common import dar_notas,dar_notas_obj, dar_estudiantes_de_maestria_obj, dar_cantidad_creditos
+    from map.common.pensum_common import dar_cursos_pensum,dar_cursos_pensum_obj
     populate()

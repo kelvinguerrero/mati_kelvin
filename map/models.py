@@ -7,8 +7,20 @@ import datetime
 # Modelos de la plataforma MAP
 
 
+PRIMER_SEMESTRE = 10
+SEGUNDO_SEMESTRE = 20
+INTERSEMESTRAL = 18
+VERANO = 19
+SEMESTRE_CHOICES = (
+    (PRIMER_SEMESTRE, 'primer_semestre'),
+    (SEGUNDO_SEMESTRE, 'segundo_semestre'),
+    (INTERSEMESTRAL, 'intersemestral'),
+    (VERANO, 'verano'),
+)
+
+
 class Map(models.Model):
-    semester = models.IntegerField(null=False, blank=False, unique=True, default=2)
+    semester = models.IntegerField(null=False, blank=False, unique=True, default=10, choices=SEMESTRE_CHOICES)
     year = models.IntegerField(null=False, blank=False, unique=True, default=datetime.date.today().year)
 
 
@@ -169,7 +181,7 @@ class Student(models.Model):
 #Relacion que modela el plan de estudios que el estudiante crea
 class Scheme(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
-    courses = models.ManyToManyField('Course')
+    courses = models.ManyToManyField('Course', through='Scheme_courses')
     created_at = models.DateTimeField(
         auto_now_add=True,
         default=now(),
@@ -196,6 +208,14 @@ class Scheme(models.Model):
             courses=[r.to_dict() for r in self.courses.all()]
         )
         return response
+
+
+class Scheme_courses(models.Model):
+    scheme = models.ForeignKey('Scheme')
+    course = models.ForeignKey('Course')
+    semester = models.IntegerField(null=True, blank=True)
+    class Meta:
+        unique_together = ("scheme", "course",)
 
 
 class Course(models.Model):
@@ -357,6 +377,21 @@ class Section(models.Model):
 
         return response
 
+    def to_dict_sin_cap(self):
+        response = dict()
+
+        response.update(
+            id=self.id,
+            crn=self.crn,
+            name=self.name,
+            semester=self.semester,
+            year=self.year,
+            teacher=verificar_teacher(self),
+            course=self.course.to_dict(),
+            status=self.status,
+        )
+
+        return response
 
 def verificar_teacher(self_obj):
     if self_obj.teacher == None:
@@ -407,4 +442,4 @@ def verificar_section(self_obj):
     if self_obj.section == None:
         return "Sin aignar"
     else:
-        return  self_obj.section.to_dict()
+        return  self_obj.section.to_dict_sin_cap()

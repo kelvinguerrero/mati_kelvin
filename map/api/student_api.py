@@ -4,7 +4,9 @@ from map.models import Student, Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
-from map.common.student_common import list_students, dar_notas, crear_plan_studios, dar_scheme, ingles_aprobado, tiene_cruso
+from map.common.student_common import   list_students, dar_notas, crear_plan_studios, \
+                                        dar_scheme, ingles_aprobado, tiene_cruso, \
+                                        total_cursos_maestria_elect, tiene_proyecto_grado
 from map.common.error_common import error_json
 import json
 
@@ -22,8 +24,12 @@ def student(request, student_id=None):
                 return HttpResponse(json_response, status=200, content_type='application/json')
             else:
                 student = Student.objects.get(id=student_id)
-                json_response = json.dumps(student.to_dict())
-                return HttpResponse(json_response, status=200, content_type='application/json')
+                if student != None:
+                    json_response = json.dumps(student.to_dict())
+                    return HttpResponse(json_response, status=200, content_type='application/json')
+                else:
+                    error = error_json(2, "No existe el estudiante")
+                    return HttpResponse(error, status=500, content_type='application/json')
         elif request.method == 'POST':
             data = request.POST
             if validate_data(data, attrs=['operation', 'master_id', 'code', 'email', 'lastname', 'name', 'student_status',
@@ -34,6 +40,7 @@ def student(request, student_id=None):
                     if student_id == None:
                         error = error_json(4, "Se debe agregar el id del estudiante")
                         return HttpResponse(error, status=500,content_type='application/json')
+
                     else:
                         if data['operation'] == "1":
                             notas = dar_notas(id_student=student_id)
@@ -79,6 +86,25 @@ def student(request, student_id=None):
                             else:
                                 error = error_json(2, "No existe el estudiante")
                                 return HttpResponse(error, status=500, content_type='application/json')
+                        if data['operation'] == "6":
+                            student = Student.objects.get(code=student_id)
+                            if student != None:
+                                json_response = json.dumps(student.to_dict())
+                                return HttpResponse(json_response, status=200, content_type='application/json')
+                            else:
+                                error = error_json(2, "No existe el estudiante")
+                                return HttpResponse(error, status=500, content_type='application/json')
+                        if data['operation'] == "7":
+                            cursos = total_cursos_maestria_elect(student_id)
+                            son_response = json.dumps(cursos)
+                            return HttpResponse(son_response, status=200, content_type='application/json')
+                        if data['operation'] == "8":
+                            cursos = tiene_proyecto_grado(student_id)
+                            son_response = json.dumps(cursos)
+                            return HttpResponse(son_response, status=200, content_type='application/json')
+
+
+
                 else:
 
                     lista_attrs = list()
