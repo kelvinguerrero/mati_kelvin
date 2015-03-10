@@ -38,7 +38,8 @@ def total_cursos_maestria_elect(student_id):
         for course_temp in lista:
             if course_temp.pensum.master.name == maestria_name:
                 cursos = cursos+1
-            cursos_otros = cursos_otros +1
+            else:
+                cursos_otros = cursos_otros +1
     return {"cursos_otros": cursos_otros, "cursos_mestria": cursos}
 
 
@@ -233,44 +234,109 @@ def dar_scheme(id_student):
 
 def crear_plan_studios(id_student, nombre, curso1, curso2, curso3,
                        curso4, curso5, curso6, curso7, curso8, curso9, curso10):
+
     obj_student = dar_estudiante(id_student=id_student)
+
     if obj_student.scheme == None:
         obj_scheme = dar_crear_scheme(nombre+ "" + str(id_student))
     else:
-        scheme = obj_student.scheme
-        scheme.delete()
-        obj_student.save()
-        obj_scheme = dar_crear_scheme(nombre + "" + str(id_student))
+        obj_scheme = obj_student.scheme
+        print id_student
+        print nombre
+        obj_scheme.name=nombre+"_" + str(obj_student.code)
 
-    if curso1 != None:
-        obj_scheme.courses.add(dar_curso_by_code(code_curso=curso1))
 
-    if curso2 != None:
-        obj_scheme.courses.add(dar_curso_by_code(code_curso=curso2))
+    if curso1 != None and not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, semester=1).exists():
+        curso_obj = dar_curso_by_code(code_curso=curso1)
+        curso_schema_obj = Scheme_courses(scheme=obj_scheme, course=curso_obj, semester=1)
+        if not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, course_id=curso_obj.id).exists():
+            curso_schema_obj.save()
+            student_obj = Student.objects.get(id=id_student)
+            student_obj.scheme = obj_scheme
+            student_obj.save()
 
-    if curso3 != None:
-        obj_scheme.courses.add(dar_curso_by_code(code_curso=curso3))
+    if curso2 != None and not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, semester=2).exists():
+        curso_obj = dar_curso_by_code(code_curso=curso2)
+        curso_schema_obj = Scheme_courses(scheme=obj_scheme, course=curso_obj, semester=2)
+        if not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, course_id=curso_obj.id).exists():
+            curso_schema_obj.save()
+            student_obj = Student.objects.get(id=id_student)
+            student_obj.scheme = obj_scheme
+            student_obj.save()
 
-    if curso4 != None:
-        obj_scheme.courses.add(dar_curso_by_code(code_curso=curso4))
+    if curso3 != None and not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, semester=3).exists():
+        curso_obj = dar_curso_by_code(code_curso=curso3)
+        curso_schema_obj = Scheme_courses(scheme=obj_scheme, course=curso_obj, semester=3)
+        if not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, course_id=curso_obj.id).exists():
+            curso_schema_obj.save()
+            student_obj = Student.objects.get(id=id_student)
+            student_obj.scheme = obj_scheme
+            student_obj.save()
 
-    if curso5 != None:
-        obj_scheme.courses.add(dar_curso_by_code(code_curso=curso5))
+    if curso4 != None  and not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, semester=4).exists():
+        curso_obj = dar_curso_by_code(code_curso=curso4)
+        curso_schema_obj = Scheme_courses(scheme=obj_scheme, course=curso_obj, semester=4)
+        if not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, course_id=curso_obj.id).exists():
+            curso_schema_obj.save()
+            student_obj = Student.objects.get(id=id_student)
+            student_obj.scheme = obj_scheme
+            student_obj.save()
 
-    if curso6 != None:
-        obj_scheme.courses.add(dar_curso_by_code(code_curso=curso6))
+    if curso5 != None and not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, semester=5).exists():
+        curso_obj = dar_curso_by_code(code_curso=curso5)
+        curso_schema_obj = Scheme_courses(scheme=obj_scheme, course=curso_obj, semester=5)
+        if not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, course_id=curso_obj.id).exists():
+            curso_schema_obj.save()
+            student_obj = Student.objects.get(id=id_student)
+            student_obj.scheme = obj_scheme
+            student_obj.save()
 
-    if curso7 != None:
-        obj_scheme.courses.add(dar_curso_by_code(code_curso=curso7))
+    if curso6 != None and not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, semester=6).exists():
+        curso_obj = dar_curso_by_code(code_curso=curso6)
+        curso_schema_obj = Scheme_courses(scheme=obj_scheme, course=curso_obj, semester=6)
+        if not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, course_id=curso_obj.id).exists():
+            curso_schema_obj.save()
+            student_obj = Student.objects.get(id=id_student)
+            student_obj.scheme = obj_scheme
+            student_obj.save()
 
-    if curso8 != None:
-        obj_scheme.courses.add(dar_curso_by_code(code_curso=curso8))
+    if curso7 != None and not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, semester=7).exists():
+        curso_obj = dar_curso_by_code(code_curso=curso7)
+        curso_schema_obj = Scheme_courses(scheme=obj_scheme, course=curso_obj, semester=7)
+        if not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, course_id=curso_obj.id).exists():
+            curso_schema_obj.save()
+            student_obj = Student.objects.get(id=id_student)
+            student_obj.scheme = obj_scheme
+            student_obj.save()
 
-    if curso9 != None:
-        obj_scheme.courses.add(dar_curso_by_code(code_curso=curso9))
+    if curso8 != None and not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, semester=8).exists():
+        curso_obj = dar_curso_by_code(code_curso=curso8)
+        curso_schema_obj = Scheme_courses(scheme=obj_scheme, course=curso_obj, semester=8)
+        if not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, course_id=curso_obj.id).exists():
+            curso_schema_obj.save()
+            student_obj = Student.objects.get(id=id_student)
+            student_obj.scheme = obj_scheme
+            student_obj.save()
 
-    if curso10 != None:
-        obj_scheme.courses.add(dar_curso_by_code(code_curso=curso10))
+    if curso9 != None and not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, semester=9).exists():
+        curso_obj = dar_curso_by_code(code_curso=curso9)
+        curso_schema_obj = Scheme_courses(scheme=obj_scheme, course=curso_obj, semester=9)
+        if not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, course_id=curso_obj.id).exists():
+            curso_schema_obj.save()
+            student_obj = Student.objects.get(id=id_student)
+            student_obj.scheme = obj_scheme
+            student_obj.save()
+
+
+
+    if curso10 != None and not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, semester=10).exists():
+        curso_obj = dar_curso_by_code(code_curso=curso10)
+        curso_schema_obj = Scheme_courses(scheme=obj_scheme, course=curso_obj, semester=10)
+        if not Scheme_courses.objects.all().filter(scheme_id=obj_scheme.id, course_id=curso_obj.id).exists():
+            curso_schema_obj.save()
+            student_obj = Student.objects.get(id=id_student)
+            student_obj.scheme = obj_scheme
+            student_obj.save()
 
     obj_student.scheme = obj_scheme
     obj_student.save()

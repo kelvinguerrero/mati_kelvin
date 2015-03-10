@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import smart_unicode
 import datetime
+import json
 
 # Modelos de la plataforma MAP
 
@@ -205,10 +206,22 @@ class Scheme(models.Model):
         response.update(
             id=self.id,
             name=self.name,
-            courses=[r.to_dict() for r in self.courses.all()]
+            #courses=[r.to_dict() for r in self.courses.all()]
+            courses=agregar_cursos(self.courses.all(), self.id)
         )
         return response
 
+
+def agregar_cursos(cursos_all, scheme_id):
+    lista_cursos = list()
+    for curso in cursos_all:
+        sch_obj = Scheme_courses.objects.get(scheme_id=scheme_id, course_id= curso.id)
+        print sch_obj.semester
+        json_rta = {"curso": curso.to_dict(), "semestre": sch_obj.semester}
+        lista_cursos.append(json_rta)
+
+    print "salio"
+    return lista_cursos
 
 class Scheme_courses(models.Model):
     scheme = models.ForeignKey('Scheme')
@@ -393,11 +406,13 @@ class Section(models.Model):
 
         return response
 
+
 def verificar_teacher(self_obj):
     if self_obj.teacher == None:
         return "Sin aignar"
     else:
         self_obj.teacher.to_dict()
+
 
 class Subject(models.Model):
     grade = models.DecimalField(max_digits=10, decimal_places=5, null=False, blank=False)
