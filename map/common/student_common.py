@@ -66,7 +66,7 @@ def tiene_proyecto_grado(id_student):
                 return rta
         return False
     else:
-        return None
+        return False
 
 
 def verificar_proyecto_maestria(master, code_curso):
@@ -148,7 +148,12 @@ def dar_maestria_de_estudiante(code_student):
 
 
 def dar_estudiantes_de_maestria(master_id):
-    obj_master = dar_maestria(master_id)
+    try:
+        obj_master = Master.objects.get(id=master_id)
+
+    except Master.DoesNotExist:
+        return None
+
     studen_set = obj_master.student_set.all()
     lista = list()
     for obj_student in studen_set:

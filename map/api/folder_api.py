@@ -8,18 +8,18 @@ from map.common.error_common import error_json
 from map.common.folder_common import calculate_credits, list_subject_approved, list_courses_scheme, structure_master_courses
 import json
 
-@expose_service(['POST'], public=True)
+@expose_service(['GET'], public=True)
 def folder(request, student_code_id=None):
     if not request.user.is_authenticated():
         return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
     else:
-        if (request.method == 'POST'):
+        if (request.method == 'GET'):
 
             if student_code_id==None:
                 error = error_json(4, "Se debe agregar el código del estudiante")
                 return HttpResponse(error, status=500,content_type='application/json')
             else:
-                data = request.POST
+                data = request.GET
                 if validate_data(data, attrs=['operation', 'student_code']):
                     if data['operation'] == "1":
                         return HttpResponse(json.dumps(calculate_credits(student_code_id)), status=200, content_type='application/json')

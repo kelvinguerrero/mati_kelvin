@@ -739,16 +739,17 @@ def add_couse_scheme(scheme, planEstudio, code_student):
         i = 1
         cont = 0
         for cursos in planEstudio[code_student]:
-            if cont ==2:
+            if cont == 2:
                 cont = 0
-                i = i+1
+                i=i+1
             curso_obj = Course.objects.get(code=planEstudio[code_student][cursos])
-            curso_schema_obj = Scheme_courses(scheme = scheme, course = curso_obj,semester=i)
-            curso_schema_obj.save()
-            student_obj = Student.objects.get(code=code_student)
-            student_obj.scheme = scheme
-            student_obj.save()
-            cont = cont+1
+            curso_schema_obj = Scheme_courses(scheme=scheme, course=curso_obj, semester=i)
+            if not Scheme_courses.objects.all().filter(scheme_id=scheme.id, course_id=curso_obj.id).exists():
+                curso_schema_obj.save()
+                student_obj = Student.objects.get(code=code_student)
+                student_obj.scheme = scheme
+                student_obj.save()
+            cont=cont+1
 
 
 #Metodo encargado de crear un plan de estudio del estudiante

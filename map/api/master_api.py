@@ -25,17 +25,9 @@ def master(request, master_id=None):
 
                 return HttpResponse(json_response, status=200, content_type='application/json')
             else:
-                master = Master.objects.get(id=master_id)
-                json_response = json.dumps(master.to_dict())
-                return HttpResponse(json_response, status=200, content_type='application/json')
-        elif request.method == 'POST':
-            data = request.POST
-            if validate_data(data, attrs=['operation', 'name']):
-                if 'operation' in data:
-                    if master_id==None:
-                        error = error_json(4,"Se debe agregar el id de la maestría")
-                        return HttpResponse(error, status=500,content_type='application/json')
-                    else:
+                data = request.GET
+                if validate_data(data, attrs=['operation']):
+                    if "operation" in data:
                         if data['operation'] == "1":
                             obj_pensumes_lista = dar_pensum_set(master_id)
                             json_response = json.dumps(obj_pensumes_lista)
@@ -48,6 +40,22 @@ def master(request, master_id=None):
                             obj_estudiantes_lista = dar_estudiantes_proyecto_grado(master_id)
                             json_response = json.dumps(obj_estudiantes_lista)
                             return HttpResponse(json_response, status=200, content_type='application/json')
+                        else:
+                            error = error_json(4, "No existe la operación")
+                            return HttpResponse(error, status=500,content_type='application/json')
+
+                    else:
+                        master = Master.objects.get(id=master_id)
+                        json_response = json.dumps(master.to_dict())
+                        return HttpResponse(json_response, status=200, content_type='application/json')
+        elif request.method == 'POST':
+            data = request.POST
+            if validate_data(data, attrs=['operation', 'name']):
+                if 'operation' in data:
+                    if master_id==None:
+                        error = error_json(4,"Se debe agregar el id de la maestría")
+                        return HttpResponse(error, status=500,content_type='application/json')
+
                 else:
                     master = Master.objects.create(name=data['name'])
                     json_response = json.dumps(master.to_dict())

@@ -23,36 +23,21 @@ def student(request, student_id=None):
 
                 return HttpResponse(json_response, status=200, content_type='application/json')
             else:
-                student = Student.objects.get(id=student_id)
-                if student != None:
-                    json_response = json.dumps(student.to_dict())
-                    return HttpResponse(json_response, status=200, content_type='application/json')
-                else:
-                    error = error_json(2, "No existe el estudiante")
-                    return HttpResponse(error, status=500, content_type='application/json')
-        elif request.method == 'POST':
-            data = request.POST
-            if validate_data(data, attrs=['operation', 'master_id', 'code', 'email', 'lastname', 'name', 'student_status',
-                                          'total_approved_credits', 'total_credits_actual_semester',
-                                          'nombre', 'curso1', 'curso2', 'curso3', 'curso4', 'curso5', 'curso6',
-                                          'curso7', 'curso8', 'curso9', 'curso10', 'code_curso']):
-                if "operation" in data:
-                    if student_id == None:
-                        error = error_json(4, "Se debe agregar el id del estudiante")
-                        return HttpResponse(error, status=500,content_type='application/json')
-
-                    else:
+                data = request.GET
+                if validate_data(data, attrs=['operation', 'code_curso']):
+                    if "operation" in data:
                         if data['operation'] == "1":
                             notas = dar_notas(id_student=student_id)
                             json_response = json.dumps(notas)
                             return HttpResponse(json_response, status=200, content_type='application/json')
-
-                        if data['operation'] == "2":
-                            plan = crear_plan_studios(student_id, data['nombre'], data['curso1'], data['curso2'], data['curso3'],
-                                                      data['curso4'], data['curso5'], data['curso6'], data['curso7'], data['curso8'],
-                                                      data['curso9'], data['curso10'])
-                            json_response = json.dumps(plan.to_dict())
-                            return HttpResponse(json_response, status=200, content_type='application/json')
+                        if data['operation'] == "6":
+                            student = Student.objects.get(code=student_id)
+                            if student != None:
+                                json_response = json.dumps(student.to_dict())
+                                return HttpResponse(json_response, status=200, content_type='application/json')
+                            else:
+                                error = error_json(2, "No existe el estudiante")
+                                return HttpResponse(error, status=500, content_type='application/json')
                         if data['operation'] == "3":
                             plan = dar_scheme(student_id)
                             if plan != None:
@@ -74,7 +59,6 @@ def student(request, student_id=None):
                                 error = error_json(2, "No existe el estudiante")
                                 return HttpResponse(error, status=500, content_type='application/json')
                         if data['operation'] == "5":
-
                             nota = tiene_cruso(id_student=student_id, code_curso_temp=data['code_curso'])
                             if nota != None:
                                 if nota == False:
@@ -86,23 +70,46 @@ def student(request, student_id=None):
                             else:
                                 error = error_json(2, "No existe el estudiante")
                                 return HttpResponse(error, status=500, content_type='application/json')
-                        if data['operation'] == "6":
-                            student = Student.objects.get(code=student_id)
-                            if student != None:
-                                json_response = json.dumps(student.to_dict())
-                                return HttpResponse(json_response, status=200, content_type='application/json')
-                            else:
-                                error = error_json(2, "No existe el estudiante")
-                                return HttpResponse(error, status=500, content_type='application/json')
                         if data['operation'] == "7":
                             cursos = total_cursos_maestria_elect(student_id)
                             son_response = json.dumps(cursos)
                             return HttpResponse(son_response, status=200, content_type='application/json')
                         if data['operation'] == "8":
                             cursos = tiene_proyecto_grado(student_id)
-                            son_response = json.dumps(cursos)
-                            return HttpResponse(son_response, status=200, content_type='application/json')
+                            if cursos == False:
+                                rta = {"Respuesta": "No tiene proyecto de grado"}
+                                return HttpResponse(json.dumps(rta), status=500, content_type='application/json')
+                            else:
+                                son_response = json.dumps(cursos)
+                                return HttpResponse(son_response, status=200, content_type='application/json')
 
+                    else:
+                        student = Student.objects.get(id=student_id)
+                        if student != None:
+                            json_response = json.dumps(student.to_dict())
+                            return HttpResponse(json_response, status=200, content_type='application/json')
+                        else:
+                            error = error_json(2, "No existe el estudiante")
+                            return HttpResponse(error, status=500, content_type='application/json')
+        elif request.method == 'POST':
+            data = request.POST
+            if validate_data(data, attrs=['operation', 'master_id', 'code', 'email', 'lastname', 'name', 'student_status',
+                                          'total_approved_credits', 'total_credits_actual_semester',
+                                          'nombre', 'curso1', 'curso2', 'curso3', 'curso4', 'curso5', 'curso6',
+                                          'curso7', 'curso8', 'curso9', 'curso10', 'code_curso']):
+                if "operation" in data:
+                    if student_id == None:
+                        error = error_json(4, "Se debe agregar el id del estudiante")
+                        return HttpResponse(error, status=500,content_type='application/json')
+
+                    else:
+
+                        if data['operation'] == "2":
+                            plan = crear_plan_studios(student_id, data['nombre'], data['curso1'], data['curso2'], data['curso3'],
+                                                      data['curso4'], data['curso5'], data['curso6'], data['curso7'], data['curso8'],
+                                                      data['curso9'], data['curso10'])
+                            json_response = json.dumps(plan.to_dict())
+                            return HttpResponse(json_response, status=200, content_type='application/json')
 
 
                 else:

@@ -1,8 +1,11 @@
+__author__ = 'kelvin Guerrero'
+# coding=utf-8
 from map.models import Pensum, Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
 from map.common.pensum_common import list_pensums, dar_cursos_pensum, agregar_curso
+from map.common.error_common import error_json
 import json
 
 
@@ -19,20 +22,25 @@ def pensum(request, pensum_id=None):
 
                 return HttpResponse(json_response, status=200, content_type='application/json')
             else:
-                pensum = Pensum.objects.get(id=pensum_id)
-                json_response = json.dumps(pensum.to_dict())
-                return HttpResponse(json_response, status=200, content_type='application/json')
+                data = request.GET
+                if validate_data(data, attrs=['operation']):
+                    if "operation" in data:
+                        if data['operation'] == "1":
+                            if pensum_id == None:
+                                return HttpResponse(unicode('Se debe agregar el id del pensum'), status=500)
+                            response = dar_cursos_pensum(pensum_id)
+                            json_response = json.dumps(response)
+                            return HttpResponse(json_response, status=200, content_type='application/json')
+                        else:
+                            error = error_json(4, "No existe la operación")
+                            return HttpResponse(error, status=500,content_type='application/json')
+                    else:
+                        pensum = Pensum.objects.get(id=pensum_id)
+                        json_response = json.dumps(pensum.to_dict())
+                        return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
             data = request.POST
             if validate_data(data, attrs=['operation', 'name', 'active', 'master_id']):
-                if data['operation'] == "1":
-                    if pensum_id==None:
-                        return HttpResponse(unicode('Se debe agregar el id del pensum'), status=500)
-                    response = dar_cursos_pensum(pensum_id)
-                    json_response = json.dumps(response)
-                    return HttpResponse(json_response, status=200, content_type='application/json')
-
-                else:
                     master_obj = Master.objects.get(id=data['master_id'])
                     pensum = Pensum.objects.create(name=data['name'], active=data['active'], master=master_obj)
 

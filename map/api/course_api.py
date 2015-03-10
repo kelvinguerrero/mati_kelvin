@@ -10,49 +10,51 @@ import json
 def course(request, course_id=None):
 
     if not request.user.is_authenticated():
-        return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
+        return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
     else:
-        if (request.method == 'GET'):
-            if (course_id == None):
+        if request.method == 'GET':
+            if course_id == None:
                 response = list_courses()
                 json_response = json.dumps(response)
 
                 return HttpResponse(json_response, status=200, content_type='application/json')
             else:
-                course = Course.objects.get(id=course_id)
-                json_response = json.dumps(course.to_dict())
-                return HttpResponse(json_response, status=200, content_type='application/json')
-        elif request.method == 'POST':
-            data = request.POST
-            if validate_data(data, attrs=['operation','code', 'name', 'credits', 'summer', 'pensum', 'crn_section',
-                                          'name_section', 'semester', 'year', 'code_teacher', 'MESI', 'MBIT', 'MISO',
-                                          'MATI', 'MISIS', 'pregrado', 'otros']):
-                if "operation" in data:
-                    if data['operation'] == "1":
-                        if course_id==None:
-                            return HttpResponse(unicode('Se debe agregar el id de la maestria'), status=500)
-                        else:
-                            obj_secciones = dar_secciones(course_id)
-                            json_response = json.dumps(obj_secciones)
-                            return HttpResponse(json_response, status=200, content_type='application/json')
-                else:
-                    lista_attrs = list()
-                    lista_attrs.append('code')
-                    lista_attrs.append('name')
-                    lista_attrs.append('credits')
-                    lista_attrs.append('summer')
-                    lista_attrs.append('pensum')
-
-                    if validate_data(data, attrs=lista_attrs):
-                        pensum_obj = Pensum.objects.get(id=data['pensum'])
-
-                        course = Course.objects.create(code=data['code'],
-                                                       name=data['name'],
-                                                       credits=data['credits'],
-                                                       summer=data['summer'],
-                                                       pensum=pensum_obj)
+                data = request.GET
+                if validate_data(data, attrs=['operation', 'code_curso']):
+                    if "operation" in data:
+                        if data['operation'] == "1":
+                            if course_id == None:
+                                return HttpResponse(unicode('Se debe agregar el id de la maestria'), status=500)
+                            else:
+                                obj_secciones = dar_secciones(course_id)
+                                json_response = json.dumps(obj_secciones)
+                                return HttpResponse(json_response, status=200, content_type='application/json')
+                    else:
+                        course = Course.objects.get(id=course_id)
                         json_response = json.dumps(course.to_dict())
                         return HttpResponse(json_response, status=200, content_type='application/json')
+        elif request.method == 'POST':
+            data = request.POST
+            if validate_data(data, attrs=['operation', 'code', 'name', 'credits', 'summer', 'pensum', 'crn_section',
+                                          'name_section', 'semester', 'year', 'code_teacher', 'MESI', 'MBIT', 'MISO',
+                                          'MATI', 'MISIS', 'pregrado', 'otros']):
+                lista_attrs = list()
+                lista_attrs.append('code')
+                lista_attrs.append('name')
+                lista_attrs.append('credits')
+                lista_attrs.append('summer')
+                lista_attrs.append('pensum')
+
+                if validate_data(data, attrs=lista_attrs):
+                    pensum_obj = Pensum.objects.get(id=data['pensum'])
+
+                    course = Course.objects.create(code=data['code'],
+                                                   name=data['name'],
+                                                   credits=data['credits'],
+                                                   summer=data['summer'],
+                                                   pensum=pensum_obj)
+                    json_response = json.dumps(course.to_dict())
+                    return HttpResponse(json_response, status=200, content_type='application/json')
             else:
                 return HttpResponse(status=500)
         elif request.method == 'PUT':
