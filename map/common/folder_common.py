@@ -1,20 +1,12 @@
 # coding=utf-8
 from map.models import Student
-from map.common.student_common import dar_maestria_de_estudiante
-from map.common.error_common import error_json
+from map.common.student_common import dar_maestria_de_estudiante, dar_estudiante_codigo,dar_scheme
 
 
 def list_courses_scheme(student_code):
-    lista_courses = list()
-    student = Student.objects.get(code=student_code)
-    if student.scheme:
-        if student.scheme.courses.all().count() > 0:
-            lista_courses = student.scheme.courses.all()
-            lista = list()
-            for obj_course in lista_courses:
-                lista.append(obj_course.to_dict_view())
-            return lista
-    return list()
+    stu = dar_estudiante_codigo(student_code)
+    plan = dar_scheme(stu.id)
+    return plan
 
 
 #Metodo que calcula la cantidad de creditos aprobados por el estudiante

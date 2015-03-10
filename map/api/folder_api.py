@@ -27,8 +27,13 @@ def folder(request, student_code_id=None):
                         json_response = json.dumps(list_subject_approved(student_code_id))
                         return HttpResponse(json_response, status=200, content_type='application/json')
                     elif data['operation'] == "3":
-                        json_response = json.dumps(list_courses_scheme(student_code_id))
-                        return HttpResponse(json_response, status=200, content_type='application/json')
+                        plan = list_courses_scheme(student_code_id)
+                        if plan != None:
+                            json_response = json.dumps(plan.to_dict())
+                            return HttpResponse(json_response, status=200, content_type='application/json')
+                        else:
+                            error = error_json(2, "No existe plan de estudios")
+                            return HttpResponse(error, status=500, content_type='application/json')
                     elif data['operation'] == "4":
                         datos = structure_master_courses(student_code_id)
                         if datos != None:
