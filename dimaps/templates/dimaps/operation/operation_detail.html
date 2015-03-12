@@ -6,6 +6,7 @@
 
 {% block title %}
   {% trans "Detalles de la operación" %}
+
 {% endblock %}
 
 
@@ -59,18 +60,20 @@
 {% endblock %}
 
 {% block content %}
-  {% include 'dimaps/operation/object_table_detail.html' %}
-  <form action={% url "dimaps_operation_delete" pk=object.pk %} charset='utf-8' method='post'>
-    <fieldset>
-      {% csrf_token %}
-      <div class='form-actions'>
-        <a class='btn btn-success' href={% url "dimaps_operation_update" pk=object.pk %}>
-          {% trans "Editar" %}
-        </a>
-        <button class='btn btn-danger' type='submit'>
-          {% trans "Borrar" %}
-        </button>
-      </div>
-    </fieldset>
-  </form>
+    <a href={% url "help"%}><i class="fa fa-fw fa-hand-o-up"></i> Ejemplo de implementación </a>
+    <br>
+      {% include 'dimaps/operation/object_table_detail.html' %}
+        <form action={% url "dimaps_operation_delete" pk=object.pk %} charset='utf-8' method='post'>
+            <fieldset>
+                {% csrf_token %}
+                    <div class='form-actions'>
+                        <a class='btn btn-success' href={% url "dimaps_operation_update" pk=object.pk %}>
+                          {% trans "Editar" %}
+                        </a>
+                        <button class='btn btn-danger' type='submit'>
+                          {% trans "Borrar" %}
+                        </button>
+                    </div>
+            </fieldset>
+        </form>
 {% endblock %}

@@ -17,64 +17,233 @@
 {% endblock %}
 
 {% block header-description %}
+  {% trans "Ejemplos de llamada a los servicios REST"  %} .
+
 {% endblock %}
 
 {% block content %}
+<br>
+<p>
+    {% trans "Llamada tipo post a la operación: dar token del servicio Autorizador."%}
+</p>
+<p>
+    {% trans "Se muestra detalladamente como enviar la url para convocar el servicio además de como agregar los datos de usuario y password. Estos deben ser creados previamente en la dirección."%}
+    <a href={% url "register_user"%}>http://localhost:8000/accounts/register </a>
+</p>
 <pre class="brush: js">
 def llamada_token():
+
+    #Url de la operación
     BASE_PATH = 'http://localhost:8000/api-token-auth/'
     s = requests.Session()
+
+    #Header del para autorización del servicio.
     headers = {'API_KEY': '123'}
     s.verify = False
+
+    #Parametros de la operación
     datos = {'username': 'pepa', 'password': 'pepa'}
+
+    #Se agrega la url, headers y los parametros de la operación
     r = requests.post(BASE_PATH, headers=headers, data=datos)
     print r
     print r.text
+</pre>
+<p>
+  {% trans "Se retorna un código de respuesta Http y un Json con el token de autorización para usar los servicios." %}
+</p>
 
-
+<br>
+<p>Respuesta:</p>
+<pre class="brush: js">
+    < Response [200]>
+    {
+        "token": "ef3859d862f572ad532fceb04536e948da1d5270"
+    }
+</pre>
+<br>
+<br>
+<p>
+  {% trans "Llamada tipo get a la operación: Contar créditos aprobados del servicio Carpeta."%}
+</p>
+<p>
+  {% trans "Ejemplo de una llamada get. Se muestra detalladamente como enviar la url para convocar el servicio y como enviar los parámetros de autorización al header." %}
+</p>
+<pre class="brush: js">
 def llamada_get_req_contar_creditos_aprobados():
+
+    #Url de la operación
+    #operation=1 : Se llama la operacion 1 del servicio Carpeta
+    #199024632 : Código del estudiante
     BASE_PATH = 'http://localhost:8000/map/api/folder/199024632/?operation=1'
     s = requests.Session()
     s.verify = False
-    headers = {'API_KEY': '123', 'Authorization': 'Token ef3859d862f572ad532fceb04536e948da1d5270'}
-    r = requests.get(BASE_PATH, headers=headers)
+
+    #Header del para autorización del servicio.
+    #Autorizaction: Token generado en el momento de registro del usuario dentro de la plataforma
+    headers_obj = {'API_KEY': '123', 'Authorization': 'Token ef3859d862f572ad532fceb04536e948da1d5270'}
+
+    #Se agrega la url y los headers respectivos de la operación
+    r = requests.get(BASE_PATH, headers=headers_obj)
+
+    #Respuesta Http
     print r
+
+    #Respuesta de la llamada
     print(r.text)
+</pre>
 
+<p>
+  {% trans "Se retorna un código de respuesta Http y el total de creditos." %}
+</p>
 
+<br>
+<p>Respuesta:</p>
+<pre class="brush: js">
+    < Response [200]>
+    8
+</pre>
+<br>
+<br>
+<p>
+  {% trans "Llamada tipo post a la operación: Crear curso del servicio Curso."%}
+</p>
+<p>
+  {% trans "Se muestra detalladamente como enviar la url para convocar el servicio, los parametros de la llamada post y como enviar los parámetros de autorización al header." %}
+</p>
+<pre class="brush: js">
 def llamada_post_course():
+
+    #Url de la operación
+    #Se llama la operacion crear curso del servicio Carpeta
     BASE_PATH = 'http://localhost:8000/map/api/course/'
-    data = {"code": "c_nuevo4", "name": "nombreCurso",
+    s = requests.Session()
+    s.verify = False
+
+    #Parametros de la operación
+    data_obj = {"code": "c_nuevo4", "name": "nombreCurso",
             "credits": "2", "summer": "True", "pensum": "4"}
+
+    #Header del para autorización del servicio.
+    #Autorizaction: Token generado en el momento de registro del usuario dentro de la plataforma
     headers = {'API_KEY': '123', 'Authorization': 'Token ef3859d862f572ad532fceb04536e948da1d5270'}
-    s = requests.Session()
-    s.verify = False
-    r = requests.post(BASE_PATH, headers=headers,data=data)
+
+    #Se agrega la url, headers y los parametros de la operación
+    r = requests.post(BASE_PATH, headers=headers,data=data_obj)
+
+    #Respuesta Http
     print r
+
+    #Respuesta de la llamada
     print(r.text)
-    data = json.loads(r.text)
-    return data["id"]
 
+</pre>
+<p>
+  {% trans "Se retorna un código de respuesta Http y un Json con el curso creado." %}
+</p>
 
+<br>
+<p>Respuesta:</p>
+<pre class="brush: js">
+    < Response [200]>
+    {
+        "summer": "True",
+        "code": "c_nuevo4",
+        "pensum": {
+            "active": true,
+            "master": {
+                "name": "MESI",
+                "id": 4
+            },
+            "name": "Pensum_MESI",
+            "id": 4
+        },
+        "name": "nombreCurso",
+        "credits": "2",
+        "id": 63
+    }
+</pre>
+<br>
+<br>
+<p>
+  {% trans "Llamada tipo put a la operación: Modificar curso del servicio Curso."%}
+</p>
+<p>
+  {% trans "Se muestra detalladamente como enviar la url para convocar el servicio, los parametros de la llamada post y como enviar los parámetros de autorización al header." %}
+</p>
+<pre class="brush: js">
 def llamada_put_course(id):
-    BASE_PATH = 'http://localhost:8000/map/api/course/'+str(id)+'/'
-    data = {"code": "c_nuevo4", "name": "nombreCurso2",
+
+    #Url de la operación
+    #Se llama la operacion crear curso del servicio Carpeta
+    BASE_PATH = 'http://localhost:8000/map/api/course/63/'
+    s = requests.Session()
+    s.verify = False
+
+    #Parametros de la operación
+    data_obj = {"code": "c_nuevo4", "name": "nombreCurso2",
             "credits": "2", "summer": "True", "pensum": "2"}
+
+    #Header del para autorización del servicio.
+    #Autorizaction: Token generado en el momento de registro del usuario dentro de la plataforma
     headers = {'API_KEY': '123', 'Authorization': 'Token ef3859d862f572ad532fceb04536e948da1d5270'}
-    s = requests.Session()
-    s.verify = False
-    r = requests.put(BASE_PATH, headers=headers, data=data)
+
+    #Se agrega la url y los headers respectivos de la operación
+    r = requests.put(BASE_PATH, headers=headers, data=data_obj)
+
+    #Respuesta Http
     print r
+
+    #Respuesta de la llamada
     print(r.text)
-
-
+</pre>
+<p>
+  {% trans "Se retorna un código de respuesta Http y un Json con el curso modificado." %}
+</p>
+<br>
+<p>Respuesta:</p>
+<pre class="brush: js">
+    < Response [200]>
+    {
+        "summer": "True",
+        "code": "c_nuevo4",
+        "pensum": {
+            "active": true,
+            "master": {
+                "name": "MESI",
+                "id": 4
+            },
+            "name": "Pensum_MESI",
+            "id": 4
+        },
+        "name": "nombreCurso2",
+        "credits": "2",
+        "id": 63
+    }
+</pre>
+<br>
+<p>
+  {% trans "Llamada tipo put a la operación: Eliminar curso del servicio Curso."%}
+</p>
+<p>
+  {% trans "Se muestra detalladamente como enviar la url para convocar el servicio, los parametros de la llamada post y como enviar los parámetros de autorización al header." %}
+</p>
+<pre class="brush: js">
 def llamada_delete_course(id):
-    BASE_PATH = 'http://localhost:8000/map/api/course/'+str(id)+'/'
-    headers = {'API_KEY': '123', 'Authorization': 'Token ef3859d862f572ad532fceb04536e948da1d5270'}
+    #Url de la operación
+    #Se llama la operacion eliminar curso del servicio Carpeta
+    BASE_PATH = 'http://localhost:8000/map/api/course/63/'
     s = requests.Session()
     s.verify = False
+
+    #Header del para autorización del servicio.
+    #Autorizaction: Token generado en el momento de registro del usuario dentro de la plataforma
+    headers = {'API_KEY': '123', 'Authorization': 'Token ef3859d862f572ad532fceb04536e948da1d5270'}
+
+   #Se agrega la url y los headers respectivos de la operación
     r = requests.delete(BASE_PATH, headers=headers)
+
+    #Respuesta de la llamada http
     print r
-    print(r.text)
 </pre>
 {% endblock %}
