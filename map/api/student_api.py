@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 __author__ = 'kelvin Guerrero'
-# coding=utf-8
+
+from django.views.decorators.csrf import csrf_exempt
 from map.models import Student, Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
@@ -10,7 +12,7 @@ from map.common.student_common import   list_students, dar_notas, crear_plan_stu
 from map.common.error_common import error_json
 import json
 
-
+@csrf_exempt
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def student(request, student_id=None):
     if not request.user.is_authenticated():

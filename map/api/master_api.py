@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 __author__ = 'kelvin Guerrero'
-# coding=utf-8
 
+from django.views.decorators.csrf import csrf_exempt
 from map.models import Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
@@ -11,7 +12,7 @@ from map.common.pensum_common import dar_pensum_set, crear_pensum
 from map.common.student_common import dar_estudiantes_de_maestria, crear_student
 import json
 
-
+@csrf_exempt
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def master(request, master_id=None):
 

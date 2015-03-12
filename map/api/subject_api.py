@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+__author__ = 'kelvin Guerrero'
+
+from django.views.decorators.csrf import csrf_exempt
 from map.models import Subject
 from map.models import Section
 from map.models import Student
@@ -5,10 +9,9 @@ from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
 from map.common.subject_common import list_subjects
-
 import json
 
-
+@csrf_exempt
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def subject(request, subject_id=None):
     if not request.user.is_authenticated():

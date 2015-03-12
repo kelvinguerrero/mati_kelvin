@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+__author__ = 'kelvin Guerrero'
+
+from django.views.decorators.csrf import csrf_exempt
 from map.models import Course, Pensum
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
@@ -6,6 +10,7 @@ from map.common.course_common import list_courses, dar_secciones
 from map.common.section_common import crear_seccion
 import json
 
+@csrf_exempt
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def course(request, course_id=None):
 

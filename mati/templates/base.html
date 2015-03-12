@@ -78,7 +78,10 @@
                     <ul class="dropdown-menu">
                         {% if request.user.is_authenticated %}
                             <li>
-                                <a href="/accounts/logout/"><i class="fa fa-fw fa-sign-out"></i> Salir </a>
+                                <a href="#" data-toggle="modal" data-target="#tokenModal"><i class="fa fa-fw fa-cog"></i> Configuración </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout' %}"><i class="fa fa-fw fa-sign-out"></i> Salir </a>
                             </li>
                         {% else %}
                             <li>
@@ -230,6 +233,29 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Token Modal -->
+    <div class="modal fade" id="tokenModal" tabindex="-1" role="dialog" aria-labelledby="tokenModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="tokenModalLabel">Token para uso de API</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="token">Token</label>
+                <input type="text" class="form-control" id="token" value="aaa">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <footer class="clearfix">

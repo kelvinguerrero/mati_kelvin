@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 __author__ = 'kelvin Guerrero'
-# coding=utf-8
+
+from django.views.decorators.csrf import csrf_exempt
 from map.models import Pensum, Master
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
@@ -8,7 +10,7 @@ from map.common.pensum_common import list_pensums, dar_cursos_pensum, agregar_cu
 from map.common.error_common import error_json
 import json
 
-
+@csrf_exempt
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def pensum(request, pensum_id=None):
 

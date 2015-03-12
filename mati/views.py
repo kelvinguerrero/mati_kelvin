@@ -1,20 +1,14 @@
 from django.shortcuts import render, redirect
-
-from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse
 from django.contrib import auth
-from django.core.context_processors import csrf
 from forms import MyRegistrationForm
-
 
 def index(request):
     return render(request, 'index.html')
 
 
 def login(request):
-    c = {}
-    c.update(csrf(request))
-    return render_to_response('login.html', c)
+    return render(request, 'login.html')
 
 
 def auth_view(request):
@@ -24,41 +18,45 @@ def auth_view(request):
 
     if user is not None:
         auth.login(request, user)
-        return HttpResponseRedirect('/accounts/loggedin')
+        return redirect(reverse('loggedin'))
     else:
-        return HttpResponseRedirect('/accounts/invalid')
+        return redirect('/accounts/invalid')
 
 
 def loggedin(request):
-    return render_to_response('loggedin.html',
-                              {'full_name': request.user.username})
+    return render(request, 'loggedin.html')
 
 
 def invalid_login(request):
-    return render_to_response('invalid_login.html')
+    return render(request, 'invalid_login.html')
 
 
 def logout(request):
     auth.logout(request)
-    return render_to_response('logout.html')
+    return render(request, 'logout.html')
 
 
 def register_user(request):
     if request.method == 'POST':
         form = MyRegistrationForm(request.POST)
         if form.is_valid():
+            username = form.clean_username()
+            password = form.clean_password2()
+
             form.save()
-            return HttpResponseRedirect('/accounts/register_success')
+
+            user = auth.authenticate(username=username, password=password)
+            auth.login(request, user)
+
+            return redirect('/accounts/register_success')
 
     else:
         form = MyRegistrationForm()
-    args = {}
-    args.update(csrf(request))
 
-    args['form'] = form
+    args = dict(form=form)
 
-    return render_to_response('register.html', args)
+    return render(request, 'register.html', args)
 
 
 def register_success(request):
-    return render_to_response('register_success.html')
+    return render(request, 'register_success.html')

@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 __author__ = 'kelvin Guerrero'
-# coding=utf-8
 
+from django.views.decorators.csrf import csrf_exempt
 from map.models import Section, Course, Teacher
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
@@ -9,7 +10,7 @@ from map.common.section_common import list_sections, dar_capacidad, dar_notas_se
 from map.common.error_common import error_json
 import json
 
-
+@csrf_exempt
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def section(request, section_id=None):
     if not request.user.is_authenticated():

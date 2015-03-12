@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'map',
     'dimaps',
     'rest_framework',
+    'rest_framework.authtoken',
     'south',
     'bootstrapform',
 )
@@ -135,6 +136,13 @@ PROXY_API_KEYS = [
     '^ugfp@+cw!+se1b8kw%!23(sbrzk8f!uzrhqp$s)@67g9f1tdj',
     '123'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
 
 # REST_FRAMEWORK = {
 #     'PAGINATE_BY': 10,

@@ -1,6 +1,7 @@
 
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from rest_framework.authtoken.views import obtain_auth_token
 
 admin.autodiscover()
 
@@ -8,6 +9,7 @@ urlpatterns = patterns('mati.views',
 
 
     url(r'^$', 'index', name='index'),
+    url(r'^api-token-auth/', obtain_auth_token),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # urls de autenticacion de usuario
     url(r'^accounts/login/$',  'login', name='login'),

@@ -28,6 +28,9 @@ class Service(models.Model):
     def get_absolute_url(self):
         return 'dimaps_service_detail', (), {'pk': self.pk}
 
+    def __unicode__(self):
+        return self.name
+
 
 class TechnicalData(models.Model):
     name = models.CharField(max_length=200)

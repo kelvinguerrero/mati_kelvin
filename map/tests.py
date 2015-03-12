@@ -1,16 +1,4 @@
-        # req = urllib2.Request('http://localhost:8000/map/api/account/')
-        # req.add_header('API_KEY', '123')
-        # data = urllib.urlencode({'user':'pepe','pass':'pepe'})
-        # resp = urllib2.urlopen(req, data=data)
-        # content = resp.read()
-        # print content
-    #
-    # def test_master_dar_maestrias(self):
-    #     open = urllib2.build_opener()
-    #     open.addheaders=[('API_KEY', '123')]
-    #     dar = open.open('http://localhost:8000/map/api/master/')
-    #     content = dar.read()
-    #     print content
+
 
 __author__ = 'kelvin Guerrero'
 

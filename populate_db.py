@@ -1,7 +1,8 @@
 __author__ = 'kelvin Guerrero'
 # coding=utf-8
 import os
-import random
+import sys
+
 
 
 # Metodo encargado de cargar la base de datos con la información inicial
@@ -830,11 +831,11 @@ def add_pensum(name, active, master):
 
 # Start execution here!
 if __name__ == '__main__':
-    print "Iniciando población de datos base"
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mati.settings')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mati.settings")
     from map.models import Master, Pensum, Course, Teacher, Section, Capacity, Student, Scheme, Subject, Scheme_courses
     from map.common.course_common import dar_curso_by_code
     from map.common.master_common import *
-    from map.common.student_common import dar_notas,dar_notas_obj, dar_estudiantes_de_maestria_obj, dar_cantidad_creditos
-    from map.common.pensum_common import dar_cursos_pensum,dar_cursos_pensum_obj
+    from map.common.student_common import dar_notas, dar_estudiantes_de_maestria_obj, dar_cantidad_creditos
+    from map.common.pensum_common import dar_cursos_pensum, dar_cursos_pensum_obj
+    import random
     populate()

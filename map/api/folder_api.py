@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 __author__ = 'kelvin Guerrero'
-# coding=utf-8
 
+from django.views.decorators.csrf import csrf_exempt
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
@@ -8,6 +9,7 @@ from map.common.error_common import error_json
 from map.common.folder_common import calculate_credits, list_subject_approved, list_courses_scheme, structure_master_courses
 import json
 
+@csrf_exempt
 @expose_service(['GET'], public=True)
 def folder(request, student_code_id=None):
     if not request.user.is_authenticated():
@@ -42,8 +44,6 @@ def folder(request, student_code_id=None):
                         else:
                             error = error_json(4, "No existe el estudiante")
                             return HttpResponse(error, status=400, content_type='application/json')
-
-
                     else:
                         return HttpResponse(unicode('No se llamo una operación correcta'), status=500)
                 else:
