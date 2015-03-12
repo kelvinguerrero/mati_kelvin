@@ -29,7 +29,7 @@ class Service(models.Model):
         return 'dimaps_service_detail', (), {'pk': self.pk}
 
     def __unicode__(self):
-        return self.name
+        return self.identifier
 
 
 class TechnicalData(models.Model):
@@ -51,6 +51,9 @@ class TechnicalData(models.Model):
     def get_absolute_url(self):
         return 'dimaps_technicaldata_detail', (), {'pk': self.pk}
 
+    def __unicode__(self):
+        return self.name
+
 
 class ServiceConsumer(models.Model):
     name = models.CharField(max_length=200)
@@ -70,6 +73,9 @@ class ServiceConsumer(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return 'dimaps_serviceconsumer_detail', (), {'pk': self.pk}
+
+    def __unicode__(self):
+        return self.name
 
 
 class Operation(models.Model):
@@ -95,6 +101,9 @@ class Operation(models.Model):
     def get_absolute_url(self):
         return 'dimaps_operation_detail', (), {'pk': self.pk}
 
+    def __unicode__(self):
+        return self.name
+
 
 class Input(models.Model):
     name = models.CharField(max_length=200)
@@ -117,6 +126,9 @@ class Input(models.Model):
     def get_absolute_url(self):
         return 'dimaps_input_detail', (), {'pk': self.pk}
 
+    def __unicode__(self):
+        return self.name
+
 
 class Output(models.Model):
     name = models.CharField(max_length=200)
@@ -138,3 +150,6 @@ class Output(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return 'dimaps_output_detail', (), {'pk': self.pk}
+
+    def __unicode__(self):
+        return self.name

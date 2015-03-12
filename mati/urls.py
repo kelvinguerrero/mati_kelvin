@@ -1,4 +1,3 @@
-
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from rest_framework.authtoken.views import obtain_auth_token
@@ -6,8 +5,6 @@ from rest_framework.authtoken.views import obtain_auth_token
 admin.autodiscover()
 
 urlpatterns = patterns('mati.views',
-
-
     url(r'^$', 'index', name='index'),
     url(r'^api-token-auth/', obtain_auth_token),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
@@ -35,9 +32,9 @@ urlpatterns += patterns('',
 # router.register(r'users', pensum_views_drf.UserViewSet)
 
     # Examples:
-    # url(r'^$', 'mati.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-    #	url(r'^about/$', ('about'), name='about'),
+    #url(r'^$', 'mati.views.home', name='home'),
+    #url(r'^blog/', include('blog.urls')),
+    #url(r'^about/$', ('about'), name='about'),
     #url(r'^sign_in/$', ('sign_in'), name='sign_in'),
     #url(r'^sign_up/$', ('sign_up'), name='sign_up'),
 

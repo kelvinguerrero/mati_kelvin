@@ -17,7 +17,7 @@
   <ul class='breadcrumb'>
     <li>
       <a href={% url "dimaps_output_archive_index" %}>
-        {% trans "Archive Index" %}
+        {% trans "Filtro" %}
       </a>
       <span class='divider'>
         /
@@ -25,7 +25,7 @@
     </li>
     <li>
       <a href={% url "dimaps_output_year_archive" year=object.created_at.year %}>
-        {% trans "Year Archive" %}
+        {% trans "Año" %}
       </a>
       <span class='divider'>
         /
@@ -33,7 +33,7 @@
     </li>
     <li>
       <a href={% url "dimaps_output_month_archive" year=object.created_at.year month=object.created_at.month %}>
-        {% trans "Month Archive" %}
+        {% trans "Mes" %}
       </a>
       <span class='divider'>
         /
@@ -41,7 +41,7 @@
     </li>
     <li>
       <a href={% url "dimaps_output_day_archive" year=object.created_at.year month=object.created_at.month day=object.created_at.day %}>
-        {% trans "Day Archive" %}
+        {% trans "Día" %}
       </a>
       <span class='divider'>
         /
@@ -49,7 +49,7 @@
     </li>
     <li>
       <a href={% url "dimaps_output_date_detail" year=object.created_at.year month=object.created_at.month day=object.created_at.day pk=object.pk %}>
-        {% trans "Date Detail" %}
+        {% trans "Detalles" %}
       </a>
     </li>
   </ul>
@@ -58,12 +58,12 @@
 
 {% block header-link %}
   <a href='{{ object.get_absolute_url }}'>
-    {% trans "Output Detail" %}
+    {% trans "Variables de salida" %}
   </a>
 {% endblock %}
 
 {% block header-description %}
-  {% trans "A page representing an individual object." %}
+  {% trans "Detalles de las variables de salida de la operación" %}
 {% endblock %}
 
 {% block content %}
@@ -73,10 +73,10 @@
       {% csrf_token %}
       <div class='form-actions'>
         <a class='btn btn-success' href={% url "dimaps_output_update" pk=object.pk %}>
-          {% trans "Update" %}
+          {% trans "Editar" %}
         </a>
         <button class='btn btn-danger' type='submit'>
-          {% trans "Delete" %}
+          {% trans "Borrar" %}
         </button>
       </div>
     </fieldset>

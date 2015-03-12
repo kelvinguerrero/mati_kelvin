@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
 from dimaps.views.service_views import *
+from dimaps.views.home_views import *
 
 
 urlpatterns = patterns('',
@@ -82,6 +83,7 @@ urlpatterns = patterns('',
         name='dimaps_service_search_category'
     ),
 )
+
 
 from dimaps.views.technicaldata_views import *
 urlpatterns += patterns('',
@@ -301,6 +303,10 @@ urlpatterns += patterns('',
     ),
 )
 
+urlpatterns += patterns('dimaps.views.home_views',
+    url(r'^$', 'index', name='index'),
+    url(r'^help/', 'help', name='help'),
+)
 
 from dimaps.views.input_views import *
 urlpatterns += patterns('',

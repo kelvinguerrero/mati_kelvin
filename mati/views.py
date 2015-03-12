@@ -3,6 +3,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import auth
 from forms import MyRegistrationForm
 
+
 def index(request):
     return render(request, 'index.html')
 
