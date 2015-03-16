@@ -1,11 +1,16 @@
 from map.models import Master
 from django.shortcuts import render
 from map.common.master_common import list_masters
-from map.forms import MasterForm
+from map.common.folder_common import structure_master_courses, \
+                                     calculate_credits, \
+                                     list_courses_scheme, \
+                                     list_subject_approved
+from map.common.student_common import dar_estudiante_codigo, dar_maestria_de_estudiante
+from map.forms import MasterForm, MaterCarpetaForm
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-
+import json
 
 class MasterView(View):
 
@@ -82,3 +87,45 @@ def master_delete(request, master_id):
 
             lista = list_masters()
             return render(request, 'course/course_list.html', {'object_list':lista})
+
+@login_required()
+def master_carpeta(request, student_code=None):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    else:
+        if request.method == 'GET':
+            form = MaterCarpetaForm()
+            return render(request, 'master/master_dash_form.html', {'form': form})
+        if request.method == 'POST':
+            print("entro")
+            form = MaterCarpetaForm(request.POST)
+            if form.is_valid():
+                print(form)
+                codigo = int(form.cleaned_data['codigo'])
+                estudiante = dar_estudiante_codigo(codigo)
+
+                if estudiante != None:
+                    #Maestria del estudiante
+                    maestria = dar_maestria_de_estudiante(codigo)
+                    #Estado del curso
+                    structure = structure_master_courses(codigo)
+
+                    decoded_structure = json.dumps(structure)
+                    credits = calculate_credits(codigo)
+                    list_courses = list_courses_scheme(codigo)
+                    list_subject = list_subject_approved(codigo)
+                    print structure
+                    return render(request, 'master/master_dash.html', {'estado':True,
+                                                                       'credits': credits,
+                                                                       'list_courses': list_courses,
+                                                                       'list_subject': list_subject,
+                                                                       'obj_estudiante': estudiante,
+                                                                       'maestria': maestria,
+                                                                       'structure': decoded_structure,
+                                                                       'form': form
+                                                                       })
+                else:
+                    return render(request, 'master/master_dash.html', {'estado':False,
+                                                                       'codigo':codigo,
+                                                                       'form':form
+                                                                       })

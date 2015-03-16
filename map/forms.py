@@ -10,6 +10,11 @@ class MasterForm(forms.Form):
     name.widget.attrs = {'class': 'form-control', 'required': True}
 
 
+class MaterCarpetaForm(forms.Form):
+    codigo = forms.IntegerField(label='Codigo del estudiante')
+    codigo.widget.attrs = {'class': 'form-control', 'required': True}
+
+
 class PensumForm(forms.Form):
 
     id = forms.CharField(widget=widgets.HiddenInput, required=False)

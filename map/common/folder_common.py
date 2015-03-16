@@ -5,14 +5,18 @@ from map.common.student_common import dar_maestria_de_estudiante, dar_estudiante
 
 def list_courses_scheme(student_code):
     stu = dar_estudiante_codigo(student_code)
-    plan = dar_scheme(stu.id)
-    return plan
+    if stu != None:
+        plan = dar_scheme(stu.id)
+        return plan
+    return None
 
 
 #Metodo que calcula la cantidad de creditos aprobados por el estudiante
 def calculate_credits(student_code):
-
-    student = Student.objects.get(code=student_code)
+    try:
+        student = Student.objects.get(code=student_code)
+    except Student.DoesNotExist:
+        return None
     subject_list = student.subject_set.all()
     tot_credits = 0
     if subject_list.all().count() > 0:
@@ -29,7 +33,10 @@ def calculate_credits(student_code):
 
 #Metodo enterga los cursos aprobados por el estudiante
 def list_subject_approved(student_code):
-    student = Student.objects.get(code=student_code)
+    try:
+        student = Student.objects.get(code=student_code)
+    except Student.DoesNotExist:
+        return None
     subject_list = student.subject_set.all()
     lista_ap = list()
     if subject_list.all().count() > 0:
@@ -42,9 +49,10 @@ def list_subject_approved(student_code):
 #Metodo enterga los cursos aprobados por el estudiante
 def list_subject_approved_master(student_code):
     student = Student.objects.get(code=student_code)
+    print("ENTRO")
     subject_list = student.subject_set.all()
+    lista_ap = list()
     if subject_list.all().count() > 0:
-        lista_ap = list()
         for obj_subject in subject_list:
             if obj_subject.student_status and obj_subject.grade > 3:
                 lista_ap.append(obj_subject)
@@ -61,6 +69,7 @@ def structure_master_courses(code_student):
             totMATI = False
             datos={}
             list_subject = list_subject_approved_master(code_student)
+            print("MATI")
             for object in list_subject:
                 if object.section.course.pensum.master.name == master:
                     if object.section.course == "Proyecto final":

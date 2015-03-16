@@ -11,11 +11,12 @@ urlpatterns = patterns('',
 
 from map.views.master_views import *
 urlpatterns += patterns('',
-   url(r'^master/$', master, name='master'),
-   url(r'^master/(?P<master_id>[0-9]+)/$', master, name='master'),
-   url(r'^master/create/$', master_edit, name='create_master'),
-   url(r'^master/(?P<master_id>[0-9]+)/edit/$', master_edit, name='edit_master'),
-   url(r'^master/(?P<master_id>[0-9]+)/delete/$', master_delete, name='delete_master'),
+    url(r'^master/$', master, name='master'),
+    url(r'^master/(?P<master_id>[0-9]+)/$', master, name='master'),
+    url(r'^master/create/$', master_edit, name='create_master'),
+    url(r'^master/folder/$', master_carpeta, name='master_carpeta'),
+    url(r'^master/(?P<master_id>[0-9]+)/edit/$', master_edit, name='edit_master'),
+    url(r'^master/(?P<master_id>[0-9]+)/delete/$', master_delete, name='delete_master'),
 )
 
 

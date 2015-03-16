@@ -1,0 +1,15 @@
+
+<div class="container">
+<br>
+<br>
+<br>
+    <form action={% url 'master_carpeta' %} method="post" class="form-horizontal" role="form">
+        {% csrf_token %}
+        <label>codigo del estudiante</label>
+        {{ form.as_p }}
+        <input type="submit" value="Cargar carpeta" class="btn-group-sm">
+    </form>
+<br>
+<br>
+<br>
+</div>
