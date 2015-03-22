@@ -43,6 +43,7 @@ def list_subject_approved(student_code):
         for obj_subject in subject_list:
             if obj_subject.student_status and obj_subject.grade > 3:
                 lista_ap.append(obj_subject.to_dict())
+    lista_ap.append({"estudiante": student.to_dict()})
     return lista_ap
 
 
@@ -69,6 +70,7 @@ def structure_master_courses(code_student):
             totMATI = False
             datos={}
             list_subject = list_subject_approved_master(code_student)
+            print(list_subject)
             print("MATI")
             for object in list_subject:
                 if object.section.course.pensum.master.name == master:
@@ -82,13 +84,14 @@ def structure_master_courses(code_student):
                 else:
                     if elect>0:
                         elect = elect -1
-            datos = {"datos": {"prof": prof,
-                                   "elect": elect,
-                                   "prof": prof,
-                                   "inte": inte,
-                                   "totMATI": totMATI,
-                                  "master":master
-                                   }}
+            datos = {"cursos_faltantes": {
+                                    "electivos": elect,
+                                    "profundizacion": prof,
+                                    "integracion": inte,
+                                   },
+                        "maestria": master,
+                        "cursos_mati_completos": totMATI,
+                    }
             return datos
 
         elif master == "MBIT":

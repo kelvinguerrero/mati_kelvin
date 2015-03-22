@@ -41,10 +41,12 @@ def dar_estudiantes_proyecto_grado(id_master):
         if tiene_proyecto_grado(obj_student.id):
             json_student = []
             nota = ingles_aprobado(id_student=obj_student.id)
+
             if nota == False or nota == None:
                 json_student.append("Ingles no aprobado")
             else:
                 json_student.append({"Ingles": nota.to_dict()})
+
             tot_creditos = dar_cantidad_creditos(id_student=obj_student.id)
             json_student.append({"creditos_aprobados":tot_creditos})
             cursos_maestr = dar_cursos_maestria(student_id=obj_student.id)

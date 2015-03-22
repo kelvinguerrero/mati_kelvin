@@ -557,7 +557,7 @@ def populate():
         for section in notasEstudiantes[estudiante]:
             add_course_grade(section, estudiante, notasEstudiantes[estudiante][section])
 
-#Creacion de escenarios
+    #Creacion de escenarios
     print("carga de escenarios")
     print("Carga de cursos de ingles")
     for i in range(1, 10):
@@ -572,15 +572,16 @@ def populate():
     print("carga de estudaintes con proyecyo de grado MATI")
 
     planEstudio_proyectos ={"MATI": {"proyecto":"ARTI4301"},
-                  "MBIT": {"proyecto":"MBIT4301","tesis":"MBIT4302"},
-                  "MESI": {"proyecto":"MSIN4301","tesis":"MSIN4302"},
-                  "MISO": {"proyecto":"MISO4301","tesis":"MISO4302"}}
+                  "MBIT": {"proyecto": "MBIT4301", "tesis": "MBIT4302"},
+                  "MESI": {"proyecto": "MSIN4301", "tesis": "MSIN4302"},
+                  "MISO": {"proyecto": "MISO4301", "tesis": "MISO4302"}}
 
     for i in range(1, 25):
         master = dar_maestria_nombre("MATI")
         estudianes_lista = []
 
         stude = random.choice(dar_estudiantes_de_maestria_obj(master.id))
+
         if not(stude.code in estudianes_lista):
             estudianes_lista.append(stude.code)
             ingles = random.randint(0, 1)
@@ -590,15 +591,16 @@ def populate():
             if proyecto == 1:
                     creditos = dar_cantidad_creditos(stude.id)
                     semes_cant_cursos = creditos/4
-                    cursos_json= total_cursos_maestria_elect(stude.id)
+                    cursos_json = total_cursos_maestria_elect(stude.id)
                     cursos_maestria = int(cursos_json["cursos_mestria"])
                     cursos_otros = int(cursos_json["cursos_otros"])
+
             if master != None:
                 pensum = master.pensum_set.first()
                 bol_temp = True
                 cursos = dar_cursos_pensum_obj(pensum.id)
                 while bol_temp:
-                    cursos_json= total_cursos_maestria_elect(stude.id)
+                    cursos_json = total_cursos_maestria_elect(stude.id)
                     print(cursos_json)
                     cursos_maestria = float(cursos_json["cursos_mestria"])
                     if cursos_maestria < 7:
@@ -624,7 +626,7 @@ def populate():
                     cursos_otros = int(cursos_json["cursos_otros"])
                     print "CURSOS OTROS" + str(cursos_otros)
                     cursos_otra_mas = dar_cursos_pensum_obj(temp_master.pensum_set.first().id)
-                    if cursos_otros < 2 and cursos_otra_mas.__len__()>0:
+                    if cursos_otros <= 2 and cursos_otra_mas.__len__()>0:
                         curso = random.choice(cursos_otra_mas)
                         if not(verificar_existe_curso_plan(curso.code, stude.code)):
                             if stude.scheme == None:
@@ -634,6 +636,7 @@ def populate():
                             curso_schema_obj = Scheme_courses(scheme=stude.scheme, course=curso, semester=4)
                             curso_schema_obj.save()
                     else:
+                        print "entro false"
                         bol_temp = False
                 for i in range(1, 8):
                     if pensum != None:

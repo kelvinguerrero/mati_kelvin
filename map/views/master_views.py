@@ -5,7 +5,9 @@ from map.common.folder_common import structure_master_courses, \
                                      calculate_credits, \
                                      list_courses_scheme, \
                                      list_subject_approved
-from map.common.student_common import dar_estudiante_codigo, dar_maestria_de_estudiante
+from map.common.student_common import   dar_estudiante_codigo, \
+                                        dar_maestria_de_estudiante, \
+                                        ingles_aprobado
 from map.forms import MasterForm, MaterCarpetaForm
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
@@ -100,7 +102,6 @@ def master_carpeta(request, student_code=None):
             print("entro")
             form = MaterCarpetaForm(request.POST)
             if form.is_valid():
-                print(form)
                 codigo = int(form.cleaned_data['codigo'])
                 estudiante = dar_estudiante_codigo(codigo)
 
@@ -109,20 +110,26 @@ def master_carpeta(request, student_code=None):
                     maestria = dar_maestria_de_estudiante(codigo)
                     #Estado del curso
                     structure = structure_master_courses(codigo)
-
-                    decoded_structure = json.dumps(structure)
                     credits = calculate_credits(codigo)
                     list_courses = list_courses_scheme(codigo)
                     list_subject = list_subject_approved(codigo)
-                    print structure
-                    return render(request, 'master/master_dash.html', {'estado':True,
+                    ingles = ingles_aprobado(estudiante.id)
+                    if (ingles == False or ingles == None):
+                        ingles = None
+                    else:
+                        ingles = ingles.to_dict()
+                        ingles["grade"]=round(float(ingles["grade"]),2)
+                    if list_courses != None:
+                        list_courses=list_courses.to_dict()
+                    return render(request, 'master/master_dash.html', {'estado': True,
                                                                        'credits': credits,
                                                                        'list_courses': list_courses,
                                                                        'list_subject': list_subject,
                                                                        'obj_estudiante': estudiante,
                                                                        'maestria': maestria,
-                                                                       'structure': decoded_structure,
-                                                                       'form': form
+                                                                       'structure': structure,
+                                                                       'form': form,
+                                                                       'ingles': ingles
                                                                        })
                 else:
                     return render(request, 'master/master_dash.html', {'estado':False,

@@ -440,7 +440,7 @@ class Subject(models.Model):
             id=self.id,
             grade=str(self.grade),
             student_status=self.student_status,
-            student=verificar_student(self),
+            #student=verificar_student(self),
             section=verificar_section(self)
         )
         return response
