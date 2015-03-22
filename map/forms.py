@@ -15,6 +15,13 @@ class MaterCarpetaForm(forms.Form):
     codigo.widget.attrs = {'class': 'form-control', 'required': True}
 
 
+class MaterStudentCourseForm(forms.Form):
+    codigo = forms.IntegerField(label='Codigo del estudiante')
+    codigo.widget.attrs = {'class': 'form-control', 'required': True}
+    curso = forms.CharField(label='Codigo del curso')
+    curso.widget.attrs = {'class': 'form-control', 'required': True}
+
+
 class PensumForm(forms.Form):
 
     id = forms.CharField(widget=widgets.HiddenInput, required=False)

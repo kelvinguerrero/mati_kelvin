@@ -7,8 +7,9 @@ from map.common.folder_common import structure_master_courses, \
                                      list_subject_approved
 from map.common.student_common import   dar_estudiante_codigo, \
                                         dar_maestria_de_estudiante, \
-                                        ingles_aprobado
-from map.forms import MasterForm, MaterCarpetaForm
+                                        ingles_aprobado,\
+                                        tiene_cruso
+from map.forms import MasterForm, MaterCarpetaForm, MaterStudentCourseForm
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -136,3 +137,43 @@ def master_carpeta(request, student_code=None):
                                                                        'codigo':codigo,
                                                                        'form':form
                                                                        })
+
+@login_required()
+def master_student_course(request, student_code=None):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    else:
+        if request.method == 'GET':
+            form = MaterStudentCourseForm()
+            return render(request, 'master/master_student_course_form.html', {'form': form})
+        if request.method == 'POST':
+            form = MaterStudentCourseForm(request.POST)
+            if form.is_valid():
+
+                codigo = int(form.cleaned_data['codigo'])
+                curso = form.cleaned_data['curso']
+                #Maestria del estudiante
+                maestria = dar_maestria_de_estudiante(codigo)
+                estudiante = dar_estudiante_codigo(codigo)
+
+                if estudiante != None:
+                    curso_obj = tiene_cruso(estudiante.id, curso)
+                    print(curso_obj.to_dict())
+                    if curso_obj == False:
+                        return render(request, 'master/master_dash_curso.html', {'estado': False,
+                                                                                 'maestria': maestria,
+                                                                                 'obj_estudiante': estudiante,
+                                                                                 'codigo':curso
+                                                                                 })
+                    if curso_obj != None:
+                        return render(request, 'master/master_dash_curso.html', {
+                                                                            'estado': True,
+                                                                            'maestria': maestria,
+                                                                            'obj_estudiante': estudiante,
+                                                                            'obj_curso': curso_obj.to_dict(),
+                                                                            'credits': credits})
+                else:
+                        return render(request, 'master/master_dash_curso.html', {'estado': False,
+                                                                                     'obj_estudiante': estudiante,
+                                                                                     'codigo':curso
+                                                                                     })

@@ -17,13 +17,6 @@
 
 {% block header-description %}
 
-{#    <div class="col-md-12">#}
-{#        <div class="center-block">#}
-{#            {% trans "Dashboard" %}#}
-{#        </div>#}
-{#    </div>#}
-{#    <br>#}
-{#    <br>#}
     <div class="left clearfix">
         <div class="chat-body clearfix">
             <div class="col-md-3">
@@ -210,9 +203,10 @@
                                                         <span class="pull-right text-muted small"><em>Nota: {{ ingles.grade }}</em>
                                                         </span>
                                                     </a>
-
                                                 {% endif %}
-
+                                                <a href={% url 'master_student_course' %} class="list-group-item" data-toggle="modal" data-target="#legal">
+                                                    <i class="text-info"></i> <small class="text-info">Tiene curso aprobado</small>
+                                                </a>
                                             </div>
                                             <!-- /.list-group -->
                                         </div>
