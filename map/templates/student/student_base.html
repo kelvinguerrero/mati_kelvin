@@ -9,6 +9,11 @@
                     {% trans "Listar estudiantes" %}
                 </a>
             </li>
+            <li>
+                <a href={% url 'dar_estudiante' %}  data-toggle="modal" data-target="#legal">
+                    {% trans "Buscar estudiante" %}
+                </a>
+            </li>
         {% endif %}
         <li>
             <a href={% url 'create_student' %}>

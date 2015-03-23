@@ -1,6 +1,6 @@
 from map.models import Master
 from django.shortcuts import render
-from map.common.master_common import list_masters
+from map.common.master_common import list_masters, dar_maestria_nombre
 from map.common.folder_common import structure_master_courses, \
                                      calculate_credits, \
                                      list_courses_scheme, \
@@ -9,11 +9,12 @@ from map.common.student_common import   dar_estudiante_codigo, \
                                         dar_maestria_de_estudiante, \
                                         ingles_aprobado,\
                                         tiene_cruso
-from map.forms import MasterForm, MaterCarpetaForm, MaterStudentCourseForm
+from map.forms import MasterForm, MaterCarpetaForm, MaterStudentCourseForm, darStudentMasterForm
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 import json
+
 
 class MasterView(View):
 
@@ -158,7 +159,6 @@ def master_student_course(request, student_code=None):
 
                 if estudiante != None:
                     curso_obj = tiene_cruso(estudiante.id, curso)
-                    print(curso_obj.to_dict())
                     if curso_obj == False:
                         return render(request, 'master/master_dash_curso.html', {'estado': False,
                                                                                  'maestria': maestria,
@@ -166,6 +166,7 @@ def master_student_course(request, student_code=None):
                                                                                  'codigo':curso
                                                                                  })
                     if curso_obj != None:
+                        curso_obj.grade = round(float(curso_obj.grade), 2)
                         return render(request, 'master/master_dash_curso.html', {
                                                                             'estado': True,
                                                                             'maestria': maestria,
@@ -177,3 +178,25 @@ def master_student_course(request, student_code=None):
                                                                                      'obj_estudiante': estudiante,
                                                                                      'codigo':curso
                                                                                      })
+
+@login_required()
+def master_dar_estudiantes(request, student_code=None):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    else:
+        if request.method == 'GET':
+            form = darStudentMasterForm()
+            return render(request, 'master/master_estudiantes_form.html', {'form': form})
+        if request.method == 'POST':
+            form = darStudentMasterForm(request.POST)
+            if form.is_valid():
+
+                maestria_seleccion = form.cleaned_data['maestria']
+                print(maestria_seleccion)
+                #Maestria del estudiante
+                maestria = dar_maestria_nombre(maestria_seleccion)
+                estudiantes_lista = maestria.student_set.all()
+                lista = list()
+                for obj_course in estudiantes_lista:
+                    lista.append(obj_course.to_dict())
+                return render(request, 'student/student_list.html', {'object_list': lista})

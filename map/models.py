@@ -223,6 +223,7 @@ def agregar_cursos(cursos_all, scheme_id):
     print "salio"
     return lista_cursos
 
+
 class Scheme_courses(models.Model):
     scheme = models.ForeignKey('Scheme')
     course = models.ForeignKey('Course')

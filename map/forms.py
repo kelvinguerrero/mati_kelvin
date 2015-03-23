@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 from django import forms
 from django.forms import widgets
+from map.models import Master, Course
 
 
 class MasterForm(forms.Form):
@@ -20,6 +22,61 @@ class MaterStudentCourseForm(forms.Form):
     codigo.widget.attrs = {'class': 'form-control', 'required': True}
     curso = forms.CharField(label='Codigo del curso')
     curso.widget.attrs = {'class': 'form-control', 'required': True}
+
+
+class darStudentMasterForm(forms.Form):
+
+    query = Master.objects.all()
+    maestria = forms.ModelChoiceField(queryset=query.order_by('name'))
+    maestria.widget.attrs = {'class': 'form-control', 'required': True}
+
+
+class darCourseForm(forms.Form):
+    curso = forms.CharField(label='Código curso', required=True)
+    curso.widget.attrs = {'class': 'form-control', 'required': True}
+
+
+class darEstudianteForm(forms.Form):
+    estudiante_code = forms.CharField(label='Código del estudiante', required=True)
+    estudiante_code.widget.attrs = {'class': 'form-control', 'required': True}
+
+
+class crearPlanEstudianteForm(forms.Form):
+
+    curso_1 = forms.CharField(label='Código del curso del semestre 1', required=True)
+    curso_1.widget.attrs = {'class': 'form-control', 'required': True}
+
+    curso_2= forms.CharField(label='Código del curso del semestre 2', required=True)
+    curso_2.widget.attrs = {'class': 'form-control', 'required': True}
+
+    curso_3= forms.CharField(label='Código del curso del semestre 3', required=True)
+    curso_3.widget.attrs = {'class': 'form-control', 'required': True}
+
+    curso_4 = forms.CharField(label='Código del curso del semestre 4', required=True)
+    curso_4.widget.attrs = {'class': 'form-control', 'required': True}
+
+    curso_5 = forms.CharField(label='Código del curso del semestre 5', required=True)
+    curso_5.widget.attrs = {'class': 'form-control', 'required': True}
+
+    curso_6 = forms.CharField(label='Código del curso del semestre 6', required=True)
+    curso_6.widget.attrs = {'class': 'form-control', 'required': True}
+
+    curso_7 = forms.CharField(label='Código del curso del semestre 7', required=True)
+    curso_7.widget.attrs = {'class': 'form-control', 'required': True}
+
+    curso_8 = forms.CharField(label='Código del curso del semestre 8', required=True)
+    curso_8.widget.attrs = {'class': 'form-control', 'required': True}
+
+    curso_9 = forms.CharField(label='Código del curso del semestre 9', required=True)
+    curso_9.widget.attrs = {'class': 'form-control', 'required': True}
+
+    curso_10 = forms.CharField(label='Código del curso del semestre 10', required=True)
+    curso_10.widget.attrs = {'class': 'form-control', 'required': True}
+
+
+class darSeccionForm(forms.Form):
+    seccion_crn = forms.CharField(label='Crn de la sección', required=True)
+    seccion_crn.widget.attrs = {'class': 'form-control', 'required': True}
 
 
 class PensumForm(forms.Form):

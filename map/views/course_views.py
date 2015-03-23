@@ -1,7 +1,7 @@
 from map.models import Course, Pensum
 from django.shortcuts import render
-from map.common.course_common import list_courses
-from map.forms import CourseForm
+from map.common.course_common import list_courses, dar_curso_by_code
+from map.forms import CourseForm, darCourseForm
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
@@ -97,3 +97,22 @@ def course_delete(request, course_id):
 
             lista = list_courses()
             return render(request, 'course/course_list.html', {'object_list':lista})
+
+
+@login_required()
+def dar_course(request, course_id=None):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    else:
+        if request.method == 'GET':
+            form = darCourseForm()
+            return render(request, 'course/dar_course_form.html', {'form': form})
+        if request.method == 'POST':
+            form = darCourseForm(request.POST)
+            if form.is_valid():
+
+                code_curso = form.cleaned_data['curso']
+                print(code_curso)
+                #Maestria del estudiante
+                curso = dar_curso_by_code(code_curso)
+                return render(request, 'course/course_detail.html', {'object': curso, 'detail': True})

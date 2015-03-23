@@ -1,7 +1,7 @@
 from map.models import Section, Teacher, Course
 from django.shortcuts import render
-from map.common.section_common import list_sections
-from map.forms import SectionForm
+from map.common.section_common import list_sections, dar_seccion_crn
+from map.forms import SectionForm, darSeccionForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
@@ -81,3 +81,20 @@ def section_delete(request, section_id):
 
         lista = list_sections()
         return render(request, 'section/section_list.html', {'object_list':lista})
+
+
+@login_required()
+def dar_seccion(request, course_id=None):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    else:
+        if request.method == 'GET':
+            form = darSeccionForm()
+            return render(request, 'section/dar_seccion_form.html', {'form': form})
+        if request.method == 'POST':
+            form = darSeccionForm(request.POST)
+            if form.is_valid():
+                seccion_crn = form.cleaned_data['seccion_crn']
+                print(seccion_crn)
+                ob_student = dar_seccion_crn(seccion_crn)
+                return render(request, 'section/section_detail.html', {'object': ob_student, 'detail': True})

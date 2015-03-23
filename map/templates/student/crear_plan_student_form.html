@@ -1,0 +1,61 @@
+{% extends 'student/student_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Plan de carrera del estudiante" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href={% url 'student' object.id %}>
+    {% trans "Detalles del estudiante" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+    <div class="left clearfix">
+
+        <div class="chat-body clearfix">
+            <div class="col-md-5">
+                <strong class="primary-font">{{ object.name  }} {{ object.lastname }}</strong>
+                <small class="pull-left text-muted">
+                    <br>
+                    <i></i>Correo: {{ object.email}}
+                </small>
+                    <br>
+                    <br>
+                    <i></i><h6>Codigo: {{ object.code}}</h6>
+                    <i></i><h6>Maestria: {{ object.master.name  }}</h6>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block content %}
+    <h3 class="text-center text-capitalize text-muted">
+    <h3 class="text-center text-capitalize text-muted">
+        {% trans "Plan de carrera del estudiante" %}
+    </h3>
+    {% load bootstrap %}
+    <div class="container">
+
+        <form action={% url 'crear_plan_estudiante' id_student %} method="post" class="form-horizontal" role="form">
+            <div class="container">
+                <div class="row">
+                <div class="col-md-3">
+                    {% csrf_token %}
+                    {{ form|bootstrap }}
+                    <input type="submit" value="Crear plan del estudiante" class="btn btn-group-sm btn-success btn-sm disabled">
+                </div>
+                </div>
+            </div>
+        </form>
+    <br>
+    <br>
+    <br>
+    </div>
+{% endblock %}

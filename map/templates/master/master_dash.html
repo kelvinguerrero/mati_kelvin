@@ -19,7 +19,7 @@
 
     <div class="left clearfix">
         <div class="chat-body clearfix">
-            <div class="col-md-3">
+            <div class="col-md-5">
                 <strong class="primary-font">{{ obj_estudiante.name  }} {{ obj_estudiante.lastname }}</strong>
                 <small class="pull-left text-muted">
                     <br>
@@ -32,6 +32,7 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 
 
@@ -129,7 +130,7 @@
                                                                                             {{ object.section.course.name }}
                                                                                         </div>
                                                                                         <div class="panel-body">
-                                                                                            <h5> {{ object.section.course.pensum.master.name }}</h5>
+                                                                                            <h5>Maestría: {{ object.section.course.pensum.master.name }}</h5>
                                                                                             <h5>Creditos: {{ object.section.course.credits  }}</h5>
                                                                                         </div>
                                                                                         <div class="panel-footer">
@@ -169,7 +170,7 @@
                                                                             {{ object.curso.name }}
                                                                         </div>
                                                                         <div class="panel-body">
-                                                                            <h5> {{ object.curso.pensum.master.name }}</h5>
+                                                                            <h5>Maestría: {{ object.curso.pensum.master.name }}</h5>
                                                                             <h5>Creditos: {{ object.curso.credits }}</h5>
                                                                         </div>
                                                                         <div class="panel-footer">

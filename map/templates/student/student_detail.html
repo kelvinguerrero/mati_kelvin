@@ -15,10 +15,122 @@
 {% endblock %}
 
 {% block header-description %}
-  {% trans "Información detallada del estudiante." %}
+
+    <div class="left clearfix">
+        <div class="chat-body clearfix">
+            <div class="col-md-5">
+                <strong class="primary-font">{{ object.name  }} {{ object.lastname }}</strong>
+                <small class="pull-left text-muted">
+                    <br>
+                    <i></i>Correo: {{ object.email}}
+                </small>
+                    <br>
+                    <br>
+                    <i></i><h6>Codigo: {{ object.code}}</h6>
+                    <i></i><h6>Maestria: {{ object.master.name  }}</h6>
+                    <i></i><a href='{% url 'crear_plan_estudiante' object.id %}'>Crear plan de carrera</a>
+            </div>
+        </div>
+    </div>
+
+
 {% endblock %}
 
 {% block content %}
+
+    <div class="col-md-11">
+        <div class="container" style="width: inherit">
+            <div class="row">
+            <em> Cursos Aprobados </em>
+
+                    <div class="row form-group">
+                            <ul class="nav nav-pills thumbnail setup-panel2">
+
+                                {% for object_subject in list_subject %}
+
+                                    {% if object_subject.section.course.code != null  %}
+                                        <li class="active">
+                                            <a href="#{{ object_subject.section.course.code }}">
+                                                <h5 class="list-group-item-text">{{ object_subject.section.course.code }}</h5>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+
+                            </ul>
+                    </div>
+                    <div class="container">
+                                {% for object_list in list_subject %}
+
+                                    {% if object_list.section.course.code != null  %}
+                                        <div class="row setup-content2" id="{{ object_list.section.course.code }}">
+                                            <div class="col-md-5">
+                                                    <div class="panel panel-red">
+                                                        <div class="panel-heading">
+                                                            {{ object_list.section.course.name }}
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <h5>Maestría: {{ object_list.section.course.pensum.master.name }}</h5>
+                                                            <h5>Creditos: {{ object_list.section.course.credits  }}</h5>
+                                                        </div>
+                                                        <div class="panel-footer">
+                                                            Nota: {{ object_list.grade }}
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                    </div>
+
+            </div>
+            <div class="row">
+            <em> Plan de carrera </em>
+            <div class="row form-group">
+                    <ul class="nav nav-pills thumbnail setup-panel">
+
+                        {% for object in list_courses.courses %}
+                            {% if object.curso.code != null  %}
+                                <li class="active">
+                                    <a href="#{{ object.curso.code }}pro">
+                                        <h5 class="list-group-item-text">{{ object.semestre}}</h5>
+                                        <h5 class="list-group-item-text">{{ object.curso.code}}</h5>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                    </ul>
+            </div>
+            <div class="container">
+                    {% for object in list_courses.courses %}
+                        {% if object.curso.code != null  %}
+                            <div class="row setup-content" id="{{ object.curso.code }}pro">
+                                <div class="col-md-5">
+                                <div class="panel panel-red">
+                                        <div class="panel-heading">
+                                            {{ object.curso.name }}
+                                        </div>
+                                        <div class="panel-body">
+                                            <h5>Maestría: {{ object.curso.pensum.master.name }}</h5>
+                                            <h5>Creditos: {{ object.curso.credits }}</h5>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <div>
+                                                <h5 class="list-group-item-text">Semestre: {{ object.semestre}}</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+            </div>
+        </div>
+        </div>
+    </div>
+
+
     {% include 'student/fragments/student_data.html' %}
 
     <div class="col-lg-12">

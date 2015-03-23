@@ -1,0 +1,20 @@
+{% load bootstrap %}
+<div class="container">
+<br>
+<br>
+<br>
+    <form action={% url 'dar_estudiante' %} method="post" class="form-horizontal" role="form">
+        <div class="container">
+            <div class="row">
+            <div class="col-md-3">
+                {% csrf_token %}
+                {{ form|bootstrap }}
+                <input type="submit" value="Dar estudiante" class="btn-group-sm">
+            </div>
+            </div>
+        </div>
+    </form>
+<br>
+<br>
+<br>
+</div>
