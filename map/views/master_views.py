@@ -1,6 +1,6 @@
 from map.models import Master
 from django.shortcuts import render
-from map.common.master_common import list_masters, dar_maestria_nombre
+from map.common.master_common import list_masters, dar_maestria_nombre, dar_estudiantes_proyecto_grado
 from map.common.folder_common import structure_master_courses, \
                                      calculate_credits, \
                                      list_courses_scheme, \
@@ -68,7 +68,7 @@ def master_edit(request, master_id=None):
                 else:
                     # CREATE
                     master_obj = Master.objects.create(name=form.cleaned_data['name']                                                   )
-                return render(request, 'master/master_detail.html', {'object': master_obj, 'detail': True})
+                return render(request, 'master/master_detail.html', {'object': master_obj, 'detail': True, 'id':object.id})
             else:
                 # ENVIAR MENSAJE
                 pass
@@ -138,6 +138,21 @@ def master_carpeta(request, student_code=None):
                                                                        'codigo':codigo,
                                                                        'form':form
                                                                        })
+
+@login_required()
+def master_candidatos(request, master_id=None):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    else:
+        if request.method == 'GET':
+            if  master_id != None:
+                obj_estudiantes_lista= dar_estudiantes_proyecto_grado(master_id)
+            else:
+                obj_estudiantes_lista= dar_estudiantes_proyecto_grado(1)
+            master_obj = Master.objects.get(id=master_id)
+            return render(request, 'master/master_dash_candidatos.html', {'obj_lista': obj_estudiantes_lista,
+                                                                          'maestria_obj':master_obj})
+
 
 @login_required()
 def master_student_course(request, student_code=None):

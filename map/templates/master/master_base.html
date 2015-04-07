@@ -14,6 +14,7 @@
                     {% trans "Listar estudiantes de maestría" %}
                 </a>
             </li>
+
         {% endif %}
         <li>
             <a href={% url 'create_master' %}>
@@ -24,7 +25,12 @@
         <li>
             <a href={% url 'master_carpeta' %} data-toggle="modal" data-target="#legal"> Carpeta </a>
         </li>
+
         {% if detail %}
+            <li>
+            {{ id }}
+                <a href={% url 'master_candidatos' object.id %} > Candidatos </a>
+            </li>
             <li>
                 <a href=''>
                     {% trans "Editar Maestria" %}

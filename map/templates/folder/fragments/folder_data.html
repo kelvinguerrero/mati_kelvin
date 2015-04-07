@@ -23,7 +23,7 @@
         {% for object in object_list_ap %}
           <tr>
               <td>
-                <a href='{% url 'course' object.id %}'>
+                <a >
                     {{ object.section.course.name }}
                 </a>
               </td>
@@ -37,7 +37,7 @@
       </tbody>
     </table>
 
-<p>
+    <p>
       {% trans "Lista de cursos plan de estudios." %}
     </p>
 
@@ -53,7 +53,7 @@
         {% for object in object_list %}
           <tr>
               <td>
-                <a href='{% url 'course' object.id %}'>
+                <a >
                     {{ object.name }}
                 </a>
               </td>

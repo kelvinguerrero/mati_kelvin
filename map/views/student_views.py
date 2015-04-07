@@ -107,7 +107,7 @@ def student_delete(request, student_id):
             return render(request, 'student/student_list.html', {'object_list':lista})
 
 @login_required()
-def dar_estudiante(request, course_id=None):
+def dar_estudiante(request, student_id=None):
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/')
     else:
@@ -122,6 +122,7 @@ def dar_estudiante(request, course_id=None):
                 list_courses = list_courses_scheme(ob_student.code)
                 list_subject = list_subject_approved(ob_student.code)
 
+
                 if list_courses != None:
                         list_courses=list_courses.to_dict()
                 print list_courses
@@ -131,6 +132,7 @@ def dar_estudiante(request, course_id=None):
                                                                        'list_courses': list_courses,
                                                                        'list_subject': list_subject,
                                                                        'code': ob_student.code})
+
 
 @login_required()
 def crear_plan_estudiante(request, student_id=None):

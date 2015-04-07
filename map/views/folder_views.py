@@ -12,13 +12,13 @@ def folder(request, code_student_id=None):
             return HttpResponseRedirect('/login/')
     else:
         if request.method == 'GET':
-            #if course_id == None:
-            #    lista = list_courses()
-            #    return render(request, 'folder/folder_list.html', {'object_list': lista})
-            #else:
             lista = list_courses_scheme(student_code=code_student_id)
+            print "lista"
+            print lista
             lista_ap = list_subject_approved(student_code=code_student_id)
             creditos = calculate_credits(student_code=code_student_id)
+            if lista != None:
+                lista=lista.to_dict()
             return render(request, 'folder/folder_detail.html', {'object_list': lista,
                                                                  'obj_cedits': creditos,
                                                                  'object_list_ap': lista_ap,

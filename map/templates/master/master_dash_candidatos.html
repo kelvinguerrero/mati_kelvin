@@ -1,0 +1,86 @@
+
+{% extends 'master/master_base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    <title>
+        {% trans "Maestrías" %}
+    </title>
+{% endblock %}
+
+{% block header-link %}
+  <a href=''>
+    {% trans "Listado de maestrías" %}
+  </a>
+{% endblock %}
+
+{% block header-description %}
+
+    <div class="left clearfix">
+        <div class="chat-body clearfix">
+            <div class="col-md-5">
+                <strong class="primary-font">{{ obj_estudiante.name  }} {{ obj_estudiante.lastname }}</strong>
+                <small class="pull-left text-muted">
+                    <br>
+                        <i></i><h6>Maestria: {{ maestria_obj.name  }}</h6>
+                </small>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block content %}
+      <div id="page-wrapper">
+             <div class="col-lg-12">
+             <table class='table table-bordered table-striped'>
+                  <thead>
+                    <tr>
+                        <th>
+                          Código
+                        </th>
+
+                        <th>
+                          Nombre
+                        </th>
+
+                        <th>
+                          Apellido
+                        </th>
+                        <th>
+                          Detalles
+                        </th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                {% for object in obj_lista %}
+                <tr>
+
+                  <td>
+                    {{ object.4.estudiante.code }}
+                  </td>
+
+                  <td>
+                      {{  object.4.estudiante.name }}
+                  </td>
+
+                  <td>{{  object.4.estudiante.lastname }}</td>
+                  <td>
+                    <a href='{% url 'student' object.4.estudiante.id %}'>
+                        Ver
+                  </a>
+                  </td>
+                </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+              </div>
+      </div>
+
+
+
+{% endblock %}
