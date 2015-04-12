@@ -38,9 +38,9 @@ INSTALLED_APPS = (
     'proxy_server',
     'map',
     'dimaps',
+    'south',
     'rest_framework',
     'rest_framework.authtoken',
-    'south',
     'bootstrapform',
 )
 
@@ -78,6 +78,13 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'kelvin',
         'HOST': 'localhost',
+    },
+    'reports': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'report_data',
+        'USER': 'postgres',
+        'PASSWORD': 'kelvin',
+        'HOST': 'localhost'
     }
 }
 
@@ -143,6 +150,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     )
 }
+
+DATABASE_ROUTERS = ['map.routers.CoordinatorRouter']
 
 # REST_FRAMEWORK = {
 #     'PAGINATE_BY': 10,

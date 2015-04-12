@@ -175,6 +175,7 @@ def dar_estudiantes_de_maestria_obj(master_id):
         return lista
     return None
 
+
 #Metodo encargado de crear un estudiante
 # params: code => codigo del estudiante, email => email del estudiante, lastname => apellido del estudiante,
 #         name => Nombre del estudiante, master

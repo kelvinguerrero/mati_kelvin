@@ -3,11 +3,10 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import smart_unicode
 import datetime
-import json
+import jsonfield
+
 
 # Modelos de la plataforma MAP
-
-
 PRIMER_SEMESTRE = 10
 SEGUNDO_SEMESTRE = 20
 INTERSEMESTRAL = 18
@@ -459,3 +458,23 @@ def verificar_section(self_obj):
         return "Sin aignar"
     else:
         return  self_obj.section.to_dict_sin_cap()
+
+
+class MasterReport(models.Model):
+    name = models.CharField(max_length=200)
+    number = models.IntegerField()
+
+
+class Report(models.Model):
+    json = jsonfield.JSONField(default={})
+    maestria = models.ForeignKey('MasterReport')
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        default=now(),
+        editable=False,
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        default=now(),
+        editable=False,
+    )

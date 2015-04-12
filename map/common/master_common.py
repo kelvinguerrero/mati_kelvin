@@ -33,6 +33,10 @@ def dar_maestria_nombre(name_master):
         return None
 
 
+def crear_json_estudiantes_proyecto_grado(id_master):
+    master=0
+
+
 def dar_estudiantes_proyecto_grado(id_master):
     master = dar_maestria(id_master)
     estudiantes = master.student_set.all()
