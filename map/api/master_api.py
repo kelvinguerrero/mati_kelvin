@@ -7,6 +7,7 @@ from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
 from map.common.error_common import error_json
+from map.common.report_common import generar_reportes
 from map.common.master_common import list_masters, dar_estudiantes_proyecto_grado
 from map.common.pensum_common import dar_pensum_set, crear_pensum
 from map.common.student_common import dar_estudiantes_de_maestria, crear_student
@@ -41,9 +42,13 @@ def master(request, master_id=None):
                             obj_estudiantes_lista = dar_estudiantes_proyecto_grado(master_id)
                             json_response = json.dumps(obj_estudiantes_lista)
                             return HttpResponse(json_response, status=200, content_type='application/json')
+                        if data['operation'] == "4":
+                            generar_reportes()
+                            json_response = json.dumps({"mensaje": "Reportes generados correctamente"})
+                            return HttpResponse(json_response, status=200, content_type='application/json')
                         else:
                             error = error_json(4, "No existe la operación")
-                            return HttpResponse(error, status=500,content_type='application/json')
+                            return HttpResponse(error, status=500, content_type='application/json')
 
                     else:
                         master = Master.objects.get(id=master_id)

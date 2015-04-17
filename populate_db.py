@@ -3,8 +3,6 @@ __author__ = 'kelvin Guerrero'
 import os
 import sys
 
-
-
 # Metodo encargado de cargar la base de datos con la información inicial
 def populate():
 
@@ -577,7 +575,8 @@ def populate():
                   "MISO": {"proyecto": "MISO4301", "tesis": "MISO4302"}}
 
     for i in range(1, 25):
-        master = dar_maestria_nombre("MATI")
+
+        master = Master.objects.get(name="MATI")
         estudianes_lista = []
 
         stude = random.choice(dar_estudiantes_de_maestria_obj(master.id))
@@ -835,10 +834,12 @@ def add_pensum(name, active, master):
 # Start execution here!
 if __name__ == '__main__':
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mati.settings")
-    from map.models import Master, Pensum, Course, Teacher, Section, Capacity, Student, Scheme, Subject, Scheme_courses
+    from map.models import Master
     from map.common.course_common import dar_curso_by_code
-    from map.common.master_common import *
-    from map.common.student_common import dar_notas, dar_estudiantes_de_maestria_obj, dar_cantidad_creditos
+    from map.common.student_common import dar_notas, dar_estudiantes_de_maestria_obj, \
+                                          dar_cantidad_creditos
     from map.common.pensum_common import dar_cursos_pensum, dar_cursos_pensum_obj
+    from map.models import Master, Pensum, Course, Teacher, Section, Capacity, Student, Scheme, Subject, Scheme_courses
+
     import random
     populate()

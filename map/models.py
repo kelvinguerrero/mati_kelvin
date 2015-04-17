@@ -5,7 +5,6 @@ from django.utils.encoding import smart_unicode
 import datetime
 import jsonfield
 
-
 # Modelos de la plataforma MAP
 PRIMER_SEMESTRE = 10
 SEGUNDO_SEMESTRE = 20
@@ -460,14 +459,10 @@ def verificar_section(self_obj):
         return  self_obj.section.to_dict_sin_cap()
 
 
-class MasterReport(models.Model):
-    name = models.CharField(max_length=200)
-    number = models.IntegerField()
-
-
 class Report(models.Model):
+    name = models.CharField(max_length=200)
     json = jsonfield.JSONField(default={})
-    maestria = models.ForeignKey('MasterReport')
+    master = models.IntegerField(null=False, blank=False, unique=True)
     created_at = models.DateTimeField(
         auto_now_add=True,
         default=now(),

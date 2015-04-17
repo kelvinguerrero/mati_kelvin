@@ -1,4 +1,4 @@
-from map.models import Pensum, Master
+from map.models import Pensum
 from map.common.course_common import crear_curso
 from map.common.master_common import dar_maestria
 

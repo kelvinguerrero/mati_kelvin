@@ -1,7 +1,6 @@
 __author__ = 'kelvin Guerrero'
-from map.models import Student, Scheme, Scheme_courses
+from map.models import Student, Scheme, Scheme_courses, Master
 from map.common.course_common import dar_curso_by_code
-from map.common.master_common import *
 
 
 def dar_cursos_maestria(student_id):
@@ -180,7 +179,7 @@ def dar_estudiantes_de_maestria_obj(master_id):
 # params: code => codigo del estudiante, email => email del estudiante, lastname => apellido del estudiante,
 #         name => Nombre del estudiante, master
 def crear_student(code, email, lastname, name, master):
-    obj_mas = dar_maestria(master)
+    obj_mas = Master.objects.get(id=master)
     p = Student.objects.get_or_create(code=code, email=email, lastname=lastname, name=name, master=obj_mas)[0]
     return p
 

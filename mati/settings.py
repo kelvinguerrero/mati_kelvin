@@ -74,7 +74,7 @@ LOGIN_REDIRECT_URL = '/accounts/loggedin/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dimap_db',
+        'NAME': 'mati_db',
         'USER': 'postgres',
         'PASSWORD': 'kelvin',
         'HOST': 'localhost',
