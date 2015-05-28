@@ -31,12 +31,16 @@ def crear_json_est_pg(id_maestria):
 def generar_reportes():
     maestria = Master.objects.get(name="MATI")
     json_master_estudiantes = crear_json_est_pg(maestria.id)
+
     try:
         reporte=Report.objects.get(name="Candidatos proyecto grado", master=maestria.id)
         reporte.json=json_master_estudiantes
+        reporte.save(update_fields=["json"])
+
     except Report.DoesNotExist:
-            reporte = Report.objects.create(name="Candidatos proyecto grado", master=maestria.id)
-            reporte.json= json_master_estudiantes
+        print("ERROR")
+        reporte = Report.objects.create(name="Candidatos proyecto grado", master=maestria.id)
+        reporte.json= json_master_estudiantes
 
 
 def dar_reporte_candidatos_proyecto_grado(maestriaid):

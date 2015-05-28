@@ -96,7 +96,6 @@ def student(request, student_id=None):
         elif request.method == 'POST':
             data = request.POST
             if validate_data(data, attrs=['operation', 'master_id', 'code', 'email', 'lastname', 'name', 'student_status',
-                                          'total_approved_credits', 'total_credits_actual_semester',
                                           'nombre', 'curso1', 'curso2', 'curso3', 'curso4', 'curso5', 'curso6',
                                           'curso7', 'curso8', 'curso9', 'curso10', 'code_curso']):
                 if "operation" in data:
@@ -123,8 +122,6 @@ def student(request, student_id=None):
                     lista_attrs.append('lastname')
                     lista_attrs.append('name')
                     lista_attrs.append('student_status')
-                    lista_attrs.append('total_approved_credits')
-                    lista_attrs.append('total_credits_actual_semester')
 
                     if validate_data(data, attrs=lista_attrs):
                         master_obj = Master.objects.get(id=data['master_id'])
@@ -135,8 +132,6 @@ def student(request, student_id=None):
                                                          lastname=data['lastname'],
                                                          name=data['name'],
                                                          student_status=data['student_status'],
-                                                         total_approved_credits=data['total_approved_credits'],
-                                                         total_credits_actual_semester=data['total_credits_actual_semester'],
                                                          master=master_obj
                                                          )
                         json_response = json.dumps(student.to_dict())
