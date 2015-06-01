@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'proxy_server',
     'map',
     'dimaps',
-
     'bootstrapform',
 )
 
