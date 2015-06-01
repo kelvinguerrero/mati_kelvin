@@ -26,7 +26,8 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-
+#'rest_framework',
+#   'rest_framework.authtoken',
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,8 +39,7 @@ INSTALLED_APPS = (
     'proxy_server',
     'map',
     'dimaps',
-    'rest_framework',
-    'rest_framework.authtoken',
+
     'bootstrapform',
 )
 
