@@ -14,7 +14,7 @@ class Service(models.Model):
     service_providers = models.TextField()
     security = models.TextField()
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )
@@ -37,7 +37,7 @@ class TechnicalData(models.Model):
     description = models.TextField()
     service = models.ForeignKey('Service')
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )
@@ -60,7 +60,7 @@ class ServiceConsumer(models.Model):
     objective = models.TextField()
     service = models.ForeignKey('Service')
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )
@@ -87,7 +87,7 @@ class Operation(models.Model):
     url_operation = models.CharField(max_length=200)
     service = models.ForeignKey('Service')
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )
@@ -112,7 +112,7 @@ class Input(models.Model):
     observation = models.TextField()
     operation = models.ForeignKey('Operation')
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )
@@ -137,7 +137,7 @@ class Output(models.Model):
     observation = models.TextField()
     operation = models.ForeignKey('Operation')
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )

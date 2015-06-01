@@ -26,7 +26,7 @@ class Map(models.Model):
 class Master(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )
@@ -59,7 +59,7 @@ class Pensum(models.Model):
     active = models.BooleanField(default=False, null=False, blank=False)
     master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )
@@ -94,7 +94,7 @@ class Teacher(models.Model):
     lastname = models.CharField(max_length=200, null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )
@@ -136,7 +136,7 @@ class Student(models.Model):
     scheme = models.OneToOneField('Scheme', on_delete=models.SET_NULL, related_name='Scheme', null=True, blank=True)
     master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )
@@ -182,7 +182,7 @@ class Scheme(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
     courses = models.ManyToManyField('Course', through='Scheme_courses')
     created_at = models.DateTimeField(
-        auto_now_add=True,
+
         default=now(),
         editable=False,
     )
@@ -238,7 +238,6 @@ class Course(models.Model):
     pensum = models.ForeignKey('Pensum')
 
     created_at = models.DateTimeField(
-        auto_now_add=True,
         default=now(),
         editable=False,
     )
@@ -313,7 +312,6 @@ class Capacity(models.Model):
     section = models.ForeignKey('Section')
 
     created_at = models.DateTimeField(
-        auto_now_add=True,
         default=now(),
         editable=False,
     )
@@ -357,7 +355,6 @@ class Section(models.Model):
     course = models.ForeignKey('Course')
     status = models.IntegerField(null=False, blank=False, choices=SECTION_STATUS_CHOICES)
     created_at = models.DateTimeField(
-        auto_now_add=True,
         default=now(),
         editable=False,
     )
@@ -419,7 +416,6 @@ class Subject(models.Model):
     student = models.ForeignKey('Student')
     section = models.ForeignKey('Section')
     created_at = models.DateTimeField(
-        auto_now_add=True,
         default=now(),
         editable=False,
     )
@@ -464,7 +460,6 @@ class Report(models.Model):
     json = jsonfield.JSONField(default={})
     master = models.IntegerField(null=False, blank=False, unique=True)
     created_at = models.DateTimeField(
-        auto_now_add=True,
         default=now(),
         editable=False,
     )
