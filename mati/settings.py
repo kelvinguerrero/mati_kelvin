@@ -38,7 +38,6 @@ INSTALLED_APPS = (
     'proxy_server',
     'map',
     'dimaps',
-    'south',
     'rest_framework',
     'rest_framework.authtoken',
     'bootstrapform',
