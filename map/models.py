@@ -31,7 +31,6 @@ class Master(models.Model):
         editable=False,
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
         default=now(),
         editable=False,
     )
@@ -59,12 +58,10 @@ class Pensum(models.Model):
     active = models.BooleanField(default=False, null=False, blank=False)
     master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
-
         default=now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
         default=now(),
         editable=False,
     )
@@ -94,12 +91,10 @@ class Teacher(models.Model):
     lastname = models.CharField(max_length=200, null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     created_at = models.DateTimeField(
-
         default=now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
         default=now(),
         editable=False,
     )
@@ -136,12 +131,10 @@ class Student(models.Model):
     scheme = models.OneToOneField('Scheme', on_delete=models.SET_NULL, related_name='Scheme', null=True, blank=True)
     master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
-
         default=now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
         default=now(),
         editable=False,
     )
@@ -182,12 +175,10 @@ class Scheme(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
     courses = models.ManyToManyField('Course', through='Scheme_courses')
     created_at = models.DateTimeField(
-
         default=now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
         default=now(),
         editable=False,
     )
@@ -242,7 +233,6 @@ class Course(models.Model):
         editable=False,
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
         default=now(),
         editable=False,
     )
@@ -316,7 +306,6 @@ class Capacity(models.Model):
         editable=False,
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
         default=now(),
         editable=False,
     )
@@ -359,7 +348,6 @@ class Section(models.Model):
         editable=False,
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
         default=now(),
         editable=False,
     )
@@ -420,7 +408,6 @@ class Subject(models.Model):
         editable=False,
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
         default=now(),
         editable=False,
     )
@@ -464,7 +451,6 @@ class Report(models.Model):
         editable=False,
     )
     updated_at = models.DateTimeField(
-        auto_now=True,
         default=now(),
         editable=False,
     )
