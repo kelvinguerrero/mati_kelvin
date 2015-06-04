@@ -26,14 +26,13 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-
 INSTALLED_APPS = (
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
     'django_extensions',
     'proxy_server',
     'map',
@@ -42,7 +41,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'bootstrapform',
 )
-
+AUTH_USER_MODEl = 'map.Person'
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -70,21 +69,26 @@ LOGIN_REDIRECT_URL = '/accounts/loggedin/'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 #user=matidb
 #password = portalmatidimap
+#'NAME': 'mati_db',
+#'NAME': 'report_data',
+#pip Django==1.6
+
+# 'reports': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'db_k2',
+#         'USER': 'postgres',
+#         'PASSWORD': 'kelvin',
+#         'HOST': 'localhost'
+#     }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mati_db',
+        'NAME': 'db_k1',
         'USER': 'postgres',
         'PASSWORD': 'kelvin',
         'HOST': 'localhost',
     },
-    'reports': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'report_data',
-        'USER': 'postgres',
-        'PASSWORD': 'kelvin',
-        'HOST': 'localhost'
-    }
+
 }
 
 # Internationalization
@@ -150,37 +154,9 @@ REST_FRAMEWORK = {
     )
 }
 
-DATABASE_ROUTERS = ['map.routers.CoordinatorRouter']
+#DATABASE_ROUTERS = ['map.routers.CoordinatorRouter']
 
+#AUTH_PROFILE_MODULE = 'map.Student'
 # REST_FRAMEWORK = {
 #     'PAGINATE_BY': 10,
-# }
-
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'filters': {
-#         'require_debug_false': {
-#             '()': 'django.utils.log.RequireDebugFalse'
-#         }
-#     },
-#     'handlers': {
-#         'mail_admins': {
-#             'level': 'ERROR',
-#             'filters': ['require_debug_false'],
-#             'class': 'django.utils.log.AdminEmailHandler'
-#         }
-#     },
-#     'loggers': {
-#         'django.request': {
-#             'handlers': ['mail_admins'],
-#             'level': 'ERROR',
-#             'propagate': True,
-#         },
-#     }
 # }

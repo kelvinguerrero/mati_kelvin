@@ -13,12 +13,11 @@ class Service(models.Model):
     business_function = models.TextField()
     service_providers = models.TextField()
     security = models.TextField()
-    created_at = models.DateTimeField(
-        default=now(),
+    created_at = models.DateTimeField(now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
 
@@ -36,11 +35,11 @@ class TechnicalData(models.Model):
     service = models.ForeignKey('Service')
     created_at = models.DateTimeField(
 
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
 
@@ -57,11 +56,11 @@ class ServiceConsumer(models.Model):
     objective = models.TextField()
     service = models.ForeignKey('Service')
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
 
@@ -82,11 +81,11 @@ class Operation(models.Model):
     url_operation = models.CharField(max_length=200)
     service = models.ForeignKey('Service')
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
 
@@ -105,11 +104,11 @@ class Input(models.Model):
     observation = models.TextField()
     operation = models.ForeignKey('Operation')
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
 
@@ -128,11 +127,11 @@ class Output(models.Model):
     observation = models.TextField()
     operation = models.ForeignKey('Operation')
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
 

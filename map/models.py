@@ -1,9 +1,12 @@
 __author__ = 'kelvin Guerrero'
+from django.conf import settings
 from django.db import models
 from django.utils.timezone import now
 from django.utils.encoding import smart_unicode
 import datetime
 import jsonfield
+from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Modelos de la plataforma MAP
 PRIMER_SEMESTRE = 10
@@ -27,11 +30,11 @@ class Master(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
     created_at = models.DateTimeField(
 
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
 
@@ -55,14 +58,14 @@ class Master(models.Model):
 
 class Pensum(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
-    active = models.BooleanField(default=False, null=False, blank=False)
+    active = models.BooleanField(False, null=False, blank=False)
     master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     def __unicode__(self):
@@ -91,11 +94,11 @@ class Teacher(models.Model):
     lastname = models.CharField(max_length=200, null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
 
@@ -120,22 +123,23 @@ class Teacher(models.Model):
         return response
 
 
+    #user = models.ForeignKey(User, related_name='%(app_label)s_%(class)s_user',blank=True,null=True,editable=False)
+    #total_approved_credits = models.IntegerField(default=0)
+    #total_credits_actual_semester = models.IntegerField(default=0)
 class Student(models.Model):
     code = models.IntegerField(null=False, blank=False, unique=True)
     email = models.CharField(max_length=200, null=False, blank=False, unique=True)
     lastname = models.CharField(max_length=200, null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     student_status = models.IntegerField(default=1)
-    #total_approved_credits = models.IntegerField(default=0)
-    #total_credits_actual_semester = models.IntegerField(default=0)
     scheme = models.OneToOneField('Scheme', on_delete=models.SET_NULL, related_name='Scheme', null=True, blank=True)
     master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
 
@@ -169,17 +173,19 @@ class Student(models.Model):
         )
         return response
 
+#User.profile = property(lambda u: Master.objects.get_or_create(User=u)[0])
+
 
 #Relacion que modela el plan de estudios que el estudiante crea
 class Scheme(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
     courses = models.ManyToManyField('Course', through='Scheme_courses')
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     def __unicode__(self):
@@ -228,12 +234,11 @@ class Course(models.Model):
     summer = models.BooleanField(default=False, null=False, blank=False)
     pensum = models.ForeignKey('Pensum')
 
-    created_at = models.DateTimeField(
-        default=now(),
+    created_at = models.DateTimeField(now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     def __unicode__(self):
@@ -301,12 +306,10 @@ class Capacity(models.Model):
     capacity = models.IntegerField(null=False, blank=False)
     section = models.ForeignKey('Section')
 
-    created_at = models.DateTimeField(
-        default=now(),
+    created_at = models.DateTimeField(now(),
         editable=False,
     )
-    updated_at = models.DateTimeField(
-        default=now(),
+    updated_at = models.DateTimeField(now(),
         editable=False,
     )
     def __unicode__(self):
@@ -344,11 +347,11 @@ class Section(models.Model):
     course = models.ForeignKey('Course')
     status = models.IntegerField(null=False, blank=False, choices=SECTION_STATUS_CHOICES)
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     def __unicode__(self):
@@ -400,15 +403,15 @@ def verificar_teacher(self_obj):
 
 class Subject(models.Model):
     grade = models.DecimalField(max_digits=10, decimal_places=5, null=False, blank=False)
-    student_status = models.BooleanField(default=False, null=False, blank=False)
+    student_status = models.BooleanField(False, null=False, blank=False)
     student = models.ForeignKey('Student')
     section = models.ForeignKey('Section')
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
 
@@ -444,13 +447,22 @@ def verificar_section(self_obj):
 
 class Report(models.Model):
     name = models.CharField(max_length=200)
-    json = jsonfield.JSONField(default={})
+    json = jsonfield.JSONField({})
     master = models.IntegerField(null=False, blank=False, unique=True)
     created_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
     updated_at = models.DateTimeField(
-        default=now(),
+        now(),
         editable=False,
     )
+
+
+# class Person(AbstractUser):
+#     #person = models.ForeignKey(settings.AUTH_USER_MODEl)
+#     old_id = models.IntegerField(null=True, blank=True)
+#     old_source = models.CharField(max_length=25, null=True, blank=True)
+#     user_name = models.CharField(max_length=100, null=True)
+#     target = models.ForeignKey(User, related_name='Person_targets')
+#     claimer = models.ForeignKey(User, related_name='Person_users')

@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3161474820">
-    <data-source source="LOCAL" name="Django default" uuid="04c6efa0-3090-4c20-8ef1-ae43ebec6a23">
+  <component name="DataSourceManagerImpl" format="xml" hash="4152600980">
+    <data-source source="LOCAL" name="Django default" uuid="3012f014-fa91-4521-9680-1e70eb9a6529">
       <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://127.0.0.1/dimap_db</jdbc-url>
+      <jdbc-url>jdbc:postgresql://127.0.0.1/db_k1</jdbc-url>
       <user-name>postgres</user-name>
       <user-password>dfc1dfcfdfc6dfdcdfc3dfc4</user-password>
-      <schema-pattern>dimap_db.public</schema-pattern>
-      <default-schemas>dimap_db.pg_catalog dimap_db.public</default-schemas>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Django reports" uuid="c55f7447-1dcf-43ac-a4a3-a0eb374c31a6">
+      <driver-ref>postgresql</driver-ref>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://127.0.0.1/db_k2</jdbc-url>
+      <user-name>postgres</user-name>
+      <user-password>dfc1dfcfdfc6dfdcdfc3dfc4</user-password>
       <libraries />
     </data-source>
   </component>
