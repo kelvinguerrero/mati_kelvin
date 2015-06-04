@@ -141,6 +141,17 @@ def crear_plan_estudiante(request, student_id=None):
     else:
         if request.method == 'GET':
             data = dict()
+            curso_1 = ''
+            curso_2 = ''
+            curso_3 = ''
+            curso_4 = ''
+            curso_5 = ''
+            curso_6 = ''
+            curso_7 = ''
+            curso_8 = ''
+            curso_9 = ''
+            curso_10 = ''
+
             if student_id == None:
                 lista = list_students()
                 return render(request, 'student/student_list.html', {'object_list': lista})
@@ -152,6 +163,7 @@ def crear_plan_estudiante(request, student_id=None):
                     if list_courses != None:
                         list_courses=list_courses.to_dict()
                     for curso in list_courses["courses"]:
+
                         if curso["semestre"] == 1:
                             curso_1 = curso["curso"]["code"]
                         elif curso["semestre"] == 2:
@@ -183,6 +195,7 @@ def crear_plan_estudiante(request, student_id=None):
                                                         'curso_8': curso_8,
                                                         'curso_9': curso_9,
                                                         'curso_10': curso_10})
+
                 data.update({'object': student,'id_student': student.id, 'form': form, 'code': student.code})
                 return render(request, 'student/crear_plan_student_form.html', data)
         if request.method == 'POST':
