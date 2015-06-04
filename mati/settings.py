@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'bootstrapform',
 )
-AUTH_USER_MODEl = 'map.Person'
+#AUTH_USER_MODEl = 'map.Person'
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

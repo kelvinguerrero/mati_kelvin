@@ -29,13 +29,14 @@ class Map(models.Model):
 class Master(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
     created_at = models.DateTimeField(
-
         now(),
         editable=False,
+        null=True
     )
     updated_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
 
     def __unicode__(self):
@@ -63,10 +64,12 @@ class Pensum(models.Model):
     created_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     updated_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     def __unicode__(self):
         return smart_unicode(self.name)
@@ -96,10 +99,12 @@ class Teacher(models.Model):
     created_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     updated_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
 
     def __unicode__(self):
@@ -123,9 +128,6 @@ class Teacher(models.Model):
         return response
 
 
-    #user = models.ForeignKey(User, related_name='%(app_label)s_%(class)s_user',blank=True,null=True,editable=False)
-    #total_approved_credits = models.IntegerField(default=0)
-    #total_credits_actual_semester = models.IntegerField(default=0)
 class Student(models.Model):
     code = models.IntegerField(null=False, blank=False, unique=True)
     email = models.CharField(max_length=200, null=False, blank=False, unique=True)
@@ -137,10 +139,12 @@ class Student(models.Model):
     created_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     updated_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
 
     def __unicode__(self):
@@ -173,7 +177,6 @@ class Student(models.Model):
         )
         return response
 
-#User.profile = property(lambda u: Master.objects.get_or_create(User=u)[0])
 
 
 #Relacion que modela el plan de estudios que el estudiante crea
@@ -183,10 +186,12 @@ class Scheme(models.Model):
     created_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     updated_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     def __unicode__(self):
         return smart_unicode(self.name)
@@ -236,10 +241,12 @@ class Course(models.Model):
 
     created_at = models.DateTimeField(now(),
         editable=False,
+        null=True
     )
     updated_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     def __unicode__(self):
         return smart_unicode(self.name + "" + self.code)
@@ -308,9 +315,11 @@ class Capacity(models.Model):
 
     created_at = models.DateTimeField(now(),
         editable=False,
+        null=True
     )
     updated_at = models.DateTimeField(now(),
         editable=False,
+        null=True
     )
     def __unicode__(self):
         return smart_unicode(self.name + "" + str(self.capacity) )
@@ -349,10 +358,12 @@ class Section(models.Model):
     created_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     updated_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     def __unicode__(self):
         return smart_unicode(self.name + " " + str(self.crn))
@@ -409,10 +420,12 @@ class Subject(models.Model):
     created_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     updated_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
 
     @models.permalink
@@ -452,17 +465,10 @@ class Report(models.Model):
     created_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
     updated_at = models.DateTimeField(
         now(),
         editable=False,
+        null=True
     )
-
-
-# class Person(AbstractUser):
-#     #person = models.ForeignKey(settings.AUTH_USER_MODEl)
-#     old_id = models.IntegerField(null=True, blank=True)
-#     old_source = models.CharField(max_length=25, null=True, blank=True)
-#     user_name = models.CharField(max_length=100, null=True)
-#     target = models.ForeignKey(User, related_name='Person_targets')
-#     claimer = models.ForeignKey(User, related_name='Person_users')

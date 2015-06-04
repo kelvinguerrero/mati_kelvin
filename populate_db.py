@@ -842,4 +842,6 @@ if __name__ == '__main__':
     from map.models import Master, Pensum, Course, Teacher, Section, Capacity, Student, Scheme, Subject, Scheme_courses
 
     import random
+    import django
+    django.setup()
     populate()
