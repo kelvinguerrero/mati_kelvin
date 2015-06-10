@@ -24,7 +24,7 @@ def cargar_estudiantes():
 
 
 def cargar_estudiantes_201510():
-
+    print "carge de estudiantes del año 201510"
     #Parametros para la llamada de la creación de un estudiante
     BASE_PATH = 'http://localhost:8000/map/api/student/'
     headers = {
@@ -71,6 +71,7 @@ def cargar_estudiantes_201510():
 
 
 def cargar_estudiantes_201220():
+    print "carge de estudiantes del año 201220"
 
     #Parametros para la llamada de la creación de un estudiante
     BASE_PATH = 'http://localhost:8000/map/api/student/'
@@ -148,7 +149,7 @@ def cargar_estudiantes_graduados():
             rta_buscar_profesor = fork_service.llamada_get(BASE_PATH_PROFESOR, headers_profesor)
             s_code = rta_buscar_profesor.status_code
             if s_code == 500:
-                json_rta = json.loads(rta_buscar_estudiante.text)['mensaje']
+                json_rta = json.loads(rta_buscar_profesor.text)['mensaje']
                 if json_rta == 'No existe el estudiante':
                     data = {
                         'lastname': row['APELLIDOS'],
@@ -163,7 +164,7 @@ def cargar_estudiantes_graduados():
                     print "Error en el estudiante" + row['CARNET']
 
             else:
-                json_id_estudiante = json.loads(rta_buscar_estudiante.text)['id']
+                json_id_estudiante = json.loads(rta_buscar_profesor.text)['id']
                 print str(json_id_estudiante)+ ": estudiante"
                 BASE_PATH_EDIT_PROFESOR = BASE_PATH_EDIT_PROFESOR.replace("codigo_student", str(json_id_estudiante))
 
@@ -177,7 +178,7 @@ def cargar_estudiantes_graduados():
 
 
 def cargar_estudiantes_graduados():
-
+    print "carge de estudiantes graduados"
     #Parametros para la llamada de la creación de un profesor
     BASE_PATH = 'http://localhost:8000/map/api/student/'
     headers = {
