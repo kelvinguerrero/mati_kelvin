@@ -100,7 +100,7 @@ class Operation(models.Model):
 class Input(models.Model):
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=200)
-    mandatory = models.BooleanField(default=False)
+    mandatory = models.BooleanField(default=None)
     observation = models.TextField()
     operation = models.ForeignKey('Operation')
     created_at = models.DateTimeField(
@@ -123,7 +123,7 @@ class Input(models.Model):
 class Output(models.Model):
     name = models.CharField(max_length=200)
     type = models.CharField(max_length=200)
-    mandatory = models.BooleanField(default=False)
+    mandatory = models.BooleanField(default=None)
     observation = models.TextField()
     operation = models.ForeignKey('Operation')
     created_at = models.DateTimeField(

@@ -15,9 +15,10 @@ import json
 @csrf_exempt
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def student(request, student_id=None):
-    if not request.user.is_authenticated():
-        return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
-    else:
+
+    # if not request.user.is_authenticated():
+    #     return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
+    # else:
         if request.method == 'GET':
             if student_id is None:
                 response = list_students()
@@ -33,11 +34,15 @@ def student(request, student_id=None):
                             json_response = json.dumps(notas)
                             return HttpResponse(json_response, status=200, content_type='application/json')
                         if data['operation'] == "6":
-                            student = Student.objects.get(code=student_id)
-                            if student != None:
-                                json_response = json.dumps(student.to_dict())
-                                return HttpResponse(json_response, status=200, content_type='application/json')
-                            else:
+                            try:
+                                student = Student.objects.get(code=student_id)
+                                if student != None:
+                                    json_response = json.dumps(student.to_dict())
+                                    return HttpResponse(json_response, status=200, content_type='application/json')
+                                else:
+                                    error = error_json(2, "No existe el estudiante")
+                                    return HttpResponse(error, status=500, content_type='application/json')
+                            except Exception as e:
                                 error = error_json(2, "No existe el estudiante")
                                 return HttpResponse(error, status=500, content_type='application/json')
                         if data['operation'] == "3":
@@ -94,14 +99,14 @@ def student(request, student_id=None):
                             error = error_json(2, "No existe el estudiante")
                             return HttpResponse(error, status=500, content_type='application/json')
         elif request.method == 'POST':
-            data = request.POST
+            data = request.DATA
             if validate_data(data, attrs=['operation', 'master_id', 'code', 'email', 'lastname', 'name', 'student_status',
                                           'nombre', 'curso1', 'curso2', 'curso3', 'curso4', 'curso5', 'curso6',
                                           'curso7', 'curso8', 'curso9', 'curso10', 'code_curso']):
                 if "operation" in data:
                     if student_id == None:
                         error = error_json(4, "Se debe agregar el id del estudiante")
-                        return HttpResponse(error, status=500,content_type='application/json')
+                        return HttpResponse(error, status=500, content_type='application/json')
 
                     else:
 
@@ -111,8 +116,6 @@ def student(request, student_id=None):
                                                       data['curso9'], data['curso10'])
                             json_response = json.dumps(plan.to_dict())
                             return HttpResponse(json_response, status=200, content_type='application/json')
-
-
                 else:
 
                     lista_attrs = list()
@@ -141,24 +144,24 @@ def student(request, student_id=None):
         elif request.method == 'PUT':
             data = request.DATA
             if student_id is not None:
-                student = Student.objects.get(id=student_id)
+                vstudent = Student.objects.get(id=student_id)
 
                 if 'code' in data:
-                    student.code = data['code']
+                    vstudent.code = data['code']
                 if 'email' in data:
-                    student.email = data['email']
+                    vstudent.email = data['email']
                 if 'lastname' in data:
-                    student.lastname = data['lastname']
+                    vstudent.lastname = data['lastname']
                 if 'name' in data:
-                    student.name = data['name']
+                    vstudent.name = data['name']
                 if 'student_status' in data:
-                    student.student_status = data['student_status']
-                if 'total_approved_credits' in data:
-                    student.total_approved_credits = data['total_approved_credits']
-                if 'total_credits_actual_semester' in data:
-                    student.total_credits_actual_semester = data['total_credits_actual_semester']
+                    vstudent.student_status = data['student_status']
+                #if 'total_approved_credits' in data:
+                #    student.total_approved_credits = data['total_approved_credits']
+                #if 'total_credits_actual_semester' in data:
+                #    student.total_credits_actual_semester = data['total_credits_actual_semester']
                 #agregar la validacion de datos
-                student.save()
+                vstudent.save()
                 return HttpResponse(status=204)
             else:
                 return HttpResponse(status=500)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 __author__ = 'kelvin Guerrero'
 from django.conf import settings
 from django.db import models
@@ -59,7 +60,7 @@ class Master(models.Model):
 
 class Pensum(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
-    active = models.BooleanField(False, null=False, blank=False)
+    active = models.BooleanField(default=None, null=False, blank=False)
     master = models.ForeignKey('Master')
     created_at = models.DateTimeField(
         now(),
@@ -128,6 +129,14 @@ class Teacher(models.Model):
         return response
 
 
+  #//---------------------------------------------------------------------------------------------------------------//
+  # Modelo que representa a un estudiante:
+  #   Se modela los datos basicos del estudiante, el estado (student_status) el cual puede ser:
+  #     * 1 Activo.
+  #     * 2 Inactivo.
+  #     * 3 Graduado.
+  #
+  #//---------------------------------------------------------------------------------------------------------------//
 class Student(models.Model):
     code = models.IntegerField(null=False, blank=False, unique=True)
     email = models.CharField(max_length=200, null=False, blank=False, unique=True)
@@ -176,7 +185,6 @@ class Student(models.Model):
             courses=self.course_set
         )
         return response
-
 
 
 #Relacion que modela el plan de estudios que el estudiante crea
@@ -412,9 +420,22 @@ def verificar_teacher(self_obj):
         self_obj.teacher.to_dict()
 
 
+ #//---------------------------------------------------------------------------------------------------------------//
+ # Modelo que representa el estado de la calificación de un estudiante:
+ # Un estudiante inscribe una sección, y esta maneja una calificación por cada estudiante, esta calificación puede
+ # estar dada por una nota ó puede ser aprobado o reprobado (true, false) respectivamente.
+ #
+ #   Dentro de este modelo se manejan los siguientes atributos:
+ #     grade: Este campo modela la nota que obtuvo un estudiante
+ #     subject_status: Este campo modela si el estudiante aprobo o repobo (true, false) respectivamente.
+ #
+ # El modelo contiene dos metodos que manejan el atributo de total_subject del estudiante.
+ #   Cuando se crea un nuevo subject, suma el contador de total_subject del estudiante al que se creo el subject.
+ #   Cuando se elimina un subject, en este caso se resta el contador total_subject del estudiante
+ #//---------------------------------------------------------------------------------------------------------------//
 class Subject(models.Model):
     grade = models.DecimalField(max_digits=10, decimal_places=5, null=False, blank=False)
-    student_status = models.BooleanField(False, null=False, blank=False)
+    student_status = models.BooleanField(default=None, null=False, blank=False)
     student = models.ForeignKey('Student')
     section = models.ForeignKey('Section')
     created_at = models.DateTimeField(

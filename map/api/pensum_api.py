@@ -14,9 +14,9 @@ import json
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def pensum(request, pensum_id=None):
 
-    if not request.user.is_authenticated():
-        return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
-    else:
+    # if not request.user.is_authenticated():
+    #     return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
+    # else:
         if (request.method == 'GET'):
             if (pensum_id == None):
                 response = list_pensums()

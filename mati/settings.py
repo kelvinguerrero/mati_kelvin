@@ -27,12 +27,12 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = (
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.admin',
     'django_extensions',
     'proxy_server',
     'map',
@@ -41,7 +41,8 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'bootstrapform',
 )
-#AUTH_USER_MODEl = 'map.Person'
+
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,6 +54,12 @@ MIDDLEWARE_CLASSES = (
     'proxy_server.middleware.DisableCSRF',
 )
 
+# Add the API KEYS you wish to allow consuming services
+PROXY_API_KEYS = [
+     '12345',
+     '123',
+     'abc'
+]
 
 ROOT_URLCONF = 'mati.urls'
 
@@ -141,11 +148,8 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates/dimaps/service'),
 )
 
-PROXY_API_KEYS = [
-    # Add the API KEYS you wish to allow consuming services
-    '^ugfp@+cw!+se1b8kw%!23(sbrzk8f!uzrhqp$s)@67g9f1tdj',
-    '123'
-]
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

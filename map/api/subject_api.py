@@ -14,9 +14,10 @@ import json
 @csrf_exempt
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def subject(request, subject_id=None):
-    if not request.user.is_authenticated():
-        return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
-    else:
+
+    # if not request.user.is_authenticated():
+    #     return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
+    # else:
         if (request.method == 'GET'):
             if (subject_id == None):
                 response = list_subjects()

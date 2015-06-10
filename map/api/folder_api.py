@@ -6,20 +6,23 @@ from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
 from map.common.error_common import error_json
-from map.common.folder_common import calculate_credits, list_subject_approved, list_courses_scheme, structure_master_courses
+from map.common.folder_common import calculate_credits, \
+                                    list_subject_approved, \
+                                    list_courses_scheme, \
+                                    structure_master_courses
 import json
 
 @csrf_exempt
 @expose_service(['GET'], public=True)
 def folder(request, student_code_id=None):
-    if not request.user.is_authenticated():
-        return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
-    else:
+    # if not request.user.is_authenticated():
+    #     return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
+    # else:
         if (request.method == 'GET'):
 
             if student_code_id==None:
                 error = error_json(4, "Se debe agregar el código del estudiante")
-                return HttpResponse(error, status=500,content_type='application/json')
+                return HttpResponse(error, status=500, content_type='application/json')
             else:
                 data = request.GET
                 if validate_data(data, attrs=['operation', 'student_code']):

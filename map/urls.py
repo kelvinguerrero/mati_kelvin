@@ -138,5 +138,5 @@ urlpatterns += patterns('map.api.folder_api',
 # API Autenticacion
 urlpatterns += patterns('map.api.account_api',
      url(r'^api/account/$', 'account', name='account_api'),
-     url(r'^api/account/(?P<student_code_id>[0-9]+)/$', 'account', name='account_api'),
+     url(r'^api/account/(?P<account_id>[0-9]+)/$', 'account', name='account_api'),
 )

@@ -12,9 +12,10 @@ import json
 @csrf_exempt
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def teacher(request, teacher_id=None):
-    if not request.user.is_authenticated():
-        return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
-    else:
+
+    # if not request.user.is_authenticated():
+    #     return HttpResponse(unicode('Usuario sin autenticacion'),status=500)
+    # else:
         if (request.method == 'GET'):
             if (teacher_id == None):
                 response = list_teachers()

@@ -17,9 +17,9 @@ import json
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def master(request, master_id=None):
 
-    if not request.user.is_authenticated():
-        return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
-    else:
+    # if not request.user.is_authenticated():
+    #     return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
+    # else:
         if (request.method == 'GET'):
             if (master_id == None):
                 response = list_masters()

@@ -14,9 +14,9 @@ import json
 @expose_service(['GET', 'POST', 'PUT', 'DELETE'], public=True)
 def course(request, course_id=None):
 
-    if not request.user.is_authenticated():
-        return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
-    else:
+    # if not request.user.is_authenticated():
+    #     return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
+    # else:
         if request.method == 'GET':
             if course_id == None:
                 response = list_courses()
@@ -39,7 +39,8 @@ def course(request, course_id=None):
                         json_response = json.dumps(course.to_dict())
                         return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
-            data = request.POST
+            data = request.DATA
+            print data
             if validate_data(data, attrs=['operation', 'code', 'name', 'credits', 'summer', 'pensum', 'crn_section',
                                           'name_section', 'semester', 'year', 'code_teacher', 'MESI', 'MBIT', 'MISO',
                                           'MATI', 'MISIS', 'pregrado', 'otros']):
