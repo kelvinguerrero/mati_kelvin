@@ -7,6 +7,8 @@ from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
 from map.common.teacher_common import list_teachers
+from map.common.error_common import error_json
+
 import json
 
 @csrf_exempt
@@ -23,9 +25,25 @@ def teacher(request, teacher_id=None):
 
                 return HttpResponse(json_response, status=200, content_type='application/json')
             else:
-                teacher = Teacher.objects.get(id=teacher_id)
-                json_response = json.dumps(teacher.to_dict())
-                return HttpResponse(json_response, status=200, content_type='application/json')
+                data = request.GET
+                if validate_data(data, attrs=['operation']):
+                    if "operation" in data:
+                        if data['operation'] == "1":
+                            try:
+                                teacher = Teacher.objects.get(code=teacher_id)
+                                if teacher != None:
+                                    json_response = json.dumps(teacher.to_dict())
+                                    return HttpResponse(json_response, status=200, content_type='application/json')
+                                else:
+                                    error = error_json(2, "No existe el profesor:" + str(teacher_id))
+                                    return HttpResponse(error, status=500, content_type='application/json')
+                            except Exception as e:
+                                error = error_json(2, "No existe el profesor:" + str(teacher_id))
+                                return HttpResponse(error, status=500, content_type='application/json')
+                    else:
+                        teacher = Teacher.objects.get(id=teacher_id)
+                        json_response = json.dumps(teacher.to_dict())
+                        return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
             data = request.POST
 
