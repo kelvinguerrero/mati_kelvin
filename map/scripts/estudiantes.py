@@ -9,8 +9,12 @@ def run(*args):
     print args
     if 'estudiantes' in args:
         cargar_estudiantes()
-    else:
-        print("dos")
+    elif 'graduados' in args:
+        cargar_estudiantes_graduados()
+    elif 'estudiantes_201510' in args:
+        cargar_estudiantes_graduados()
+    elif 'estudiantes_201220' in args:
+        cargar_estudiantes_graduados()
 
 
 def cargar_estudiantes():
