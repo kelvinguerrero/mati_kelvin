@@ -39,9 +39,6 @@ def crear_estudiantes(pprograma, pcodigo , papellido, pnombre, pemail, pstatus):
     #Se llama al servicio de llamada de estudiante para verificar si este existe
     rta_buscar_estudiante = fork_service.llamada_get(BASE_PATH_STUDENT, headers_student)
     s_code = rta_buscar_estudiante.status_code
-    print("estudiante")
-    print rta_buscar_estudiante.text
-    print
     if s_code == 500:
         json_rta = json.loads(rta_buscar_estudiante.text)['mensaje']
         if json_rta == 'No existe el estudiante':
@@ -236,23 +233,16 @@ def cargar_estudiantes_graduados():
         reader = csv.DictReader(csvfile,  delimiter=delimiter)
         for row in reader:
             BASE_PATH_STUDENT = "http://localhost:8000/map/api/student/codigo_student/?operation=6"
+
             pprograma = row["PROGRAMA"]
             papellido = row['APELLIDOS']
             pcodigo = row['CARNET']
             pnombre = row['NOMBRES']
             pstatus = 3
-            print
-            print(pcodigo)
-            print
-            print BASE_PATH_STUDENT
             BASE_PATH_STUDENT = BASE_PATH_STUDENT.replace("codigo_student", row['CARNET'])
-            print BASE_PATH_STUDENT
 
             rta_buscar_estudiante = fork_service.llamada_get(BASE_PATH_STUDENT, headers_student)
             s_code = rta_buscar_estudiante.status_code
-
-            print(rta_buscar_estudiante.text)
-            print(s_code)
 
             if s_code == 500:
 
@@ -283,9 +273,7 @@ def cargar_estudiantes_graduados():
                             'student_status': pstatus,
                             'master_id': master_id
                         }
-                        print(data)
                         rta = crear_estudiante( data )
-                        print("creo el estudiante:")
                         print rta
                     else:
                         print "Error en el estudiante" + pcodigo
@@ -293,12 +281,8 @@ def cargar_estudiantes_graduados():
                     print "Error en la busqueda de la maestría: " + pcodigo
 
             else:
-                print("RTA")
-                print(rta_buscar_estudiante)
-                print(rta_buscar_estudiante.text)
-                print
                 json_id_estudiante = json.loads(rta_buscar_estudiante.text)['id']
-                print str(json_id_estudiante)+": estudiante"
+
                 BASE_PATH_EDIT_STUDENT = BASE_PATH_EDIT_STUDENT.replace("codigo_student", str(json_id_estudiante))
 
                 data_edit = {

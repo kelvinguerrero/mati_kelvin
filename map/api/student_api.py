@@ -91,7 +91,6 @@ def student(request, student_id=None):
                                 return HttpResponse(son_response, status=200, content_type='application/json')
 
                 else:
-                    print("cdigo estudiante"+str(student_id))
                     try:
                         student = Student.objects.get(id=student_id)
                         if student != None:
@@ -148,7 +147,6 @@ def student(request, student_id=None):
                                 parametros.update({'student_status': data['student_status']})
                             if 'master_id' in data:
                                 parametros.update({'master': Master.objects.get(id=data['master_id'])})
-                            print(parametros)
                                 #master_obj = Master.objects.get(id=data['master_id'])
                             student = Student.objects.create(**parametros)
                             # student = Student.objects.create(code=data['code'],
