@@ -243,7 +243,10 @@ def cargar_estudiantes_graduados():
             print
             print(pcodigo)
             print
+            print BASE_PATH_STUDENT
             BASE_PATH_STUDENT = BASE_PATH_STUDENT.replace("codigo_student", row['CARNET'])
+            print BASE_PATH_STUDENT
+
             rta_buscar_estudiante = fork_service.llamada_get(BASE_PATH_STUDENT, headers_student)
             s_code = rta_buscar_estudiante.status_code
 
