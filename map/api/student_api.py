@@ -145,9 +145,10 @@ def student(request, student_id=None):
                             if 'name' in data:
                                 parametros.update({'name': data['name']})
                             if 'student_status' in data:
-                                parametros.update({'code': data['student_status']})
+                                parametros.update({'student_status': data['student_status']})
                             if 'master_id' in data:
                                 parametros.update({'master': Master.objects.get(id=data['master_id'])})
+                            print(parametros)
                                 #master_obj = Master.objects.get(id=data['master_id'])
                             student = Student.objects.create(**parametros)
                             # student = Student.objects.create(code=data['code'],

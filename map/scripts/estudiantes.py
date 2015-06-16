@@ -39,7 +39,9 @@ def crear_estudiantes(pprograma, pcodigo , papellido, pnombre, pemail, pstatus):
     #Se llama al servicio de llamada de estudiante para verificar si este existe
     rta_buscar_estudiante = fork_service.llamada_get(BASE_PATH_STUDENT, headers_student)
     s_code = rta_buscar_estudiante.status_code
-
+    print("estudiante")
+    print rta_buscar_estudiante.text
+    print
     if s_code == 500:
         json_rta = json.loads(rta_buscar_estudiante.text)['mensaje']
         if json_rta == 'No existe el estudiante':
@@ -73,7 +75,6 @@ def crear_estudiantes(pprograma, pcodigo , papellido, pnombre, pemail, pstatus):
                         'master_id': master_id
                     }
                     rta = crear_estudiante( data )
-                    print("creo el estudiante:")
                     print rta
                 else:
                     print "Error en el estudiante" + pcodigo
@@ -282,6 +283,7 @@ def cargar_estudiantes_graduados():
                             'student_status': pstatus,
                             'master_id': master_id
                         }
+                        print(data)
                         rta = crear_estudiante( data )
                         print("creo el estudiante:")
                         print rta
