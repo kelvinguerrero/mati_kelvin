@@ -22,13 +22,31 @@ def master(request, master_id=None):
     # else:
         if (request.method == 'GET'):
             if (master_id == None):
-                response = list_masters()
-                json_response = json.dumps(response)
-
-                return HttpResponse(json_response, status=200, content_type='application/json')
+                data = request.GET
+                if validate_data(data, attrs=['operation', 'master_name']):
+                    if data['operation'] == "5":
+                        try:
+                            maestria = Master.objects.get(name=data['master_name'])
+                            if maestria != None:
+                                json_response = json.dumps(maestria.to_dict())
+                                print(json_response)
+                                return HttpResponse(json_response, status=200, content_type='application/json')
+                            else:
+                                error = error_json(2, "No existe la maestría")
+                                return HttpResponse(error, status=500, content_type='application/json')
+                        except Exception as e:
+                            error = error_json(2, "No existe la maestría")
+                            return HttpResponse(error, status=500, content_type='application/json')
+                    else:
+                        error = error_json(2, "No existe la maestría")
+                        return HttpResponse(error, status=500, content_type='application/json')
+                else:
+                    response = list_masters()
+                    json_response = json.dumps(response)
+                    return HttpResponse(json_response, status=200, content_type='application/json')
             else:
                 data = request.GET
-                if validate_data(data, attrs=['operation']):
+                if validate_data(data, attrs=['operation', 'master_name']):
                     if "operation" in data:
                         if data['operation'] == "1":
                             obj_pensumes_lista = dar_pensum_set(master_id)
@@ -55,7 +73,7 @@ def master(request, master_id=None):
                         json_response = json.dumps(master.to_dict())
                         return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
-            data = request.POST
+            data = request.DATA
             if validate_data(data, attrs=['operation', 'name']):
                 if 'operation' in data:
                     if master_id==None:

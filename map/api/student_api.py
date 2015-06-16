@@ -90,14 +90,19 @@ def student(request, student_id=None):
                                 son_response = json.dumps(cursos)
                                 return HttpResponse(son_response, status=200, content_type='application/json')
 
-                    else:
+                else:
+                    print("cdigo estudiante"+str(student_id))
+                    try:
                         student = Student.objects.get(id=student_id)
                         if student != None:
                             json_response = json.dumps(student.to_dict())
                             return HttpResponse(json_response, status=200, content_type='application/json')
-                        else:
-                            error = error_json(2, "No existe el estudiante")
+                    except Exception as e:
+                            error = error_json(3, "No se existe el estudiante: " + str(e))
                             return HttpResponse(error, status=500, content_type='application/json')
+                    else:
+                        error = error_json(2, "No existe el estudiante")
+                        return HttpResponse(error, status=500, content_type='application/json')
         elif request.method == 'POST':
             data = request.DATA
             if validate_data(data, attrs=['operation', 'master_id', 'code', 'email', 'lastname', 'name', 'student_status',
@@ -117,7 +122,6 @@ def student(request, student_id=None):
                             json_response = json.dumps(plan.to_dict())
                             return HttpResponse(json_response, status=200, content_type='application/json')
                 else:
-
                     lista_attrs = list()
                     lista_attrs.append('master_id')
                     lista_attrs.append('code')
@@ -127,20 +131,41 @@ def student(request, student_id=None):
                     lista_attrs.append('student_status')
 
                     if validate_data(data, attrs=lista_attrs):
-                        master_obj = Master.objects.get(id=data['master_id'])
+
 
                         #agregar la validacion del objeto
-                        student = Student.objects.create(code=data['code'],
-                                                         email=data['email'],
-                                                         lastname=data['lastname'],
-                                                         name=data['name'],
-                                                         student_status=data['student_status'],
-                                                         master=master_obj
-                                                         )
-                        json_response = json.dumps(student.to_dict())
-                        return HttpResponse(json_response, status=200, content_type='application/json')
+                        try:
+                            parametros = {}
+                            if 'code' in data:
+                                parametros.update({'code': data['code']})
+                            if 'email' in data:
+                                parametros.update({'email': data['email']})
+                            if 'lastname' in data:
+                                parametros.update({'lastname': data['lastname']})
+                            if 'name' in data:
+                                parametros.update({'name': data['name']})
+                            if 'student_status' in data:
+                                parametros.update({'code': data['student_status']})
+                            if 'master_id' in data:
+                                parametros.update({'master': Master.objects.get(id=data['master_id'])})
+                                #master_obj = Master.objects.get(id=data['master_id'])
+                            student = Student.objects.create(**parametros)
+                            # student = Student.objects.create(code=data['code'],
+                            #                                  email=data['email'],
+                            #                                  lastname=data['lastname'],
+                            #                                  name=data['name'],
+                            #                                  student_status=data['student_status'],
+                            #                                  master=master_obj
+                            #                                  )
+                            json_response = json.dumps(student.to_dict())
+                            return HttpResponse(json_response, status=200, content_type='application/json')
+                        except Exception as e:
+                            error = error_json(3, "No se creo el estudiante " + str(e))
+                            return HttpResponse(error, status=500, content_type='application/json')
+
                     else:
-                        return HttpResponse(status=500)
+                        error = error_json(3, "No se creo el estudiante")
+                        return HttpResponse(error, status=500, content_type='application/json')
         elif request.method == 'PUT':
             data = request.DATA
             if student_id is not None:

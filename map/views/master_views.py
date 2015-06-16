@@ -67,8 +67,8 @@ def master_edit(request, master_id=None):
                     master_obj.save()
                 else:
                     # CREATE
-                    master_obj = Master.objects.create(name=form.cleaned_data['name']                                                   )
-                return render(request, 'master/master_detail.html', {'object': master_obj, 'detail': True, 'id':object.id})
+                    master_obj = Master.objects.create(name=form.cleaned_data['name'])
+                return render(request, 'master/master_detail.html', {'object': master_obj, 'detail': True, 'id':master_obj.id})
             else:
                 # ENVIAR MENSAJE
                 pass

@@ -139,7 +139,7 @@ class Teacher(models.Model):
   #//---------------------------------------------------------------------------------------------------------------//
 class Student(models.Model):
     code = models.IntegerField(null=False, blank=False, unique=True)
-    email = models.CharField(max_length=200, null=False, blank=False, unique=True)
+    email = models.CharField(max_length=200, null=True, blank=True, unique=True)
     lastname = models.CharField(max_length=200, null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     student_status = models.IntegerField(default=1)
