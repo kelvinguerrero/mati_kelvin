@@ -286,6 +286,7 @@ def cargar_estudiantes_graduados():
                     print "Error en la busqueda de la maestría: " + pcodigo
 
             else:
+                print(rta_buscar_estudiante)
                 json_id_estudiante = json.loads(rta_buscar_estudiante.text)['id']
                 print str(json_id_estudiante)+": estudiante"
                 BASE_PATH_EDIT_STUDENT = BASE_PATH_EDIT_STUDENT.replace("codigo_student", str(json_id_estudiante))
