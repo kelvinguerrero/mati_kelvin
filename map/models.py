@@ -94,7 +94,7 @@ class Pensum(models.Model):
 
 class Teacher(models.Model):
     code = models.IntegerField(null=False, blank=False, unique=True)
-    email = models.CharField(max_length=200, null=False, blank=False, unique=True)
+    email = models.CharField(max_length=200, null=True, blank=True, unique=True)
     lastname = models.CharField(max_length=200, null=False, blank=False)
     name = models.CharField(max_length=200, null=False, blank=False)
     created_at = models.DateTimeField(

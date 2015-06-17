@@ -6,7 +6,7 @@ from map.models import Course, Pensum
 from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
-from map.common.course_common import list_courses, dar_secciones
+from map.common.course_common import list_courses, dar_secciones, dar_curso_by_code
 from map.common.section_common import crear_seccion
 import json
 
@@ -29,11 +29,16 @@ def course(request, course_id=None):
                     if "operation" in data:
                         if data['operation'] == "1":
                             if course_id == None:
-                                return HttpResponse(unicode('Se debe agregar el id de la maestria'), status=500)
+                                return HttpResponse(unicode('Se debe agregar el id del curso'), status=500)
                             else:
                                 obj_secciones = dar_secciones(course_id)
                                 json_response = json.dumps(obj_secciones)
                                 return HttpResponse(json_response, status=200, content_type='application/json')
+                        if data['operation'] == 2:
+                            course_code = dar_curso_by_code(data['code_curso'])
+                            json_response = json.dumps(course_code.to_dict)
+                            return HttpResponse(json_response, status=200, content_type='application/json')
+
                     else:
                         course = Course.objects.get(id=course_id)
                         json_response = json.dumps(course.to_dict())
