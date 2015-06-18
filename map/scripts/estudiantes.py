@@ -162,14 +162,16 @@ def cargar_estudiantes_graduados():
                 json_id_estudiante = json.loads(rta_buscar_estudiante.text)['id']
 
                 BASE_PATH_EDIT_STUDENT = BASE_PATH_EDIT_STUDENT.replace("codigo_student", str(json_id_estudiante))
-
                 data_edit = {
-                    'student_status': 3
+                    'student_status': 1
                 }
-                rta = fork_service.llamada_post(BASE_PATH_EDIT_STUDENT, headers_edit_student, data_edit)
+                print(BASE_PATH_EDIT_STUDENT)
+                print(data_edit)
+                rta = fork_service.llamada_put(BASE_PATH_EDIT_STUDENT, headers_edit_student, data_edit)
                 print "Estudiante ya existe: " + pcodigo
                 print "Se actualiza el estado a graduado"
-                print(rta)
+                print(rta.text)
+            break
 
 
 def cargar_estudiantes_general( ):

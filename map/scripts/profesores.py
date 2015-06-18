@@ -51,6 +51,17 @@ def cargar_profesores(p_ruta_archivo):
     with open('cargue/'+p_ruta_archivo, 'rb') as csvfile:
         reader = csv.DictReader(csvfile,  delimiter=delimiter)
         for row in reader:
+
+            p_codigo = row['MATERIA']+ "-" + row['CURSO']
+            p_nombre = row['NOMBRE_CURSO']
+            p_creditos = 4
+            p_vacacional = False
+#            if row['MATERIA'] == "ARTI":
+
+ #               p_pensum =
+
+            validar_cargue_curso(p_codigo, p_nombre, p_creditos, p_vacacional, p_pensum)
+
             rta_profesor = dar_profesor( row['ID_PROFESOR'] )
             s_code = rta_profesor.status_code
             if s_code == 500:
@@ -67,3 +78,5 @@ def cargar_profesores(p_ruta_archivo):
 
             else:
                 print "Profesor ya existe: " + row['ID_PROFESOR']
+
+#def validar_cargue_curso(p_codigo, p_nombre, p_creditos, p_vacacional, p_pensum):

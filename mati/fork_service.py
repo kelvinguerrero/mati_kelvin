@@ -27,5 +27,5 @@ def llamada_get(pbase_path, pheaders):
 def llamada_put(pbase_path, pheaders, pdata):
     s = requests.Session()
     s.verify = False
-    r = requests.get(pbase_path, headers=pheaders, data=pdata)
+    r = requests.put(pbase_path, headers=pheaders, data=pdata)
     return r

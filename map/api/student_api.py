@@ -167,7 +167,9 @@ def student(request, student_id=None):
                         return HttpResponse(error, status=500, content_type='application/json')
         elif request.method == 'PUT':
             data = request.DATA
+            print("Entro")
             if student_id is not None:
+                print("Entro2")
                 vstudent = Student.objects.get(id=student_id)
 
                 if 'code' in data:
@@ -180,6 +182,7 @@ def student(request, student_id=None):
                     vstudent.name = data['name']
                 if 'student_status' in data:
                     vstudent.student_status = data['student_status']
+
                 #if 'total_approved_credits' in data:
                 #    student.total_approved_credits = data['total_approved_credits']
                 #if 'total_credits_actual_semester' in data:
@@ -188,6 +191,7 @@ def student(request, student_id=None):
                 vstudent.save()
                 return HttpResponse(status=204)
             else:
+                print("Entro3")
                 return HttpResponse(status=500)
         elif request.method == 'DELETE':
             if student_id is not None:
