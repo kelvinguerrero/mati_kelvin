@@ -4,8 +4,9 @@ from map.common.student_common import list_students, dar_estudiante_codigo, crea
 from map.forms import StudentForm, darEstudianteForm, crearPlanEstudianteForm
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from map.common.folder_common import list_courses_scheme, \
-                                     list_subject_approved
+from map.common.folder_common import    list_courses_scheme, \
+                                        list_subject_approved, \
+                                        listar_cursos_homologados
 
 @login_required()
 def student(request, student_id=None):
@@ -18,6 +19,7 @@ def student(request, student_id=None):
                 return render(request, 'student/student_list.html', {'object_list': lista})
             else:
                 ob_student = Student.objects.get(id=student_id)
+                list_courses_homologados = listar_cursos_homologados(ob_student.code)
                 list_courses = list_courses_scheme(ob_student.code)
                 print(list_courses)
                 list_subject = list_subject_approved(ob_student.code)
@@ -27,7 +29,8 @@ def student(request, student_id=None):
                                                                        'detail': True,
                                                                        'list_courses': list_courses,
                                                                        'list_subject': list_subject,
-                                                                       'code': ob_student.code})
+                                                                       'code': ob_student.code,
+                                                                       'list_courses_homologados':list_courses_homologados})
 
 @login_required()
 def student_edit(request, student_id=None):
@@ -46,9 +49,9 @@ def student_edit(request, student_id=None):
                                             'lastname': student.lastname,
                                             'name': student.name,
                                             'student_status': student.student_status,
-                                            'total_approved_credits': student.total_approved_credits,
-                                            'total_credits_actual_semester': student.total_credits_actual_semester,
-                                            'master': student.master,
+                                            #'total_approved_credits': student.total_approved_credits,
+                                            #'total_credits_actual_semester': student.total_credits_actual_semester,
+                                            'master': student.master.name,
                                             'id': student.id})
                 data.update({'object': student, 'form': form, 'code': student.code})
             return render(request, 'student/student_form.html', data)

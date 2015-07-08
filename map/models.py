@@ -265,7 +265,6 @@ class Course(models.Model):
 
     def to_dict_view(self):
         response = dict()
-
         response.update(
             id=self.id,
             code=self.code,
@@ -274,12 +273,10 @@ class Course(models.Model):
             summer=self.summer,
             pensum=self.pensum.to_dict()
         )
-
         return response
 
     def to_dict(self):
         response = dict()
-
         response.update(
             id=self.id,
             code=self.code,
@@ -288,7 +285,6 @@ class Course(models.Model):
             summer=self.summer,
             pensum=self.pensum.to_dict()
         )
-
         return response
 
     def to_dict_curriculum(self):
@@ -299,7 +295,6 @@ class Course(models.Model):
             name=self.name,
             credits=self.credits
         )
-
         return response
 
     def to_dict_api(self):
@@ -312,7 +307,6 @@ class Course(models.Model):
             summer=self.summer,
             pensum=self.pensum.id
         )
-
         return response
 
 

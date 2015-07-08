@@ -8,6 +8,7 @@ from mati.utils import validate_data
 from django.http import HttpResponse
 from map.common.course_common import list_courses, dar_secciones, dar_curso_by_code
 from map.common.section_common import crear_seccion
+from map.common.error_common import error_json
 import json
 
 @csrf_exempt
@@ -18,31 +19,34 @@ def course(request, course_id=None):
     #     return HttpResponse(unicode('Usuario sin autenticacion'), status=500)
     # else:
         if request.method == 'GET':
-            if course_id == None:
+
+            data = request.GET
+            if not(course_id == None and (validate_data(data, attrs=['operation', 'code_curso']))):
                 response = list_courses()
                 json_response = json.dumps(response)
-
                 return HttpResponse(json_response, status=200, content_type='application/json')
             else:
-                data = request.GET
                 if validate_data(data, attrs=['operation', 'code_curso']):
                     if "operation" in data:
-                        if data['operation'] == "1":
+                        if data["operation"] == "1":
                             if course_id == None:
                                 return HttpResponse(unicode('Se debe agregar el id del curso'), status=500)
                             else:
                                 obj_secciones = dar_secciones(course_id)
                                 json_response = json.dumps(obj_secciones)
                                 return HttpResponse(json_response, status=200, content_type='application/json')
-                        if data['operation'] == 2:
-                            course_code = dar_curso_by_code(data['code_curso'])
-                            json_response = json.dumps(course_code.to_dict)
+                        if data['operation'] == "2":
+                            course_code = dar_curso_by_code(data["code_curso"])
+                            json_response = json.dumps(course_code.to_dict())
                             return HttpResponse(json_response, status=200, content_type='application/json')
 
                     else:
                         course = Course.objects.get(id=course_id)
                         json_response = json.dumps(course.to_dict())
                         return HttpResponse(json_response, status=200, content_type='application/json')
+                else:
+                    error = error_json(1, "Error en los parametros de la operació")
+                    return HttpResponse(error, status=500, content_type='application/json')
         elif request.method == 'POST':
             data = request.DATA
             print data

@@ -163,7 +163,7 @@ def cargar_estudiantes_graduados():
 
                 BASE_PATH_EDIT_STUDENT = BASE_PATH_EDIT_STUDENT.replace("codigo_student", str(json_id_estudiante))
                 data_edit = {
-                    'student_status': 1
+                    'student_status': 3
                 }
                 print(BASE_PATH_EDIT_STUDENT)
                 print(data_edit)
@@ -171,7 +171,6 @@ def cargar_estudiantes_graduados():
                 print "Estudiante ya existe: " + pcodigo
                 print "Se actualiza el estado a graduado"
                 print(rta.text)
-            break
 
 
 def cargar_estudiantes_general( ):

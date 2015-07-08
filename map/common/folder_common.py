@@ -1,6 +1,17 @@
 # coding=utf-8
 from map.models import Student
-from map.common.student_common import dar_maestria_de_estudiante, dar_estudiante_codigo,dar_scheme
+from map.common.student_common import   dar_maestria_de_estudiante, \
+                                        dar_estudiante_codigo,\
+                                        dar_scheme,\
+                                        dar_cursos_homologados
+
+
+def listar_cursos_homologados(student_code):
+    stu = dar_estudiante_codigo(student_code)
+    if stu != None:
+        plan = dar_cursos_homologados(stu.id)
+        return plan
+    return None
 
 
 def list_courses_scheme(student_code):
@@ -45,6 +56,7 @@ def list_subject_approved(student_code):
                 lista_ap.append(obj_subject.to_dict())
     lista_ap.append({"estudiante": student.to_dict()})
     return lista_ap
+
 
 
 #Metodo enterga los cursos aprobados por el estudiante

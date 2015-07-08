@@ -51,7 +51,11 @@ def master(request, master_id=None):
                         if data['operation'] == "1":
                             obj_pensumes_lista = dar_pensum_set(master_id)
                             json_response = json.dumps(obj_pensumes_lista)
-                            return HttpResponse(json_response, status=200, content_type='application/json')
+                            if not obj_pensumes_lista:
+                                error = error_json(2, "No existe pensum")
+                                return HttpResponse(error, status=500, content_type='application/json')
+                            else:
+                                return HttpResponse(json_response, status=200, content_type='application/json')
                         if data['operation'] == "2":
                             obj_estudiantes_lista = dar_estudiantes_de_maestria(master_id)
                             json_response = json.dumps(obj_estudiantes_lista)

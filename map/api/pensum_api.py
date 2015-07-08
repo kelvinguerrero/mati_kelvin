@@ -32,7 +32,11 @@ def pensum(request, pensum_id=None):
                                 return HttpResponse(unicode('Se debe agregar el id del pensum'), status=500)
                             response = dar_cursos_pensum(pensum_id)
                             json_response = json.dumps(response)
-                            return HttpResponse(json_response, status=200, content_type='application/json')
+                            if response != None :
+                                return HttpResponse(json_response, status=200, content_type='application/json')
+                            else:
+                                error = error_json(2, "No existe plan de estudios")
+                                return HttpResponse(error, status=500, content_type='application/json')
                         else:
                             error = error_json(4, "No existe la operación")
                             return HttpResponse(error, status=500,content_type='application/json')
@@ -41,9 +45,10 @@ def pensum(request, pensum_id=None):
                         json_response = json.dumps(pensum.to_dict())
                         return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
-            data = request.POST
+            data = request.DATA
             if validate_data(data, attrs=['operation', 'name', 'active', 'master_id']):
                     master_obj = Master.objects.get(id=data['master_id'])
+                    print("ENTRI"   )
                     pensum = Pensum.objects.create(name=data['name'], active=data['active'], master=master_obj)
 
                     json_response = json.dumps(pensum.to_dict())
@@ -66,8 +71,8 @@ def pensum(request, pensum_id=None):
                                                       code=codigo_curso,
                                                       summer=summer,
                                                       name=name,
-                                                      credits=credits,
-                                                      pensum=pensum_id)
+                                                      credits=credits
+                                                      )
                             json_response = json.dumps(obj_curso.to_dict())
                             return HttpResponse(json_response, status=200, content_type='application/json')
                     else:

@@ -232,6 +232,16 @@ def dar_scheme(id_student):
     return None
 
 
+def dar_cursos_homologados(id_student):
+    obj_student = dar_estudiante(id_student=id_student)
+    obj_scheme = obj_student.homologation_set.all()
+    cursos=list()
+    if obj_scheme != None:
+        for curso_h_temp in obj_scheme:
+            cursos.append(curso_h_temp)
+    return cursos
+
+
 def crear_plan_studios(id_student, nombre, curso1, curso2, curso3,
                        curso4, curso5, curso6, curso7, curso8, curso9, curso10):
 

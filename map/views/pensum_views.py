@@ -22,7 +22,6 @@ def pensum(request, pensum_id=None):
 @login_required()
 def pensum_edit(request, pensum_id=None):
 
-    print ('entro')
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/')
     if request.method == 'GET':
@@ -32,7 +31,8 @@ def pensum_edit(request, pensum_id=None):
             data.update({'form': form})
         else:
             pensum = Pensum.objects.get(id=pensum_id)
-            form = PensumForm(initial={'name': pensum.name, 'active': pensum.active, 'id': pensum.id})
+            print(pensum.master.name)
+            form = PensumForm(initial={'name': pensum.name, 'active': pensum.active, 'id': pensum.id, 'master':pensum.master.name})
             data.update({'object':pensum, 'form': form})
         return render(request, 'pensum/pensum_form.html', data)
     elif request.method == 'POST':
@@ -41,15 +41,17 @@ def pensum_edit(request, pensum_id=None):
             if form.cleaned_data.get('id'):
                 # EDIT
                 pensum = Pensum.objects.get(id=form.cleaned_data['id'])
-                master_obj = Master.objects.get(id=form.cleaned_data['master'])
+                master_obj = Master.objects.get(name=form.cleaned_data['master'])
                 pensum.name = form.cleaned_data['name']
                 pensum.active = form.cleaned_data['active']
+
+                print master_obj.name
                 pensum.master = master_obj
                 pensum.save()
             else:
                 # CREATE
                 ob_master = Master.objects.get(id=form.cleaned_data['master'])
-                pensum = Pensum.objects.create(name=form.cleaned_data['name'], active=form.cleaned_data['active'], master=ob_master)
+                pensum = Pensum.objects.create(name=form.cleaned_data['name'], active=form.cleaned_data['active'], master=ob_master.name)
             return render(request, 'pensum/pensum_detail.html', {'object':pensum, 'detail':True})
         else:
             # ENVIAR MENSAJE

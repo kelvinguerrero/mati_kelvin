@@ -57,7 +57,7 @@ def dar_pensum_set(id_maestria):
     return lista
 
 
-def agregar_curso(id_pensum, code, summer, name, credits, pensum):
+def agregar_curso(id_pensum, code, summer, name, credits):
     try:
         obj_pensum = Pensum.objects.get(id=id_pensum)
         obj_curso = crear_curso(code=code, summer=summer, name=name, credits=credits, pensum=obj_pensum)

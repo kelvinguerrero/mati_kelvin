@@ -44,10 +44,12 @@ def section(request, section_id=None):
                         json_response = json.dumps(section.to_dict())
                         return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
-            data = request.POST
+            data = request.DATA
             if validate_data(data, attrs=['operation', 'crn', 'name', 'semester',
                                           'year', 'teacher', 'course', 'code_student',
+
                                           'grade', 'status']):
+                print(data)
                 if "operation" in data:
                     if section_id==None:
                         error = error_json(3, "Se debe agregar el id de la sección")
@@ -58,7 +60,7 @@ def section(request, section_id=None):
                                     notas = cambiar_estado(id_section=section_id, estado=data['status'])
                                     if notas == None:
                                         error = error_json(5, "Verificar datos")
-                                        return HttpResponse(error, status=200, content_type='application/json')
+                                        return HttpResponse(error, status=500, content_type='application/json')
                                     json_response = json.dumps(notas.to_dict())
                                     return HttpResponse(json_response, status=200, content_type='application/json')
                         if data['operation'] == "3":
@@ -66,12 +68,12 @@ def section(request, section_id=None):
                                                  grade=data['grade'])
                             if notas == None:
                                 error = error_json(5, "Verificar datos")
-                                return HttpResponse(error, status=200, content_type='application/json')
+                                return HttpResponse(error, status=500, content_type='application/json')
                             json_response = json.dumps(notas.to_dict())
                             return HttpResponse(json_response, status=200, content_type='application/json')
                         else:
                             error = error_json(1, "No existe la operació")
-                            return HttpResponse(error, status=200, content_type='application/json')
+                            return HttpResponse(error, status=500, content_type='application/json')
 
                 else:
                     lista_attrs = list()
@@ -84,22 +86,30 @@ def section(request, section_id=None):
                     lista_attrs.append('status')
 
                     if validate_data(data, attrs=lista_attrs):
-                        teacher_obj = Teacher.objects.get(id=data['teacher'])
+                        if data['teacher'] == None:
+                            v_teacher = None
+                        else:
+                            v_teacher = Teacher.objects.get(id=data['teacher'])
+
                         course_obj = Course.objects.get(id=data['course'])
-                        print"hola"
                         section = Section.objects.create(crn=data['crn'],
                                                          name=data['name'],
                                                          semester=data['semester'],
                                                          year=data['year'],
                                                          status=data['status'],
-                                                         teacher=teacher_obj,
                                                          course=course_obj)
+                        print("Teacher")
+                        if v_teacher != None:
+                            section.teacher = v_teacher
+                            section.save()
                         json_response = json.dumps(section.to_dict())
                         return HttpResponse(json_response, status=200, content_type='application/json')
                     else:
-                        return HttpResponse(status=500)
+                        error = error_json(1, "Parametros de ceracion de Seccion" + data)
+                        return HttpResponse(error, status=500, content_type='application/json')
             else:
-                return HttpResponse(status=500)
+                error = error_json(1, "Parametros incorrectos")
+                return HttpResponse(error, status=500, content_type='application/json')
         elif request.method == 'PUT':
             data = request.DATA
             if section_id != None:

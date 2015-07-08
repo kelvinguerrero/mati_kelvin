@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
+from django.forms.models import inlineformset_factory
 from django.forms import widgets
 from map.models import Master, Course
 
@@ -88,7 +89,7 @@ class PensumForm(forms.Form):
 
     active = forms.BooleanField(label='Activo', required=False)
 
-    master = forms.IntegerField(label='Master')
+    master = forms.CharField(label='Master')
     master.widget.attrs = {'class': 'form-control', 'required': True}
 
 
@@ -159,8 +160,12 @@ class StudentForm(forms.Form):
     total_credits_actual_semester = forms.IntegerField(label='T. creditos semestre actual')
     total_credits_actual_semester.widget.attrs = {'class': 'form-control', 'required': True}
 
-    master = forms.IntegerField(label='Master')
+    master = forms.CharField(label='Master')
     master.widget.attrs = {'class': 'form-control', 'required': True}
+
+
+class Courses_student_form(forms.ModelForm):
+    course = forms.MultipleChoiceField(choices={})
 
 
 class TeacherForm(forms.Form):

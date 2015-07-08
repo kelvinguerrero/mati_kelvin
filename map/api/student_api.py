@@ -89,7 +89,6 @@ def student(request, student_id=None):
                             else:
                                 son_response = json.dumps(cursos)
                                 return HttpResponse(son_response, status=200, content_type='application/json')
-
                 else:
                     try:
                         student = Student.objects.get(id=student_id)
