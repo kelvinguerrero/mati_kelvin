@@ -42,8 +42,12 @@ def teacher(request, teacher_id=None):
                                 return HttpResponse(error, status=500, content_type='application/json')
                     else:
                         teacher = Teacher.objects.get(id=teacher_id)
-                        json_response = json.dumps(teacher.to_dict())
-                        return HttpResponse(json_response, status=200, content_type='application/json')
+                        if teacher != None:
+                            json_response = json.dumps(teacher.to_dict())
+                            return HttpResponse(json_response, status=200, content_type='application/json')
+                        else:
+                            error = error_json(2, "No existe el profesor:" + str(teacher_id))
+                            return HttpResponse(error, status=500, content_type='application/json')
         elif request.method == 'POST':
             data = request.DATA
 
