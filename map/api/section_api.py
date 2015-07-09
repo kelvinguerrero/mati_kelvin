@@ -82,7 +82,10 @@ def section(request, section_id=None):
                             capacity = data['jsoncapacidad']
                             capList=[]
                             valor ={}
-                            capacity=json.loads(capacity)
+                            try:
+                                capacity=json.loads(capacity)
+                            except Exception as e:
+                                None
                             for capacidad in capacity:
                                 rta = Capacity.objects.create(name=capacidad, capacity=capacity[capacidad], section=seccion)
                                 valor[rta.name] = rta.capacity
