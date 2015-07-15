@@ -8,7 +8,7 @@ from map.common.folder_common import structure_master_courses, \
 from map.common.student_common import   dar_estudiante_codigo, \
                                         dar_maestria_de_estudiante, \
                                         ingles_aprobado,\
-                                        tiene_cruso
+                                        tiene_cruso_aprobado
 from map.forms import MasterForm, MaterCarpetaForm, MaterStudentCourseForm, darStudentMasterForm
 from django.views.generic import View
 from django.contrib.auth.decorators import login_required
@@ -173,7 +173,7 @@ def master_student_course(request, student_code=None):
                 estudiante = dar_estudiante_codigo(codigo)
 
                 if estudiante != None:
-                    curso_obj = tiene_cruso(estudiante.id, curso)
+                    curso_obj = tiene_cruso_aprobado(estudiante.id, curso)
                     if curso_obj == False:
                         return render(request, 'master/master_dash_curso.html', {'estado': False,
                                                                                  'maestria': maestria,

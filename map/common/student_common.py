@@ -84,7 +84,7 @@ def verificar_proyecto_maestria(master, code_curso):
     return False
 
 
-def tiene_cruso(id_student, code_curso_temp):
+def tiene_cruso_aprobado(id_student, code_curso_temp):
     obj_student = dar_estudiante(id_student=id_student)
     if obj_student != None:
         for sub in obj_student.subject_set.all():

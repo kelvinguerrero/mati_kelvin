@@ -29,7 +29,7 @@ def subject(request, subject_id=None):
                 json_response = json.dumps(subject.to_dict())
                 return HttpResponse(json_response, status=200, content_type='application/json')
         elif request.method == 'POST':
-            data = request.POST
+            data = request.DATA
 
             lista_attrs = list()
             lista_attrs.append('grade')

@@ -7,7 +7,7 @@ from proxy_server.decorators import expose_service
 from mati.utils import validate_data
 from django.http import HttpResponse
 from map.common.student_common import   list_students, dar_notas, crear_plan_studios, \
-                                        dar_scheme, ingles_aprobado, tiene_cruso, \
+                                        dar_scheme, ingles_aprobado, tiene_cruso_aprobado, \
                                         total_cursos_maestria_elect, tiene_proyecto_grado
 from map.common.error_common import error_json
 import json
@@ -66,11 +66,11 @@ def student(request, student_id=None):
                                 error = error_json(2, "No existe el estudiante")
                                 return HttpResponse(error, status=500, content_type='application/json')
                         if data['operation'] == "5":
-                            nota = tiene_cruso(id_student=student_id, code_curso_temp=data['code_curso'])
+                            nota = tiene_cruso_aprobado(id_student=student_id, code_curso_temp=data['code_curso'])
                             if nota != None:
                                 if nota == False:
                                     json_response = json.dumps({"Respuesta": "No tiene el curso " + data['code_curso'] + " aprobado"})
-                                    return HttpResponse(json_response, status=200, content_type='application/json')
+                                    return HttpResponse(json_response, status=500, content_type='application/json')
                                 else:
                                     json_response = json.dumps(nota.to_dict())
                                     return HttpResponse(json_response, status=200, content_type='application/json')

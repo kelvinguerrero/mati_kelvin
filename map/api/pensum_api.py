@@ -48,7 +48,6 @@ def pensum(request, pensum_id=None):
             data = request.DATA
             if validate_data(data, attrs=['operation', 'name', 'active', 'master_id']):
                     master_obj = Master.objects.get(id=data['master_id'])
-                    print("ENTRI"   )
                     pensum = Pensum.objects.create(name=data['name'], active=data['active'], master=master_obj)
 
                     json_response = json.dumps(pensum.to_dict())
