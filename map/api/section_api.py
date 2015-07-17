@@ -25,7 +25,7 @@ def section(request, section_id=None):
                 return HttpResponse(json_response, status=200, content_type='application/json')
             else:
                 data = request.GET
-                if validate_data(data, attrs=['operation']):
+                if validate_data(data, attrs=['operation', 'crn']):
                     if "operation" in data:
                         if data['operation'] == "1":
                             if section_id!=None:
@@ -45,10 +45,14 @@ def section(request, section_id=None):
                         else:
                             error = error_json(1, "No existe la operació")
                             return HttpResponse(error, status=200, content_type='application/json')
-                    else:
+                else:
+                    try:
                         section = Section.objects.get(id=section_id)
                         json_response = json.dumps(section.to_dict())
                         return HttpResponse(json_response, status=200, content_type='application/json')
+                    except Exception as e:
+                            error = error_json(2, "No existe la sección")
+                            return HttpResponse(error, status=500, content_type='application/json')
         elif request.method == 'POST':
             data = request.DATA
             if validate_data(data, attrs=['operation', 'crn', 'name', 'semester',

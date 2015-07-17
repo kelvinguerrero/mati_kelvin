@@ -21,10 +21,11 @@ def course(request, course_id=None):
         if request.method == 'GET':
 
             data = request.GET
-            if not(course_id == None and (validate_data(data, attrs=['operation', 'code_curso']))):
-                response = list_courses()
-                json_response = json.dumps(response)
-                return HttpResponse(json_response, status=200, content_type='application/json')
+            if not(validate_data(data, attrs=['operation', 'code_curso'])):
+                if not(course_id == None ):
+                    response = list_courses()
+                    json_response = json.dumps(response)
+                    return HttpResponse(json_response, status=200, content_type='application/json')
             else:
                 if validate_data(data, attrs=['operation', 'code_curso']):
                     if "operation" in data:
